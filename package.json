@@ -1,15 +1,15 @@
 {
-  "name": "github-noti-robot",
-  "productName": "Github NotiRobot",
+  "name": "hi-pr",
+  "productName": " Hi-PR!",
   "version": "1.0.0",
-  "description": "Github friendly notification robot",
+  "description": "Friendly robot to notify you about pull requests",
   "main": ".webpack/main",
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
-    "lint": "eslint --ext .ts,.tsx ."
+    "lint": "eslint --ext .ts,.tsx src/**/*"
   },
   "keywords": [],
   "author": {
@@ -47,11 +47,12 @@
           "@electron-forge/plugin-webpack",
           {
             "mainConfig": "./webpack.main.config.js",
+            "devContentSecurityPolicy": "connect-src 'self' https://api.github.com 'unsafe-eval'",
             "renderer": {
               "config": "./webpack.renderer.config.js",
               "entryPoints": [
                 {
-                  "html": "./src/index.html",
+                  "html": "./public/index.html",
                   "js": "./src/electron/renderer.ts",
                   "name": "main_window",
                   "preload": {
@@ -77,19 +78,47 @@
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
     "@vercel/webpack-asset-relocator-loader": "1.7.0",
+    "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.0.0",
     "electron": "19.0.1",
     "eslint": "^8.0.1",
-    "eslint-plugin-import": "^2.25.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-import-resolver-typescript": "^2.7.1",
+    "eslint-plugin-eslint-comments": "^3.2.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jest": "^26.4.6",
+    "eslint-plugin-jest-dom": "^4.0.2",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.30.0",
+    "eslint-plugin-react-hooks": "^4.5.0",
+    "eslint-plugin-testing-library": "^5.5.1",
     "fork-ts-checker-webpack-plugin": "^6.0.1",
     "node-loader": "^2.0.0",
+    "prettier": "^2.6.2",
     "style-loader": "^3.0.0",
     "ts-loader": "^9.2.2",
-    "typescript": "~4.5.4"
+    "typescript": "~4.5.4",
+    "webpack": "^5.72.1"
   },
   "dependencies": {
+    "@emotion/react": "^11.9.0",
+    "@reduxjs/toolkit": "^1.8.2",
+    "@types/humps": "^2.0.1",
+    "@types/lodash": "^4.14.182",
+    "antd": "^4.20.7",
+    "axios": "^0.27.2",
+    "buffer": "^6.0.3",
     "electron-squirrel-startup": "^1.0.0",
+    "humps": "^2.0.1",
+    "lodash": "^4.17.21",
     "react": "^18.1.0",
-    "react-dom": "^18.1.0"
+    "react-dom": "^18.1.0",
+    "react-query": "^3.39.1",
+    "react-redux": "^8.0.2",
+    "react-text-loop-next": "^0.0.3",
+    "redux-persist": "^6.0.0"
   }
 }
