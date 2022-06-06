@@ -17,6 +17,7 @@ import {
 } from './store/feature/globalSlice';
 import { useAppDispatch, useAppSelector } from './store/hooks';
 import { getUrlRequest } from './utils/httpUtils';
+import logo from '../public/assets/images/logo.png';
 
 const today = new Date();
 
@@ -118,10 +119,20 @@ const App = () => {
 
   return (
     <Layout css={{ background: '#fff' }}>
-      <Header css={{ background: '#fff' }}>
-        <h2>Hi-PR!</h2>
+      <Header
+        css={{ background: '#fff', height: '180px', textAlign: 'center' }}
+      >
+        <img
+          css={{
+            width: '150px',
+            paddingTop: '30px',
+            margin: '0px 20px 0px 20px',
+          }}
+          src={logo}
+          alt="logo"
+        />
       </Header>
-      <Content css={{ padding: '0 50px', marginTop: 64 }}>
+      <Content css={{ padding: '0 50px', marginTop: 10 }}>
         <div css={{ padding: 24, minHeight: 380 }}>
           <Preferences
             initValues={{

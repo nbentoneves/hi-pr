@@ -7,9 +7,9 @@ rules.push(
     use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
   },
   {
-    test: /\.(png|jpe?g|svg)$/,
-    use: [{ loader: 'file-loader' }],
-  }
+    test: /\.(png|jpe?g|gif|svg)$/,
+    type: 'asset/resource'
+  },
 );
 
 module.exports = {
