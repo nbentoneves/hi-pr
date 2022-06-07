@@ -30,7 +30,8 @@
     "webpack.main.config.js",
     "webpack.plugins.js",
     "webpack.renderer.config.js",
-    "webpack.rules.js"
+    "webpack.rules.js",
+    "changelog.config.js"
   ],
   "parserOptions": {
     "project": "./tsconfig.json",
