@@ -12,7 +12,7 @@ export type FormValues = {
     owner?: string;
   };
   preferences: {
-    repos?: string[];
+    repositories?: string[];
   };
 };
 
@@ -54,14 +54,14 @@ const Preferences: React.FC<Props> = ({ initValues, onSave }) => {
         rules={[{ required: true }]}
         required
       >
-        <Input />
+        <Input data-testid="username-input" />
       </FormAntd.Item>
       <FormAntd.Item
         name={['user', 'teamname']}
         label="Team"
         initialValue={initValues.user.teamname}
       >
-        <Input />
+        <Input data-testid="teamname-input" />
       </FormAntd.Item>
       <FormAntd.Item
         name={['organization', 'isOrganization']}
@@ -69,7 +69,11 @@ const Preferences: React.FC<Props> = ({ initValues, onSave }) => {
         initialValue={initValues.organization.isOrganization}
         rules={[{ type: 'boolean' }]}
       >
-        <Switch checked={isOrganization} onChange={setIsOrganization} />
+        <Switch
+          data-testid="isOrganization-switch"
+          checked={isOrganization}
+          onChange={setIsOrganization}
+        />
       </FormAntd.Item>
       <FormAntd.Item
         name={['organization', 'token']}
@@ -78,7 +82,7 @@ const Preferences: React.FC<Props> = ({ initValues, onSave }) => {
         required={isOrganization}
         rules={[{ required: isOrganization }]}
       >
-        <Input.Password disabled={!isOrganization} />
+        <Input.Password data-testid="token-input" disabled={!isOrganization} />
       </FormAntd.Item>
       <FormAntd.Item
         name={['organization', 'owner']}
@@ -87,16 +91,20 @@ const Preferences: React.FC<Props> = ({ initValues, onSave }) => {
         required={isOrganization}
         rules={[{ required: isOrganization }]}
       >
-        <Input disabled={!isOrganization} />
+        <Input data-testid="owner-input" disabled={!isOrganization} />
       </FormAntd.Item>
       <FormAntd.Item
         name={['preferences', 'repos']}
         label="Repositories"
-        initialValue={initValues.preferences.repos}
+        initialValue={initValues.preferences.repositories}
         required
         rules={[{ required: true }]}
       >
-        <Select mode="tags" tokenSeparators={[',']} />
+        <Select
+          data-testid="repositories-select"
+          mode="tags"
+          tokenSeparators={[',']}
+        />
       </FormAntd.Item>
       <FormAntd.Item
         wrapperCol={{
@@ -105,7 +113,7 @@ const Preferences: React.FC<Props> = ({ initValues, onSave }) => {
           lg: { span: 18 },
         }}
       >
-        <Button type="primary" htmlType="submit">
+        <Button data-testid="on-save-button" type="primary" htmlType="submit">
           Save
         </Button>
       </FormAntd.Item>

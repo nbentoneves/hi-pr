@@ -147,7 +147,7 @@ const App = () => {
                 owner: preferences?.organization?.owner,
               },
               preferences: {
-                repos: preferences?.repositories,
+                repositories: preferences?.repositories,
               },
             }}
             onSave={(values: FormValues) => {
@@ -155,7 +155,7 @@ const App = () => {
                 saveSettings({
                   username: values.user.username,
                   teamname: values.user.teamname,
-                  repositories: values.preferences.repos,
+                  repositories: values.preferences.repositories,
                   organization: values.organization.isOrganization
                     ? {
                         owner: values.organization.owner,
