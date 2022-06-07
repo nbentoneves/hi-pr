@@ -6,7 +6,7 @@ module.exports = [
     new ForkTsCheckerWebpackPlugin(),
     new CopyWebpackPlugin({
         patterns: [
-            { from: path.resolve(__dirname, 'public/assets/images'), to: path.resolve(__dirname, '.webpack/main/images') }
+            { from: path.resolve(__dirname, 'src/assets/images'), to: path.resolve(__dirname, '.webpack/main/images') }
         ],
     })
 ];

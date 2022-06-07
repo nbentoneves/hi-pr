@@ -17,7 +17,7 @@ import {
 } from './store/feature/globalSlice';
 import { useAppDispatch, useAppSelector } from './store/hooks';
 import { getUrlRequest } from './utils/httpUtils';
-import logo from '../public/assets/images/logo.png';
+import logo from './assets/images/logo.png';
 
 const today = new Date();
 
