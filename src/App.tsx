@@ -53,8 +53,9 @@ const App = () => {
   };
 
   const isValidUserOrTeam = preferences?.username || preferences?.teamname;
+  const isValidRepository = preferences?.repositories;
   const repositories =
-    preferences && isValidUserOrTeam ? preferences?.repositories : [];
+    isValidRepository && isValidUserOrTeam ? preferences.repositories : [];
 
   useQueries(
     repositories.map((repository) => {

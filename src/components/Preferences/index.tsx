@@ -40,6 +40,10 @@ const Preferences: React.FC<Props> = ({ initValues, onSave }) => {
         sm: { span: 16 },
         lg: { span: 18 },
       }}
+      validateMessages={{
+        // eslint-disable-next-line no-template-curly-in-string
+        required: '${label} is required!',
+      }}
       name="preferences"
       onFinish={onSave}
     >
@@ -47,6 +51,8 @@ const Preferences: React.FC<Props> = ({ initValues, onSave }) => {
         name={['user', 'username']}
         label="Username"
         initialValue={initValues.user.username}
+        rules={[{ required: true }]}
+        required
       >
         <Input />
       </FormAntd.Item>
@@ -60,24 +66,26 @@ const Preferences: React.FC<Props> = ({ initValues, onSave }) => {
       <FormAntd.Item
         name={['organization', 'isOrganization']}
         label="Is organization"
-        rules={[{ type: 'boolean' }]}
         initialValue={initValues.organization.isOrganization}
+        rules={[{ type: 'boolean' }]}
       >
         <Switch checked={isOrganization} onChange={setIsOrganization} />
       </FormAntd.Item>
       <FormAntd.Item
         name={['organization', 'token']}
         label="Token"
-        rules={[{ type: 'string' }]}
         initialValue={initValues.organization.token}
+        required={isOrganization}
+        rules={[{ required: isOrganization }]}
       >
         <Input.Password disabled={!isOrganization} />
       </FormAntd.Item>
       <FormAntd.Item
         name={['organization', 'owner']}
         label="Owner"
-        rules={[{ type: 'string' }]}
         initialValue={initValues.organization.owner}
+        required={isOrganization}
+        rules={[{ required: isOrganization }]}
       >
         <Input disabled={!isOrganization} />
       </FormAntd.Item>
@@ -85,6 +93,8 @@ const Preferences: React.FC<Props> = ({ initValues, onSave }) => {
         name={['preferences', 'repos']}
         label="Repositories"
         initialValue={initValues.preferences.repos}
+        required
+        rules={[{ required: true }]}
       >
         <Select mode="tags" tokenSeparators={[',']} />
       </FormAntd.Item>
