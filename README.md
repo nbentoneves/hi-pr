@@ -1,6 +1,6 @@
 [![Build](https://github.com/nbentoneves/hi-pr/actions/workflows/build.yml/badge.svg)](https://github.com/nbentoneves/hi-pr/actions/workflows/build.yml)
 
-# hi-pr!
+<img src="./logo.png?raw=true" />
 
 Notification Widget to notify you about new PRs 🚀
 
