@@ -94,7 +94,7 @@ const Preferences: React.FC<Props> = ({ initValues, onSave }) => {
         <Input data-testid="owner-input" disabled={!isOrganization} />
       </FormAntd.Item>
       <FormAntd.Item
-        name={['preferences', 'repos']}
+        name={['preferences', 'repositories']}
         label="Repositories"
         initialValue={initValues.preferences.repositories}
         required
