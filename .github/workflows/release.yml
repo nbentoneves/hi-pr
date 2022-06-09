@@ -20,7 +20,7 @@ jobs:
           cache: 'yarn'
       - run: yarn install
 
-      - name: Publish
+      - name: Publish 📦
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: yarn run publish
