@@ -3,8 +3,8 @@ import { Content, Footer, Header } from 'antd/lib/layout/layout';
 import { AxiosError } from 'axios';
 import React from 'react';
 import { useQueries } from 'react-query';
-import { listPullRequests } from './api';
-import { LIST_PULL_REQUESTS } from './api/constants';
+import { getGithubPullRequests } from './api';
+import { LIST_PULL_REQUESTS } from './hooks/constants';
 import { Auth, PullRequest } from './api/type';
 import Preferences, { FormValues } from './components/Preferences';
 import useNotification from './hooks/useNotification';
@@ -57,6 +57,7 @@ const App = () => {
   const repositories =
     isValidRepository && isValidUserOrTeam ? preferences.repositories : [];
 
+  // TODO: Move this to a hook
   useQueries(
     repositories.map((repository) => {
       return {
@@ -68,7 +69,7 @@ const App = () => {
           repository,
         ],
         queryFn: () =>
-          listPullRequests(getOwner(), repository, getOrganization()),
+          getGithubPullRequests(getOwner(), repository, getOrganization()),
         enabled: !!preferences,
         retry: false,
         refetchInterval: 0.5 * 60000,

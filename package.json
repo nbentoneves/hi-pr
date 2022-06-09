@@ -6,6 +6,7 @@
   "main": ".webpack/main",
   "scripts": {
     "start": "electron-forge start",
+    "test": "DEBUG_PRINT_LIMIT=10000 react-scripts test",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
@@ -83,6 +84,7 @@
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
     "@vercel/webpack-asset-relocator-loader": "1.7.0",
+    "axios-mock-adapter": "^1.20.0",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.0.0",
     "electron": "^19.0.1",

@@ -1,19 +1,20 @@
-import { Buffer } from 'buffer';
 import { axiosInstance } from './axios-request';
 import { Auth, PullRequest } from './type';
 
-export const listPullRequests = (
+const BASE_URL_GITHUB = 'https://api.github.com';
+
+export const getGithubPullRequests = (
   owner: string,
   repo: string,
   auth: Auth = undefined,
 ): Promise<PullRequest[]> => {
   const config = {
     method: 'get',
-    url: `https://api.github.com/repos/${owner}/${repo}/pulls`,
+    url: `${BASE_URL_GITHUB}/repos/${owner}/${repo}/pulls`,
   };
 
   if (auth) {
-    return axiosInstance({
+    const authConfig = {
       ...config,
       headers: {
         Authorization: `Basic ${Buffer.from(
@@ -21,8 +22,10 @@ export const listPullRequests = (
           'utf8',
         ).toString('base64')}`,
       },
-    }).then((response) => response.data);
+    };
+
+    return axiosInstance.request(authConfig).then((response) => response.data);
   }
 
-  return axiosInstance(config).then((response) => response.data);
+  return axiosInstance.request(config).then((response) => response.data);
 };
