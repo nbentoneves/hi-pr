@@ -1,0 +1,22 @@
+name: Release
+
+on:
+  release:
+    types:
+      - created
+
+jobs:
+  publish_on_mac:
+    name: 'Publish on Mac'
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout 🛎
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js 🔨
+        uses: actions/setup-node@v3
+        with:
+          cache: 'yarn'
+      - run: yarn install
+      - run: yarn publish
