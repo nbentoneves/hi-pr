@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "target": "es6",
+    "lib": ["dom", "dom.iterable", "esnext"],
     "jsx": "react-jsx",
     "allowJs": true,
     "module": "esnext",
@@ -8,14 +9,9 @@
     "esModuleInterop": true,
     "noImplicitAny": true,
     "sourceMap": true,
-    "baseUrl": ".",
-    "outDir": "dist",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "jsxImportSource": "@emotion/react",
-    "paths": {
-      "*": ["node_modules/*"]
-    }
+    "jsxImportSource": "@emotion/react"
   },
   "include": ["src"]
 }

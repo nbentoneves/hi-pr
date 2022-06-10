@@ -1,5 +1,5 @@
 import { Button, Form as FormAntd, Input, Select, Switch } from 'antd';
-import React from 'react';
+import { useState } from 'react';
 
 export type FormValues = {
   user: {
@@ -21,9 +21,9 @@ export type Props = {
   onSave: (values: FormValues) => void;
 };
 
-const Preferences: React.FC<Props> = ({ initValues, onSave }) => {
+const Preferences = ({ initValues, onSave }: Props) => {
   // TODO: Do not init useState using initValues, change another way
-  const [isOrganization, setIsOrganization] = React.useState(
+  const [isOrganization, setIsOrganization] = useState(
     initValues.organization.isOrganization,
   );
 

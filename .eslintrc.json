@@ -26,20 +26,16 @@
       "typescript": {}
     }
   },
-  "ignorePatterns": [
-    "webpack.main.config.js",
-    "webpack.plugins.js",
-    "webpack.renderer.config.js",
-    "webpack.rules.js",
-    "changelog.config.js"
-  ],
+  "ignorePatterns": ["craco.config.js", "changelog.config.js"],
   "parserOptions": {
-    "project": "./tsconfig.json",
+    "project": ["./tsconfig.json", "./electron/tsconfig.json"],
     "tsconfigRootDir": "./"
   },
   "rules": {
     "react/function-component-definition": "off",
     "react/require-default-props": "off",
+    "react/jsx-uses-react": "off",
+    "react/react-in-jsx-scope": "off",
     "no-param-reassign": [
       "error",
       { "props": true, "ignorePropertyModificationsFor": ["state"] }
