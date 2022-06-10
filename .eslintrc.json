@@ -34,7 +34,7 @@
     "changelog.config.js"
   ],
   "parserOptions": {
-    "project": "./tsconfig.json",
+    "project": ["./tsconfig.json", "./electron/tsconfig.json"],
     "tsconfigRootDir": "./"
   },
   "rules": {

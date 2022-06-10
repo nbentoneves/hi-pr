@@ -63,5 +63,7 @@ sketch
 
 ### electronjs ###
 out/
+build/
+dist/
 
 # End of https://www.toptal.com/developers/gitignore/api/react,yarn,visualstudiocode

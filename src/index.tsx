@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import persistStore from 'redux-persist/es/persistStore';
 import { PersistGate } from 'redux-persist/integration/react';
 import App from './App';
+import './assets/css/index.css';
 import { store } from './store/store';
 
 const queryClient = new QueryClient({
