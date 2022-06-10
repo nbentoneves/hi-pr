@@ -1,12 +1,14 @@
+/** @jsxImportSource @emotion/react */
 import { Alert, Layout } from 'antd';
 import { Content, Footer, Header } from 'antd/lib/layout/layout';
 import { AxiosError } from 'axios';
-import React from 'react';
+import { useEffect } from 'react';
 import { useQueries } from 'react-query';
 import { getGithubPullRequests } from './api';
-import { LIST_PULL_REQUESTS } from './hooks/constants';
 import { Auth, PullRequest } from './api/type';
+import logo from './assets/images/logo.png';
 import Preferences, { FormValues } from './components/Preferences';
+import { LIST_PULL_REQUESTS } from './hooks/constants';
 import useNotification from './hooks/useNotification';
 import { GLOBAL } from './store/constants';
 import {
@@ -17,7 +19,6 @@ import {
 } from './store/feature/globalSlice';
 import { useAppDispatch, useAppSelector } from './store/hooks';
 import { getUrlRequest } from './utils/httpUtils';
-import logo from './assets/images/logo.png';
 
 const today = new Date();
 
@@ -113,7 +114,7 @@ const App = () => {
     }),
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (preferences) {
       dispatch(cleanWarnings());
     }

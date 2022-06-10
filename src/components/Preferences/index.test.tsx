@@ -1,4 +1,3 @@
-import React from 'react';
 import Preferences from '.';
 import { fireEvent, render, screen, waitFor } from '../../testing/test-util';
 

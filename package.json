@@ -6,9 +6,9 @@
   "homepage": ".",
   "main": "build/electron/main.js",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "DEBUG_PRINT_LIMIT=10000 react-scripts test --silent",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "DEBUG_PRINT_LIMIT=10000 craco test --silent",
     "postinstall": "electron-builder install-app-deps",
     "electron:dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://127.0.0.1:3000 && tsc -p electron -w\" \"wait-on http://127.0.0.1:3000 && tsc -p electron && electron .\"",
     "electron:build": "yarn build && tsc -p electron && electron-builder",
@@ -47,6 +47,7 @@
   "devDependencies": {
     "@babel/plugin-syntax-flow": "^7.17.12",
     "@babel/plugin-transform-react-jsx": "^7.17.12",
+    "@emotion/babel-plugin": "^11.9.2",
     "@testing-library/dom": "^8.13.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
@@ -91,6 +92,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.18.2",
+    "@craco/craco": "^6.4.3",
     "@emotion/react": "^11.9.0",
     "@reduxjs/toolkit": "^1.8.2",
     "@types/humps": "^2.0.1",
