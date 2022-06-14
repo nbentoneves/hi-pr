@@ -9,45 +9,15 @@
     "start": "craco start",
     "build": "craco build",
     "test": "DEBUG_PRINT_LIMIT=10000 craco test --silent",
-    "postinstall": "electron-builder install-app-deps",
+    "electron:postinstall": "electron-builder install-app-deps",
     "electron:dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://127.0.0.1:3000 && tsc -p electron -w\" \"wait-on http://127.0.0.1:3000 && tsc -p electron && electron .\"",
-    "electron:build": "yarn build && tsc -p electron && electron-builder",
-    "publish": "yarn build && tsc -p electron && electron-builder --publish always",
+    "electron:build": "yarn build && tsc -p electron && electron-builder --config electron-builder.config.json",
+    "publish": "yarn build && tsc -p electron && electron-builder --config electron-builder.config.json --publish always",
     "lint": "eslint --ext .ts,.tsx src/**/*"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/nbentoneves/hi-pr"
-  },
-  "build": {
-    "extends": null,
-    "files": [
-      "build/**/*"
-    ],
-    "directories": {
-      "buildResources": "assets"
-    },
-    "extraResources": [
-      {
-        "from": "src/assets",
-        "to": "assets",
-        "filter": [
-          "**/*"
-        ]
-      }
-    ],
-    "publish": [
-      {
-        "provider": "github",
-        "owner": "nbentoneves",
-        "repo": "hi-pr"
-      }
-    ],
-    "mac": {
-      "publish": [
-        "github"
-      ]
-    }
   },
   "eslintConfig": {
     "extends": [
