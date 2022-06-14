@@ -1,3 +1,4 @@
+import { Buffer } from 'buffer';
 import { axiosInstance } from './axios-request';
 import { Auth, PullRequest } from './type';
 

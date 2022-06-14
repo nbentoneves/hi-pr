@@ -1,12 +1,12 @@
-import Preferences from '.';
+import FormPreferences from '.';
 import { fireEvent, render, screen, waitFor } from '../../testing/test-util';
 
-describe('Preferences render component', () => {
-  it('save preferences using initial values', async () => {
+describe('FormPreferences render component', () => {
+  it('save form preferences using initial values', async () => {
     const onSaveMock = jest.fn(() => Promise.resolve());
 
     render(
-      <Preferences
+      <FormPreferences
         onSave={onSaveMock}
         initValues={{
           user: {
@@ -40,11 +40,11 @@ describe('Preferences render component', () => {
     });
   });
 
-  it('show error messages when save preferences without mandatory fields, isOrganization enable', async () => {
+  it('show error messages when save form preferences without mandatory fields, isOrganization enable', async () => {
     const onSaveMock = jest.fn(() => Promise.resolve());
 
     render(
-      <Preferences
+      <FormPreferences
         onSave={onSaveMock}
         initValues={{
           user: {},
@@ -66,11 +66,11 @@ describe('Preferences render component', () => {
     });
   });
 
-  it('show error messages when save preferences without mandatory fields, isOrganization disable', async () => {
+  it('show error messages when save form preferences without mandatory fields, isOrganization disable', async () => {
     const onSaveMock = jest.fn(() => Promise.resolve());
 
     render(
-      <Preferences
+      <FormPreferences
         onSave={onSaveMock}
         initValues={{
           user: {},

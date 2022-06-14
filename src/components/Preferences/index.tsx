@@ -1,123 +1,176 @@
-import { Button, Form as FormAntd, Input, Select, Switch } from 'antd';
-import { useState } from 'react';
+/** @jsxImportSource @emotion/react */
+import { Alert } from 'antd';
+import { AxiosError } from 'axios';
+import { useEffect } from 'react';
+import { useQueries } from 'react-query';
+import { getGithubPullRequests } from '../../api';
+import { Auth, PullRequest } from '../../api/type';
+import { LIST_PULL_REQUESTS } from '../../hooks/constants';
+import useNotification from '../../hooks/useNotification';
+import { GLOBAL } from '../../store/constants';
+import {
+  addWarning,
+  cleanWarnings,
+  removeWarning,
+  saveSettings,
+} from '../../store/feature/globalSlice';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { getUrlRequest } from '../../utils/httpUtils';
+import FormPreferences, { FormValues } from '../FormPreferences';
 
-export type FormValues = {
-  user: {
-    username?: string;
-    teamname?: string;
-  };
-  organization: {
-    isOrganization: boolean;
-    token?: string;
-    owner?: string;
-  };
-  preferences: {
-    repositories?: string[];
-  };
-};
+const Preferences = () => {
+  const notification = useNotification();
+  const dispatch = useAppDispatch();
+  const preferences = useAppSelector((state) => state[GLOBAL].preferences);
+  const warnings = useAppSelector((state) => state[GLOBAL].warnings);
 
-export type Props = {
-  initValues: FormValues;
-  onSave: (values: FormValues) => void;
-};
+  const getOwner = () => {
+    // Owner is an organization
+    if (preferences && preferences.organization) {
+      return preferences.organization.owner;
+    }
 
-const Preferences = ({ initValues, onSave }: Props) => {
-  // TODO: Do not init useState using initValues, change another way
-  const [isOrganization, setIsOrganization] = useState(
-    initValues.organization.isOrganization,
+    // Owner is a username
+    if (preferences && preferences.username) {
+      return preferences.username;
+    }
+
+    return '';
+  };
+
+  const getOrganization = (): Auth | undefined => {
+    if (preferences && preferences.organization) {
+      return {
+        usename: preferences.organization.owner,
+        token: preferences.organization.token,
+      };
+    }
+
+    return undefined;
+  };
+
+  const isValidUserOrTeam = preferences?.username || preferences?.teamname;
+  const isValidRepository = preferences?.repositories;
+  const repositories =
+    isValidRepository && isValidUserOrTeam ? preferences.repositories : [];
+
+  // TODO: Move this to a hook
+  useQueries(
+    repositories.map((repository) => {
+      return {
+        queryKey: [
+          LIST_PULL_REQUESTS,
+          preferences.username,
+          preferences.teamname,
+          preferences.organization,
+          repository,
+        ],
+        queryFn: () =>
+          getGithubPullRequests(getOwner(), repository, getOrganization()),
+        enabled: !!preferences,
+        retry: false,
+        refetchInterval: 0.5 * 60000,
+        onError: (error: AxiosError) => {
+          // TODO: Change error message when error is:
+          // Resource protected by organization SAML enforcement. You must grant your Personal Access token access to this organization.
+          dispatch(addWarning(getUrlRequest(error)));
+        },
+        onSuccess: (data: PullRequest[]) => {
+          data.forEach((pullRequest) => {
+            const requestedRevieres = pullRequest.requestedReviewers.filter(
+              (reviewer) => reviewer.login === preferences.username,
+            );
+
+            const requestedTeams = pullRequest.requestedTeams.filter(
+              (reviewer) => reviewer.name === preferences.teamname,
+            );
+
+            // Logic to trigger notification for pull request username review
+            requestedRevieres.forEach((requested) => {
+              // TODO: Customize notification when is an user pull request
+              notification.triggerNotification(
+                requested.id,
+                pullRequest.htmlUrl,
+              );
+            });
+
+            // Logic to trigger notification for pull request team review
+            requestedTeams.forEach((requested) => {
+              // TODO: Customize notification when is a team pull request
+              notification.triggerNotification(
+                requested.id,
+                pullRequest.htmlUrl,
+              );
+            });
+          });
+
+          dispatch(removeWarning(repository));
+        },
+      };
+    }),
   );
 
-  // TODO: Fix the labelCol and wrapperCol from property
+  useEffect(() => {
+    if (preferences) {
+      dispatch(cleanWarnings());
+    }
+  }, [preferences, dispatch]);
+
   return (
-    <FormAntd
-      labelCol={{
-        xs: { span: 24 },
-        sm: { span: 6 },
-        lg: { span: 4 },
-      }}
-      wrapperCol={{
-        xs: { span: 24 },
-        sm: { span: 16 },
-        lg: { span: 18 },
-      }}
-      validateMessages={{
-        // eslint-disable-next-line no-template-curly-in-string
-        required: '${label} is required!',
-      }}
-      name="preferences"
-      onFinish={onSave}
-    >
-      <FormAntd.Item
-        name={['user', 'username']}
-        label="Username"
-        initialValue={initValues.user.username}
-        rules={[{ required: true }]}
-        required
-      >
-        <Input data-testid="username-input" />
-      </FormAntd.Item>
-      <FormAntd.Item
-        name={['user', 'teamname']}
-        label="Team"
-        initialValue={initValues.user.teamname}
-      >
-        <Input data-testid="teamname-input" />
-      </FormAntd.Item>
-      <FormAntd.Item
-        name={['organization', 'isOrganization']}
-        label="Is organization"
-        initialValue={initValues.organization.isOrganization}
-        rules={[{ type: 'boolean' }]}
-      >
-        <Switch
-          data-testid="isOrganization-switch"
-          checked={isOrganization}
-          onChange={setIsOrganization}
-        />
-      </FormAntd.Item>
-      <FormAntd.Item
-        name={['organization', 'token']}
-        label="Token"
-        initialValue={initValues.organization.token}
-        required={isOrganization}
-        rules={[{ required: isOrganization }]}
-      >
-        <Input.Password data-testid="token-input" disabled={!isOrganization} />
-      </FormAntd.Item>
-      <FormAntd.Item
-        name={['organization', 'owner']}
-        label="Owner"
-        initialValue={initValues.organization.owner}
-        required={isOrganization}
-        rules={[{ required: isOrganization }]}
-      >
-        <Input data-testid="owner-input" disabled={!isOrganization} />
-      </FormAntd.Item>
-      <FormAntd.Item
-        name={['preferences', 'repositories']}
-        label="Repositories"
-        initialValue={initValues.preferences.repositories}
-        required
-        rules={[{ required: true }]}
-      >
-        <Select
-          data-testid="repositories-select"
-          mode="tags"
-          tokenSeparators={[',']}
-        />
-      </FormAntd.Item>
-      <FormAntd.Item
-        wrapperCol={{
-          xs: { offset: 18 },
-          sm: { span: 16 },
-          lg: { span: 18 },
+    <div css={{ padding: 24, minHeight: 380 }}>
+      <FormPreferences
+        initValues={{
+          user: {
+            username: preferences?.username,
+            teamname: preferences?.teamname,
+          },
+          organization: {
+            isOrganization: preferences?.organization !== undefined,
+            token: preferences?.organization?.token,
+            owner: preferences?.organization?.owner,
+          },
+          preferences: {
+            repositories: preferences?.repositories,
+          },
         }}
-      >
-        <Button data-testid="on-save-button" type="primary" htmlType="submit">
-          Save
-        </Button>
-      </FormAntd.Item>
-    </FormAntd>
+        onSave={(values: FormValues) => {
+          dispatch(
+            saveSettings({
+              username: values.user.username,
+              teamname: values.user.teamname,
+              repositories: values.preferences.repositories,
+              organization: values.organization.isOrganization
+                ? {
+                    owner: values.organization.owner,
+                    token: values.organization.token,
+                  }
+                : undefined,
+            }),
+          );
+        }}
+      />
+      {/*
+        TODO: TextLoop is not working (<Alert banner message={<TextLoop mask />} />)
+        */}
+      {warnings.map((repositoryName) => {
+        const testId = `alert-${repositoryName}`;
+
+        return (
+          <>
+            <Alert
+              banner
+              message={
+                <div data-testid={testId}>
+                  Did you type the <b>{repositoryName}</b> repository name
+                  right?
+                </div>
+              }
+            />
+            <br />
+          </>
+        );
+      })}
+    </div>
   );
 };
 

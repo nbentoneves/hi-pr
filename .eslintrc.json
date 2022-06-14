@@ -26,7 +26,11 @@
       "typescript": {}
     }
   },
-  "ignorePatterns": ["craco.config.js", "changelog.config.js"],
+  "ignorePatterns": [
+    "craco.config.js",
+    "changelog.config.js",
+    "cypress.config.ts"
+  ],
   "parserOptions": {
     "project": ["./tsconfig.json", "./electron/tsconfig.json"],
     "tsconfigRootDir": "./"
