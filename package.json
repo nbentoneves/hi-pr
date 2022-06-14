@@ -14,7 +14,7 @@
     "electron:dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://127.0.0.1:3000 && tsc -p electron -w\" \"wait-on http://127.0.0.1:3000 && tsc -p electron && electron .\"",
     "electron:build": "yarn build && tsc -p electron && electron-builder --config electron-builder.config.json",
     "publish": "yarn build && tsc -p electron && electron-builder --config electron-builder.config.json --publish always",
-    "lint": "eslint --ext .ts,.tsx src/**/*"
+    "lint": "eslint --ext .ts,.tsx --no-error-on-unmatched-pattern src/**/*"
   },
   "repository": {
     "type": "git",

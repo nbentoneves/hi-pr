@@ -1,4 +1,3 @@
-/* eslint-disable testing-library/await-async-query */
 import { GLOBAL } from '../../store/constants';
 import { mount, StoreSlice } from '../../testing/test-component-mount';
 import Preferences from '.';
