@@ -4,12 +4,12 @@ import { useState } from 'react';
 export type FormValues = {
   user: {
     username?: string;
-    teamname?: string;
   };
   organization: {
     isOrganization: boolean;
     token?: string;
     owner?: string;
+    teamname?: string;
   };
   preferences: {
     repositories?: string[];
@@ -57,13 +57,6 @@ const FormPreferences = ({ initValues, onSave }: Props) => {
         <Input data-testid="username-input" />
       </FormAntd.Item>
       <FormAntd.Item
-        name={['user', 'teamname']}
-        label="Team"
-        initialValue={initValues.user.teamname}
-      >
-        <Input data-testid="teamname-input" />
-      </FormAntd.Item>
-      <FormAntd.Item
         name={['organization', 'isOrganization']}
         label="Is organization"
         initialValue={initValues.organization.isOrganization}
@@ -92,6 +85,13 @@ const FormPreferences = ({ initValues, onSave }: Props) => {
         rules={[{ required: isOrganization }]}
       >
         <Input data-testid="owner-input" disabled={!isOrganization} />
+      </FormAntd.Item>
+      <FormAntd.Item
+        name={['organization', 'teamname']}
+        label="Team"
+        initialValue={initValues.organization.teamname}
+      >
+        <Input data-testid="teamname-input" disabled={!isOrganization} />
       </FormAntd.Item>
       <FormAntd.Item
         name={['preferences', 'repositories']}

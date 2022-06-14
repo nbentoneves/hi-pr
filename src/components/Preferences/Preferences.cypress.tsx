@@ -32,7 +32,7 @@ describe('<Preferences>', () => {
       // cy.get('[data-testid=repositories-select]').should('have.text', 'hi-pr ');
     });
 
-    it('save a new valid preference without teamname and not using organization', () => {
+    it('save a new valid preference not using organization', () => {
       mount(<Preferences />, initStatus);
 
       interceptGithubOnePullRequest('nbentoneves', 'hi-pr', '1');
@@ -48,17 +48,17 @@ describe('<Preferences>', () => {
       cy.wait('@2-github-one-pull-request-no-requested-reviewers');
     });
 
-    it('save a new valid preference with teamname and using organization', () => {
+    it('save a new valid preference using organization', () => {
       mount(<Preferences />, initStatus);
 
       interceptGithubOnePullRequest('hi-pr-organization', 'hi-pr', '1');
       interceptGithubOnePullRequest('hi-pr-organization', 'other-repo', '2');
 
       cy.get('[data-testid=username-input]').type('nbentoneves');
-      cy.get('[data-testid=teamname-input]').type('hi-pr-team');
       cy.get('[data-testid=isOrganization-switch]').click();
       cy.get('[data-testid=token-input]').type('github_token');
       cy.get('[data-testid=owner-input]').type('hi-pr-organization');
+      cy.get('[data-testid=teamname-input]').type('hi-pr-team');
       cy.get('[data-testid=repositories-select]').type('hi-pr{enter}');
       cy.get('[data-testid=repositories-select]').type('other-repo{enter}');
       cy.get('[data-testid=on-save-button]').click({ force: true });
@@ -83,10 +83,10 @@ describe('<Preferences>', () => {
       );
 
       cy.get('[data-testid=username-input]').type('nbentoneves');
-      cy.get('[data-testid=teamname-input]').type('hi-pr-team');
       cy.get('[data-testid=isOrganization-switch]').click();
       cy.get('[data-testid=token-input]').type('github_token');
       cy.get('[data-testid=owner-input]').type('hi-pr-organization');
+      cy.get('[data-testid=teamname-input]').type('hi-pr-team');
       cy.get('[data-testid=repositories-select]').type('other-repo1{enter}');
       cy.get('[data-testid=repositories-select]').type('other-repo2{enter}');
       cy.get('[data-testid=on-save-button]').click({ force: true });
@@ -113,10 +113,10 @@ describe('<Preferences>', () => {
         initialState: {
           preferences: {
             username: 'nbentoneves',
-            teamname: 'hi-pr-team',
             organization: {
               owner: 'hi-pr-organization',
               token: 'github_token',
+              teamname: 'hi-pr-team',
             },
             repositories: ['hi-pr'],
           },
@@ -135,7 +135,7 @@ describe('<Preferences>', () => {
         'have.value',
         'nbentoneves',
       );
-      cy.get('[data-testid=teamname-input]').should('have.value', 'hi-pr-team');
+
       cy.get('[data-testid=isOrganization-switch]')
         .invoke('attr', 'value')
         .should('equal', 'true');
@@ -144,6 +144,7 @@ describe('<Preferences>', () => {
         'have.value',
         'hi-pr-organization',
       );
+      cy.get('[data-testid=teamname-input]').should('have.value', 'hi-pr-team');
       // TODO: Find a way to check the select/input field
       // cy.get('[data-testid=repositories-select]').should('have.text', 'hi-pr ');
 

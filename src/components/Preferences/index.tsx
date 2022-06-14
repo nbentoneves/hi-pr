@@ -49,10 +49,10 @@ const Preferences = () => {
     return undefined;
   };
 
-  const isValidUserOrTeam = preferences?.username || preferences?.teamname;
+  const isValidUsername = preferences?.username;
   const isValidRepository = preferences?.repositories;
   const repositories =
-    isValidRepository && isValidUserOrTeam ? preferences.repositories : [];
+    isValidRepository && isValidUsername ? preferences.repositories : [];
 
   // TODO: Move this to a hook
   useQueries(
@@ -61,7 +61,6 @@ const Preferences = () => {
         queryKey: [
           LIST_PULL_REQUESTS,
           preferences.username,
-          preferences.teamname,
           preferences.organization,
           repository,
         ],
@@ -82,7 +81,8 @@ const Preferences = () => {
             );
 
             const requestedTeams = pullRequest.requestedTeams.filter(
-              (reviewer) => reviewer.name === preferences.teamname,
+              (reviewer) =>
+                reviewer.name === preferences.organization?.teamname,
             );
 
             // Logic to trigger notification for pull request username review
@@ -122,12 +122,12 @@ const Preferences = () => {
         initValues={{
           user: {
             username: preferences?.username,
-            teamname: preferences?.teamname,
           },
           organization: {
             isOrganization: preferences?.organization !== undefined,
             token: preferences?.organization?.token,
             owner: preferences?.organization?.owner,
+            teamname: preferences?.organization?.teamname,
           },
           preferences: {
             repositories: preferences?.repositories,
@@ -137,12 +137,12 @@ const Preferences = () => {
           dispatch(
             saveSettings({
               username: values.user.username,
-              teamname: values.user.teamname,
               repositories: values.preferences.repositories,
               organization: values.organization.isOrganization
                 ? {
                     owner: values.organization.owner,
                     token: values.organization.token,
+                    teamname: values.organization.teamname,
                   }
                 : undefined,
             }),

@@ -11,12 +11,12 @@ describe('FormPreferences render component', () => {
         initValues={{
           user: {
             username: 'test_username',
-            teamname: 'test_teamname',
           },
           organization: {
             isOrganization: true,
             owner: 'my_company',
             token: 'github_token',
+            teamname: 'test_teamname',
           },
           preferences: {
             repositories: ['my_repository', 'my_repository_2'],
@@ -29,9 +29,9 @@ describe('FormPreferences render component', () => {
 
     expect(screen.queryByText('Save')).toBeVisible();
     expect(screen.queryByDisplayValue('test_username')).toBeVisible();
-    expect(screen.queryByDisplayValue('test_teamname')).toBeVisible();
     expect(screen.queryByDisplayValue('my_company')).toBeVisible();
     expect(screen.queryByDisplayValue('github_token')).toBeVisible();
+    expect(screen.queryByDisplayValue('test_teamname')).toBeVisible();
     expect(screen.queryByText('my_repository')).toBeVisible();
     expect(screen.queryByText('my_repository_2')).toBeVisible();
 
