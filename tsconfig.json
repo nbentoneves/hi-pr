@@ -9,6 +9,7 @@
     "esModuleInterop": true,
     "noImplicitAny": true,
     "sourceMap": true,
+    "baseUrl": ".",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "jsxImportSource": "@emotion/react",

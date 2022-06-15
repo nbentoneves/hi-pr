@@ -28,3 +28,20 @@ export const interceptGithubOnePullRequest = (
       }github-one-pull-request-no-requested-reviewers`,
     );
 };
+
+export const interceptGithubOnePullRequestWithRequestedReviewers = (
+  owner: string,
+  repository: string,
+  prefixAlias?: string,
+): unknown => {
+  return cy
+    .intercept('GET', `/repos/${owner}/${repository}/pulls`, {
+      hostname: 'api.github.com',
+      fixture: 'github/pull-requests-one-with-requested-reviewers.json',
+    })
+    .as(
+      `${
+        prefixAlias ? `${prefixAlias}-` : ''
+      }github-one-pull-request-with-requested-reviewers`,
+    );
+};

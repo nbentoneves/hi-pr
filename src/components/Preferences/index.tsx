@@ -88,6 +88,7 @@ const Preferences = () => {
             // Logic to trigger notification for pull request username review
             requestedRevieres.forEach((requested) => {
               // TODO: Customize notification when is an user pull request
+
               notification.triggerNotification(
                 requested.id,
                 pullRequest.htmlUrl,
