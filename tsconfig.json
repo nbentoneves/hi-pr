@@ -9,9 +9,11 @@
     "esModuleInterop": true,
     "noImplicitAny": true,
     "sourceMap": true,
+    "baseUrl": ".",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "jsxImportSource": "@emotion/react"
+    "jsxImportSource": "@emotion/react",
+    "types": ["cypress", "@testing-library/cypress"]
   },
-  "include": ["src"]
+  "include": ["src", "cypress"]
 }

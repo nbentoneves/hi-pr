@@ -5,11 +5,11 @@ import { GLOBAL } from '../constants';
 // Define a type for the slice state
 type Preferences = {
   username?: string;
-  teamname?: string;
   organization?: {
     owner: string;
     // TODO: Encrypt token
     token: string;
+    teamname?: string;
   };
   repositories: string[];
 };

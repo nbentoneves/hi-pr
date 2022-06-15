@@ -19,6 +19,6 @@ const exposedApi: ContextBridgeApi = {
 
 // Expose our functions in the `api` namespace of the renderer `Window`.
 //
-// If I want to call `readFile` from the renderer process, I can do it by
-// calling the function `window.api.readFile()`.
+// If I want to call `notificationReviewPullRequest` from the renderer process, I can do it by
+// calling the function `window.api.notificationReviewPullRequest()`.
 contextBridge.exposeInMainWorld('api', exposedApi);

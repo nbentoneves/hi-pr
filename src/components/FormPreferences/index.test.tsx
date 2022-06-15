@@ -1,22 +1,22 @@
-import Preferences from '.';
+import FormPreferences from '.';
 import { fireEvent, render, screen, waitFor } from '../../testing/test-util';
 
-describe('Preferences render component', () => {
-  it('save preferences using initial values', async () => {
+describe('FormPreferences render component', () => {
+  it('save form preferences using initial values', async () => {
     const onSaveMock = jest.fn(() => Promise.resolve());
 
     render(
-      <Preferences
+      <FormPreferences
         onSave={onSaveMock}
         initValues={{
           user: {
             username: 'test_username',
-            teamname: 'test_teamname',
           },
           organization: {
             isOrganization: true,
             owner: 'my_company',
             token: 'github_token',
+            teamname: 'test_teamname',
           },
           preferences: {
             repositories: ['my_repository', 'my_repository_2'],
@@ -29,9 +29,9 @@ describe('Preferences render component', () => {
 
     expect(screen.queryByText('Save')).toBeVisible();
     expect(screen.queryByDisplayValue('test_username')).toBeVisible();
-    expect(screen.queryByDisplayValue('test_teamname')).toBeVisible();
     expect(screen.queryByDisplayValue('my_company')).toBeVisible();
     expect(screen.queryByDisplayValue('github_token')).toBeVisible();
+    expect(screen.queryByDisplayValue('test_teamname')).toBeVisible();
     expect(screen.queryByText('my_repository')).toBeVisible();
     expect(screen.queryByText('my_repository_2')).toBeVisible();
 
@@ -40,11 +40,11 @@ describe('Preferences render component', () => {
     });
   });
 
-  it('show error messages when save preferences without mandatory fields, isOrganization enable', async () => {
+  it('show error messages when save form preferences without mandatory fields, isOrganization enable', async () => {
     const onSaveMock = jest.fn(() => Promise.resolve());
 
     render(
-      <Preferences
+      <FormPreferences
         onSave={onSaveMock}
         initValues={{
           user: {},
@@ -66,11 +66,11 @@ describe('Preferences render component', () => {
     });
   });
 
-  it('show error messages when save preferences without mandatory fields, isOrganization disable', async () => {
+  it('show error messages when save form preferences without mandatory fields, isOrganization disable', async () => {
     const onSaveMock = jest.fn(() => Promise.resolve());
 
     render(
-      <Preferences
+      <FormPreferences
         onSave={onSaveMock}
         initValues={{
           user: {},

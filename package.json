@@ -9,11 +9,13 @@
     "start": "craco start",
     "build": "craco build",
     "test": "DEBUG_PRINT_LIMIT=10000 craco test --silent",
+    "cypress:open": "cypress open --component",
+    "cypress:component-test": "cypress run --component",
     "electron:postinstall": "electron-builder install-app-deps",
     "electron:dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://127.0.0.1:3000 && tsc -p electron -w\" \"wait-on http://127.0.0.1:3000 && tsc -p electron && electron .\"",
     "electron:build": "yarn build && tsc -p electron && electron-builder --config electron-builder.config.json",
     "publish": "yarn build && tsc -p electron && electron-builder --config electron-builder.config.json --publish always",
-    "lint": "eslint --ext .ts,.tsx src/**/*"
+    "lint": "eslint --ext .ts,.tsx --no-error-on-unmatched-pattern src/**/*"
   },
   "repository": {
     "type": "git",
@@ -35,6 +37,7 @@
     "@babel/plugin-syntax-flow": "^7.17.12",
     "@babel/plugin-transform-react-jsx": "^7.17.12",
     "@emotion/babel-plugin": "^11.9.2",
+    "@testing-library/cypress": "^8.0.3",
     "@testing-library/dom": "^8.13.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
@@ -49,6 +52,7 @@
     "copy-webpack-plugin": "^11.0.0",
     "cross-env": "^7.0.3",
     "css-loader": "^6.0.0",
+    "cypress": "^10.1.0",
     "electron": "^19.0.1",
     "electron-builder": "^23.0.3",
     "electron-devtools-installer": "^3.2.0",

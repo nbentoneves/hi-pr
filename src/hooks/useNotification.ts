@@ -1,10 +1,11 @@
+import { GLOBAL } from 'src/store/constants';
 import { addPullRequestAlreadyNotified } from '../store/feature/globalSlice';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 
 const useNotification = () => {
   const dispatch = useAppDispatch();
   const pullRequestsAlreadyNotified = useAppSelector(
-    (state) => state['store:global'].pullRequestsAlreadyNotified,
+    (state) => state[GLOBAL].pullRequestsAlreadyNotified,
   );
 
   const triggerNotification = (id: number, url: string) => {
