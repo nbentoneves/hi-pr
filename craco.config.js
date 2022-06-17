@@ -24,12 +24,26 @@ module.exports = {
             jestConfig.roots = ["."];
             jestConfig.setupFilesAfterEnv = ["./src/setupTests.ts"];
             jestConfig.testMatch = ["**/__tests__/**/*.{js,jsx,ts,tsx}", "**/*.{spec,test}.{js,jsx,ts,tsx}"];
+            jestConfig.coverageThreshold = {
+                "global": {
+                    "branches": 70,
+                    "functions": 90,
+                    "lines": 90,
+                    "statements": 90
+                }
+            };
+            jestConfig.collectCoverageFrom = [
+                "src/**/*.{js,jsx,ts,tsx}",
+                "!src/testing/*",
+                "!src/**/*.cypress.{ts,tsx}",
+                "!src/**/*.d.ts",
+            ];
             jestConfig.projects =
                 [
                     {
                         "displayName": "Unit",
                         "testPathIgnorePatterns": ["/node_modules/", "/e2e/"],
-                        "testMatch": ['<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}', '<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}']
+                        "testMatch": ['<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}', '<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}'],
                     },
                     {
                         "displayName": "E2E",
