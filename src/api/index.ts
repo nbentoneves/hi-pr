@@ -2,8 +2,6 @@ import { Buffer } from 'buffer';
 import { axiosInstance } from './axios-request';
 import { Auth, PullRequest } from './type';
 
-const BASE_URL_GITHUB = 'https://api.github.com';
-
 export const getGithubPullRequests = (
   owner: string,
   repo: string,
@@ -11,7 +9,7 @@ export const getGithubPullRequests = (
 ): Promise<PullRequest[]> => {
   const config = {
     method: 'get',
-    url: `${BASE_URL_GITHUB}/repos/${owner}/${repo}/pulls`,
+    url: `/repos/${owner}/${repo}/pulls`,
   };
 
   if (auth) {

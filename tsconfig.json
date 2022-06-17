@@ -15,5 +15,5 @@
     "jsxImportSource": "@emotion/react",
     "types": ["cypress", "@testing-library/cypress"]
   },
-  "include": ["src", "cypress"]
+  "include": ["src", "cypress", "e2e"]
 }

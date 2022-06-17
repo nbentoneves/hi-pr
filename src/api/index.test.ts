@@ -22,9 +22,7 @@ describe('Github API request/reponse', () => {
   it('get a list of pull requests without authentication', async () => {
     const mock = mockAxios();
 
-    mock
-      .onGet('https://api.github.com/repos/OWNER/REPO/pulls')
-      .replyOnce(200, pullRequestGitHubMock);
+    mock.onGet('/repos/OWNER/REPO/pulls').replyOnce(200, pullRequestGitHubMock);
 
     const response = await getGithubPullRequests('OWNER', 'REPO');
 
@@ -41,7 +39,7 @@ describe('Github API request/reponse', () => {
 
     mock
       .onGet(
-        'https://api.github.com/repos/OWNER/REPO/pulls',
+        '/repos/OWNER/REPO/pulls',
         undefined,
         expect.objectContaining({
           Authorization: expect.stringMatching(/^Basic /),

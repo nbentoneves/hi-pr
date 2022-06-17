@@ -29,7 +29,8 @@
   "ignorePatterns": [
     "craco.config.js",
     "changelog.config.js",
-    "cypress.config.ts"
+    "cypress.config.ts",
+    "mocks.config.js"
   ],
   "parserOptions": {
     "project": ["./tsconfig.json", "./electron/tsconfig.json"],

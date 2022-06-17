@@ -18,5 +18,27 @@ module.exports = {
 
             return webpackConfig;
         }
-    }
+    },
+    jest: {
+        configure: (jestConfig, { env, paths, resolve, rootDir }) => {
+            jestConfig.roots = ["."];
+            jestConfig.setupFilesAfterEnv = ["./src/setupTests.ts"];
+            jestConfig.testMatch = ["**/__tests__/**/*.{js,jsx,ts,tsx}", "**/*.{spec,test}.{js,jsx,ts,tsx}"];
+            jestConfig.projects =
+                [
+                    {
+                        "displayName": "Unit",
+                        "testPathIgnorePatterns": ["/node_modules/", "/e2e/"],
+                        "testMatch": ['<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}', '<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}']
+                    },
+                    {
+                        "displayName": "E2E",
+                        "testPathIgnorePatterns": ["/node_modules/", "/src/"],
+                        "testMatch": ['<rootDir>/e2e/**/__tests__/**/*.{js,jsx,ts,tsx}', '<rootDir>/e2e/**/*.{spec,test}.{js,jsx,ts,tsx}'],
+                    }
+                ];
+            return jestConfig;
+        },
+    },
+
 };

@@ -6,7 +6,7 @@ import { useQueries } from 'react-query';
 import { getGithubPullRequests } from '../../api';
 import { Auth, PullRequest } from '../../api/type';
 import { LIST_PULL_REQUESTS } from '../../hooks/constants';
-import useNotification from '../../hooks/useNotification';
+import useReviewPullRequestNotification from '../../hooks/useReviewPullRequestNotification';
 import { GLOBAL } from '../../store/constants';
 import {
   addWarning,
@@ -19,7 +19,7 @@ import { getUrlRequest } from '../../utils/httpUtils';
 import FormPreferences, { FormValues } from '../FormPreferences';
 
 const Preferences = () => {
-  const notification = useNotification();
+  const notification = useReviewPullRequestNotification();
   const dispatch = useAppDispatch();
   const preferences = useAppSelector((state) => state[GLOBAL].preferences);
   const warnings = useAppSelector((state) => state[GLOBAL].warnings);
@@ -87,9 +87,7 @@ const Preferences = () => {
 
             // Logic to trigger notification for pull request username review
             requestedRevieres.forEach((requested) => {
-              // TODO: Customize notification when is an user pull request
-
-              notification.triggerNotification(
+              notification.triggerNotificationUsername(
                 requested.id,
                 pullRequest.htmlUrl,
               );
@@ -97,8 +95,7 @@ const Preferences = () => {
 
             // Logic to trigger notification for pull request team review
             requestedTeams.forEach((requested) => {
-              // TODO: Customize notification when is a team pull request
-              notification.triggerNotification(
+              notification.triggerNotificationTeam(
                 requested.id,
                 pullRequest.htmlUrl,
               );

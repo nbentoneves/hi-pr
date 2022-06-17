@@ -24,13 +24,22 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
-      - run: yarn install
-      - run: yarn eslint
-      - run: yarn test
+
+      - name: Install dependencies 📦
+        run: yarn install
+
+      - name: Check code using eslint 👀
+        run: yarn eslint
+
+      - name: Unit tests 🧪
+        run: yarn run test:unit
 
   component-tests:
     name: 'Component tests'
     runs-on: ubuntu-latest
+
+    #Wait for build to finish
+    needs: build
 
     strategy:
       matrix:
@@ -45,5 +54,10 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
-      - run: yarn install
-      - run: yarn cypress:component-test
+
+      #TODO: Change this to use the package created at build
+      - name: Install dependencies 📦
+        run: yarn install
+
+      - name: Unit tests 🧪
+        run: yarn run cypress:component-test
