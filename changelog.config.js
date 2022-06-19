@@ -2,7 +2,7 @@
 module.exports = {
     disableEmoji: false,
     format: '{type}{scope}: {emoji}{subject}',
-    list: ['test', 'feat', 'fix', 'chore', 'mix', 'docs', 'ci', 'release'],
+    list: ['test', 'feat', 'fix', 'chore', 'mix', 'config', 'docs', 'ci', 'release'],
     maxMessageLength: 64,
     minMessageLength: 3,
     questions: ['type', 'scope', 'subject', 'body'],
@@ -22,6 +22,11 @@ module.exports = {
             description: 'Bunch of changes',
             emoji: '🌈',
             value: 'mix',
+        },
+        config: {
+            description: 'Project configuration',
+            emoji: '🔨',
+            value: 'config',
         },
         docs: {
             description: 'Documentation only changes',
