@@ -2,7 +2,7 @@
 import { Layout } from 'antd';
 import { Content, Footer, Header } from 'antd/lib/layout/layout';
 import logo from './assets/images/logo.png';
-import { Preferences } from './components/Preferences';
+import Preferences from './components/Preferences';
 
 const today = new Date();
 
