@@ -23,7 +23,7 @@ module.exports = {
         configure: (jestConfig, { env, paths, resolve, rootDir }) => {
             jestConfig.roots = ["."];
             jestConfig.setupFilesAfterEnv = ["./src/setupTests.ts"];
-            jestConfig.testMatch = ["**/__tests__/**/*.{js,jsx,ts,tsx}", "**/*.{spec,test}.{js,jsx,ts,tsx}"];
+            jestConfig.testMatch = ["**/__tests__/**/*.{ts,tsx}", "**/*.{spec,test}.{ts,tsx}"];
             jestConfig.coverageThreshold = {
                 "global": {
                     "branches": 70,
@@ -33,7 +33,7 @@ module.exports = {
                 }
             };
             jestConfig.collectCoverageFrom = [
-                "src/**/*.{js,jsx,ts,tsx}",
+                "src/**/*.{ts,tsx}",
                 "!src/index.tsx",
                 "!src/testing/*",
                 "!src/store/hooks.ts",
@@ -45,12 +45,12 @@ module.exports = {
                     {
                         "displayName": "Unit",
                         "testPathIgnorePatterns": ["/node_modules/", "/e2e/"],
-                        "testMatch": ['<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}', '<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}'],
+                        "testMatch": ['<rootDir>/src/**/__tests__/**/*.{ts,tsx}', '<rootDir>/src/**/*.{spec,test}.{ts,tsx}'],
                     },
                     {
                         "displayName": "E2E",
                         "testPathIgnorePatterns": ["/node_modules/", "/src/"],
-                        "testMatch": ['<rootDir>/e2e/**/__tests__/**/*.{js,jsx,ts,tsx}', '<rootDir>/e2e/**/*.{spec,test}.{js,jsx,ts,tsx}'],
+                        "testMatch": ['<rootDir>/e2e/**/__tests__/**/*.{ts,tsx}', '<rootDir>/e2e/**/*.{spec,test}.{ts,tsx}'],
                     }
                 ];
             return jestConfig;
