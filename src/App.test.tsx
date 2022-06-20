@@ -5,6 +5,7 @@ import { render, screen } from './testing/test-unit-render';
 const today = new Date();
 
 jest.mock('./components/Preferences');
+jest.mock('./assets/images/logo.png');
 
 describe('App render component', () => {
   it('check content section', async () => {
