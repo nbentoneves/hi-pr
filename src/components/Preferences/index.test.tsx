@@ -1,1 +1,0 @@
-describe('Preferences render component', () => {});

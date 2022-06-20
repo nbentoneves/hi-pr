@@ -9,7 +9,7 @@ import {
   State,
 } from './globalSlice';
 
-describe('global slice tests', () => {
+describe('store global slice tests', () => {
   it('initially the global slice with the right state', async () => {
     const globalState = globalReducer(undefined, {} as AnyAction);
 

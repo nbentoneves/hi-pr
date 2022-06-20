@@ -34,7 +34,9 @@ module.exports = {
             };
             jestConfig.collectCoverageFrom = [
                 "src/**/*.{js,jsx,ts,tsx}",
+                "!src/index.tsx",
                 "!src/testing/*",
+                "!src/store/hooks.ts",
                 "!src/**/*.cypress.{ts,tsx}",
                 "!src/**/*.d.ts",
             ];
