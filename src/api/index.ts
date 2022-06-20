@@ -5,7 +5,7 @@ import { Auth, PullRequest } from './type';
 export const getGithubPullRequests = (
   owner: string,
   repo: string,
-  auth: Auth = undefined,
+  auth?: Auth | undefined,
 ): Promise<PullRequest[]> => {
   const config = {
     method: 'get',

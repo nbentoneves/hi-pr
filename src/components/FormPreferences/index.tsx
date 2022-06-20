@@ -7,12 +7,12 @@ export type FormValues = {
   };
   organization: {
     isOrganization: boolean;
-    token?: string;
-    owner?: string;
+    token: string;
+    owner: string;
     teamname?: string;
   };
   preferences: {
-    repositories?: string[];
+    repositories: string[];
   };
 };
 

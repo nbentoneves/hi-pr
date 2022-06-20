@@ -9,7 +9,7 @@
     "start": "craco start ",
     "build": "craco build",
     "test:unit": "DEBUG_PRINT_LIMIT=10000 craco test --coverage --silent --selectProjects Unit --watchAll=false",
-    "test:unit-watch": "yarn test:unit --watchAll=true",
+    "test:unit-watch": "yarn test:unit --watchAll=true --silent=false",
     "test:pre-e2e": "concurrently -n chromedriver,mock-server \"yarn run:chromedriver\" \"yarn run:mock-server &> /dev/null 2>&1\"",
     "test:e2e": "DEBUG_PRINT_LIMIT=10000 craco test --selectProjects=E2E --testTimeout=300000 --watchAll=false",
     "cypress:open": "cypress open --component",
@@ -21,7 +21,8 @@
     "run:chromedriver": "chromedriver",
     "run:mock-server": "mocks-server",
     "publish": "yarn build && tsc -p electron && electron-builder --config electron-builder.config.json --publish always",
-    "lint": "eslint --ext .ts,.tsx --no-error-on-unmatched-pattern src/**/*"
+    "typecheck": "tsc",
+    "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'"
   },
   "repository": {
     "type": "git",

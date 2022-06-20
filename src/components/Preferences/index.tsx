@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { Alert } from 'antd';
 import { AxiosError } from 'axios';
+import _ from 'lodash';
 import { useEffect } from 'react';
 import { useQueries } from 'react-query';
 import { getGithubPullRequests } from '../../api';
@@ -12,10 +13,10 @@ import {
   addWarning,
   cleanWarnings,
   removeWarning,
-  saveSettings,
+  savePreferences,
 } from '../../store/feature/globalSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { getUrlRequest } from '../../utils/httpUtils';
+import { getPartOfUrlRequest } from '../../utils/httpUtils';
 import FormPreferences, { FormValues } from '../FormPreferences';
 
 const Preferences = () => {
@@ -51,6 +52,7 @@ const Preferences = () => {
 
   const isValidUsername = preferences?.username;
   const isValidRepository = preferences?.repositories;
+  const isValidOrganization = preferences?.organization;
   const repositories =
     isValidRepository && isValidUsername ? preferences.repositories : [];
 
@@ -60,8 +62,8 @@ const Preferences = () => {
       return {
         queryKey: [
           LIST_PULL_REQUESTS,
-          preferences.username,
-          preferences.organization,
+          preferences?.username,
+          preferences?.organization,
           repository,
         ],
         queryFn: () =>
@@ -72,17 +74,17 @@ const Preferences = () => {
         onError: (error: AxiosError) => {
           // TODO: Change error message when error is:
           // Resource protected by organization SAML enforcement. You must grant your Personal Access token access to this organization.
-          dispatch(addWarning(getUrlRequest(error)));
+          dispatch(addWarning(getPartOfUrlRequest(error, 5)));
         },
         onSuccess: (data: PullRequest[]) => {
           data.forEach((pullRequest) => {
             const requestedRevieres = pullRequest.requestedReviewers.filter(
-              (reviewer) => reviewer.login === preferences.username,
+              (reviewer) => reviewer.login === preferences?.username,
             );
 
             const requestedTeams = pullRequest.requestedTeams.filter(
               (reviewer) =>
-                reviewer.name === preferences.organization?.teamname,
+                reviewer.name === preferences?.organization?.teamname,
             );
 
             // Logic to trigger notification for pull request username review
@@ -122,18 +124,21 @@ const Preferences = () => {
             username: preferences?.username,
           },
           organization: {
-            isOrganization: preferences?.organization !== undefined,
-            token: preferences?.organization?.token,
-            owner: preferences?.organization?.owner,
+            isOrganization: !_.isUndefined(preferences?.organization),
+            token:
+              (isValidOrganization && preferences?.organization.token) || '',
+            owner:
+              (isValidOrganization && preferences?.organization?.owner) || '',
             teamname: preferences?.organization?.teamname,
           },
           preferences: {
-            repositories: preferences?.repositories,
+            repositories:
+              preferences !== undefined ? preferences.repositories : [],
           },
         }}
         onSave={(values: FormValues) => {
           dispatch(
-            saveSettings({
+            savePreferences({
               username: values.user.username,
               repositories: values.preferences.repositories,
               organization: values.organization.isOrganization

@@ -1,5 +1,10 @@
 import FormPreferences from '.';
-import { fireEvent, render, screen, waitFor } from '../../testing/test-util';
+import {
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '../../testing/test-unit-render';
 
 describe('FormPreferences render component', () => {
   it('save form preferences using initial values', async () => {
@@ -49,9 +54,13 @@ describe('FormPreferences render component', () => {
         initValues={{
           user: {},
           organization: {
+            token: '',
+            owner: '',
             isOrganization: true,
           },
-          preferences: {},
+          preferences: {
+            repositories: [],
+          },
         }}
       />,
     );
@@ -75,9 +84,13 @@ describe('FormPreferences render component', () => {
         initValues={{
           user: {},
           organization: {
+            token: '',
+            owner: '',
             isOrganization: false,
           },
-          preferences: {},
+          preferences: {
+            repositories: [],
+          },
         }}
       />,
     );

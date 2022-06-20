@@ -1,5 +1,6 @@
+import { StoreSlice } from 'src/testing/test-utils';
 import { GLOBAL } from '../../store/constants';
-import { mount, StoreSlice } from '../../testing/test-component-mount';
+import { mount } from '../../testing/test-component-mount';
 import Preferences from '.';
 import {
   interceptGithubOnePullRequest,
