@@ -4,10 +4,13 @@ import { camelizeKeys } from 'humps';
 const MOCK_SERVER = 'http://localhost:3100';
 const BASE_URL_GITHUB = 'https://api.github.com';
 
-export const axiosInstance = axios.create({
-  baseURL: process.env.REACT_APP_MOCK_SERVER_ENABLED
+const url =
+  process.env.REACT_APP_MOCK_SERVER_ENABLED === 'TRUE'
     ? MOCK_SERVER
-    : BASE_URL_GITHUB,
+    : BASE_URL_GITHUB;
+
+export const axiosInstance = axios.create({
+  baseURL: url,
 });
 
 axiosInstance.interceptors.response.use((response: AxiosResponse) => {

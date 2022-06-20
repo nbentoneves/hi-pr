@@ -126,7 +126,7 @@ const Preferences = () => {
           organization: {
             isOrganization: !_.isUndefined(preferences?.organization),
             token:
-              (isValidOrganization && preferences?.organization.token) || '',
+              (isValidOrganization && preferences?.organization?.token) || '',
             owner:
               (isValidOrganization && preferences?.organization?.owner) || '',
             teamname: preferences?.organization?.teamname,
