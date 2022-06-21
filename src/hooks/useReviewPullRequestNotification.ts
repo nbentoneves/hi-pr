@@ -1,4 +1,4 @@
-import { GLOBAL } from 'src/store/constants';
+import { GLOBAL } from '../store/constants';
 import { addPullRequestAlreadyNotified } from '../store/feature/globalSlice';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 
