@@ -23,3 +23,9 @@ export const pullRequestGitHubMock = {
     },
   ],
 };
+
+export const pullRequestGitHubMockNotFound = {
+  message: 'Not Found',
+  documentation_url:
+    'https://docs.github.com/rest/reference/pulls#list-pull-requests',
+};

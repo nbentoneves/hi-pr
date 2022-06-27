@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { GLOBAL } from '../constants';
 
 // Define a type for the slice state
-type Preferences = {
+export type Preferences = {
   username?: string;
   organization?: {
     owner: string;

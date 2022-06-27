@@ -1,4 +1,3 @@
-import { fn } from 'cypress/types/jquery';
 import useReviewPullRequestNotification from './useReviewPullRequestNotification';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 

@@ -39,7 +39,7 @@ const Preferences = () => {
     return '';
   };
 
-  const getOrganization = (): Auth | undefined => {
+  const getAuth = (): Auth | undefined => {
     if (preferences && preferences.organization) {
       return {
         usename: preferences.organization.owner,
@@ -66,8 +66,7 @@ const Preferences = () => {
           preferences?.organization,
           repository,
         ],
-        queryFn: () =>
-          getGithubPullRequests(getOwner(), repository, getOrganization()),
+        queryFn: () => getGithubPullRequests(getOwner(), repository, getAuth()),
         enabled: !!preferences,
         retry: false,
         refetchInterval: 0.5 * 60000,
