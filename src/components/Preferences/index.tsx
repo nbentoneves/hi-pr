@@ -73,7 +73,11 @@ const Preferences = () => {
         onError: (error: AxiosError) => {
           // TODO: Change error message when error is:
           // Resource protected by organization SAML enforcement. You must grant your Personal Access token access to this organization.
-          dispatch(addWarning(getPartOfUrlRequest(error, 5)));
+          if (error.response?.status === 404) {
+            dispatch(addWarning(getPartOfUrlRequest(error, 5)));
+          } else {
+            throw new Error('Unexpected response from provider');
+          }
         },
         onSuccess: (data: PullRequest[]) => {
           data.forEach((pullRequest) => {
