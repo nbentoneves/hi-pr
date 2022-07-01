@@ -3,18 +3,18 @@ import _ from 'lodash';
 import { GLOBAL } from '../constants';
 
 // Define a type for the slice state
-type Preferences = {
+export type Preferences = {
   username?: string;
-  teamname?: string;
   organization?: {
     owner: string;
     // TODO: Encrypt token
     token: string;
+    teamname?: string;
   };
   repositories: string[];
 };
 
-type State = {
+export type State = {
   pullRequestsAlreadyNotified: string[];
   warnings: string[];
   preferences?: Preferences;
@@ -58,7 +58,7 @@ const slice = createSlice({
         action.payload,
       ];
     },
-    saveSettings: (state, action: PayloadAction<Preferences>) => {
+    savePreferences: (state, action: PayloadAction<Preferences>) => {
       state.preferences = action.payload;
     },
   },
@@ -69,7 +69,7 @@ export const {
   removeWarning,
   cleanWarnings,
   addPullRequestAlreadyNotified,
-  saveSettings,
+  savePreferences,
 } = slice.actions;
 
 export const { reducer: globalReducer } = slice;

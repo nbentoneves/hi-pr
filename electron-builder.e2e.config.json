@@ -1,0 +1,26 @@
+{
+  "extends": null,
+  "files": ["build/**/*"],
+  "directories": {
+    "buildResources": "assets",
+    "output": "dist-e2e"
+  },
+  "extraResources": [
+    {
+      "from": "src/assets",
+      "to": "assets",
+      "filter": ["**/*"]
+    }
+  ],
+  "publish": [
+    {
+      "provider": "github",
+      "owner": "nbentoneves",
+      "repo": "hi-pr"
+    }
+  ],
+  "mac": {
+    "icon": "build/icon.png",
+    "publish": ["github"]
+  }
+}

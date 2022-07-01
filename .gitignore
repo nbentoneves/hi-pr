@@ -18,6 +18,7 @@ bower_components
 psd
 thumb
 sketch
+coverage
 
 ### VisualStudioCode ###
 .vscode/*
@@ -65,5 +66,15 @@ sketch
 out/
 build/
 dist/
+dist-e2e/
+
+### CypressIO ###
+# gitignore template for the CypressIO, browser test framework
+# website: https://www.cypress.io/
+
+cypress/results/*
+cypress/reports/*
+cypress/screenshots/*
+cypress/videos/*
 
 # End of https://www.toptal.com/developers/gitignore/api/react,yarn,visualstudiocode

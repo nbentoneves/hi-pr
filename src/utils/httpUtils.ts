@@ -1,12 +1,15 @@
 import { AxiosError } from 'axios';
 
-export const getUrlRequest = (error: AxiosError): string | undefined => {
-  if (error.request instanceof XMLHttpRequest) {
-    const url = error.request.responseURL;
-    const urlSplit = url.split('/');
+export const getPartOfUrlRequest = (
+  error: AxiosError,
+  expectedPart: number,
+): string | never => {
+  const url = error.request.responseURL;
+  const urlSplit = url.split('/');
 
-    return urlSplit[5];
+  if (urlSplit.length <= expectedPart) {
+    throw new Error('Url does not have the expected part required');
   }
 
-  return undefined;
+  return urlSplit[expectedPart];
 };

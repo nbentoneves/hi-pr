@@ -14,7 +14,8 @@ const queryClient = new QueryClient({
     },
   },
 });
-const root = createRoot(document.getElementById('root'));
+
+const root = createRoot(document.getElementById('root') as Element);
 
 const persistor = persistStore(store);
 

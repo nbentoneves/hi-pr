@@ -26,7 +26,12 @@
       "typescript": {}
     }
   },
-  "ignorePatterns": ["craco.config.js", "changelog.config.js"],
+  "ignorePatterns": [
+    "craco.config.js",
+    "changelog.config.js",
+    "cypress.config.ts",
+    "mocks.config.js"
+  ],
   "parserOptions": {
     "project": ["./tsconfig.json", "./electron/tsconfig.json"],
     "tsconfigRootDir": "./"
@@ -56,9 +61,8 @@
       }
     ],
     //Testing-Library
-    "testing-library/await-async-query": "error",
+    "testing-library/await-async-query": "warn",
     "testing-library/no-await-sync-query": "error",
-    "testing-library/no-debugging-utils": "warn",
-    "testing-library/no-dom-import": "off"
+    "testing-library/no-debugging-utils": "warn"
   }
 }

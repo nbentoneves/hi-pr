@@ -1,53 +1,32 @@
 {
   "name": "hi-pr",
-  "productName": " Hi-PR!",
+  "productName": "Hi-PR!",
   "version": "2.0.0",
   "description": "Friendly robot to notify you about pull requests",
   "homepage": ".",
   "main": "build/electron/main.js",
   "scripts": {
-    "start": "craco start",
+    "start": "craco start ",
     "build": "craco build",
-    "test": "DEBUG_PRINT_LIMIT=10000 craco test --silent",
-    "postinstall": "electron-builder install-app-deps",
+    "test:unit": "DEBUG_PRINT_LIMIT=10000 craco test --coverage --silent --selectProjects Unit --watchAll=false",
+    "test:unit-watch": "DEBUG_PRINT_LIMIT=10000 craco test --coverage --selectProjects Unit --watchAll=true",
+    "test:pre-e2e": "concurrently -n chromedriver,mock-server \"yarn run:chromedriver\" \"yarn run:mock-server &> /dev/null 2>&1\"",
+    "test:e2e": "DEBUG_PRINT_LIMIT=10000 craco test --selectProjects=E2E --testTimeout=300000 --watchAll=false",
+    "cypress:open": "cypress open --component",
+    "cypress:component-test": "cypress run --component",
+    "electron:postinstall": "electron-builder install-app-deps",
     "electron:dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://127.0.0.1:3000 && tsc -p electron -w\" \"wait-on http://127.0.0.1:3000 && tsc -p electron && electron .\"",
-    "electron:build": "yarn build && tsc -p electron && electron-builder",
-    "publish": "yarn build && tsc -p electron && electron-builder --publish always",
-    "lint": "eslint --ext .ts,.tsx src/**/*"
+    "electron:build": "yarn build && tsc -p electron && electron-builder --config electron-builder.config.json",
+    "electron:build-e2e": "REACT_APP_MOCK_SERVER_ENABLED=TRUE yarn build && tsc -p electron && electron-builder --config electron-builder.e2e.config.json",
+    "run:chromedriver": "chromedriver",
+    "run:mock-server": "mocks-server",
+    "publish": "yarn build && tsc -p electron && electron-builder --config electron-builder.config.json --publish always",
+    "typecheck": "tsc",
+    "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/nbentoneves/hi-pr"
-  },
-  "build": {
-    "extends": null,
-    "files": [
-      "build/**/*"
-    ],
-    "directories": {
-      "buildResources": "assets"
-    },
-    "extraResources": [
-      {
-        "from": "src/assets",
-        "to": "assets",
-        "filter": [
-          "**/*"
-        ]
-      }
-    ],
-    "publish": [
-      {
-        "provider": "github",
-        "owner": "nbentoneves",
-        "repo": "hi-pr"
-      }
-    ],
-    "mac": {
-      "publish": [
-        "github"
-      ]
-    }
   },
   "eslintConfig": {
     "extends": [
@@ -65,12 +44,17 @@
     "@babel/plugin-syntax-flow": "^7.17.12",
     "@babel/plugin-transform-react-jsx": "^7.17.12",
     "@emotion/babel-plugin": "^11.9.2",
+    "@mocks-server/admin-api-client": "^5.0.1",
+    "@mocks-server/main": "^3.1.0",
+    "@testing-library/cypress": "^8.0.3",
     "@testing-library/dom": "^8.13.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^14.2.0",
     "@types/electron-devtools-installer": "^2.2.2",
+    "@types/inquirer": "^8.2.1",
     "@types/jest": "^28.1.1",
+    "@types/selenium-webdriver": "^4.1.1",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
     "@vercel/webpack-asset-relocator-loader": "1.7.0",
@@ -79,8 +63,10 @@
     "copy-webpack-plugin": "^11.0.0",
     "cross-env": "^7.0.3",
     "css-loader": "^6.0.0",
+    "cypress": "^10.1.0",
     "electron": "^19.0.1",
     "electron-builder": "^23.0.3",
+    "electron-chromedriver": "^19.0.0",
     "electron-devtools-installer": "^3.2.0",
     "electron-reload": "^2.0.0-alpha.1",
     "eslint": "^8.0.1",
@@ -99,9 +85,11 @@
     "eslint-plugin-testing-library": "^5.5.1",
     "file-loader": "^6.2.0",
     "fork-ts-checker-webpack-plugin": "^6.0.1",
+    "inquirer": "^8.2.4",
     "node-loader": "^2.0.0",
     "prettier": "^2.6.2",
     "react-scripts": "^5.0.1",
+    "selenium-webdriver": "^4.2.0",
     "style-loader": "^3.0.0",
     "ts-loader": "^9.2.2",
     "wait-on": "^6.0.1",

@@ -1,94 +1,151 @@
+import { pullRequestGitHubMockNotFound } from 'src/api/mock';
+import { GLOBAL } from 'src/store/constants';
+import { mockAxios } from 'src/testing/test-axios-mock';
+import { StoreSlice } from 'src/testing/test-utils';
 import Preferences from '.';
-import { fireEvent, render, screen, waitFor } from '../../testing/test-util';
+import useReviewPullRequestNotification from '../../hooks/useReviewPullRequestNotification';
+import * as reduxHooks from '../../store/hooks';
+import * as httpUtils from '../../utils/httpUtils';
+import {
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '../../testing/test-unit-render';
+
+const mockTriggerNotificationUsername = jest.fn();
+const mockTriggerNotificationTeam = jest.fn();
+
+jest.mock('../../hooks/useReviewPullRequestNotification', () => {
+  return jest.fn(() => ({
+    triggerNotificationUsername: mockTriggerNotificationUsername,
+    triggerNotificationTeam: mockTriggerNotificationTeam,
+  }));
+});
 
 describe('Preferences render component', () => {
-  it('save preferences using initial values', async () => {
-    const onSaveMock = jest.fn(() => Promise.resolve());
+  const useDispatchMock = jest.spyOn(reduxHooks, 'useAppDispatch');
+  const getPartOfUrlRequestMock = jest.spyOn(httpUtils, 'getPartOfUrlRequest');
+  const axiosMock = mockAxios();
 
-    render(
-      <Preferences
-        onSave={onSaveMock}
-        initValues={{
-          user: {
-            username: 'test_username',
-            teamname: 'test_teamname',
-          },
+  let initStatus: StoreSlice;
+
+  beforeEach(() => {
+    useDispatchMock.mockClear();
+    getPartOfUrlRequestMock.mockClear();
+    axiosMock.reset();
+
+    initStatus = {
+      name: GLOBAL,
+      initialState: {
+        preferences: {
+          username: 'nbentoneves',
           organization: {
-            isOrganization: true,
-            owner: 'my_company',
-            token: 'github_token',
+            owner: 'hi-pr-owner',
+            token: 'token',
+            teamname: 'teamname',
           },
-          preferences: {
-            repositories: ['my_repository', 'my_repository_2'],
-          },
-        }}
-      />,
-    );
-
-    fireEvent.submit(screen.getByTestId('on-save-button'));
-
-    expect(screen.queryByText('Save')).toBeVisible();
-    expect(screen.queryByDisplayValue('test_username')).toBeVisible();
-    expect(screen.queryByDisplayValue('test_teamname')).toBeVisible();
-    expect(screen.queryByDisplayValue('my_company')).toBeVisible();
-    expect(screen.queryByDisplayValue('github_token')).toBeVisible();
-    expect(screen.queryByText('my_repository')).toBeVisible();
-    expect(screen.queryByText('my_repository_2')).toBeVisible();
-
-    await waitFor(() => {
-      expect(onSaveMock).toBeCalledTimes(1);
-    });
+          repositories: ['hi-pr'],
+        },
+        pullRequestsAlreadyNotified: [] as string[],
+        warnings: [] as string[],
+      },
+    };
   });
 
-  it('show error messages when save preferences without mandatory fields, isOrganization enable', async () => {
-    const onSaveMock = jest.fn(() => Promise.resolve());
+  it('failed get pull request and dispatch save preferences and warning message function, using organization', async () => {
+    (useDispatchMock as jest.Mock).mockReturnValue(jest.fn());
+    (getPartOfUrlRequestMock as jest.Mock).mockReturnValue('REPOSITORY');
+    (useReviewPullRequestNotification as jest.Mock).mockReturnValue(jest.fn());
 
-    render(
-      <Preferences
-        onSave={onSaveMock}
-        initValues={{
-          user: {},
-          organization: {
-            isOrganization: true,
-          },
-          preferences: {},
-        }}
-      />,
-    );
+    axiosMock
+      .onGet('/repos/hi-pr-owner/hi-pr/pulls')
+      .reply(404, pullRequestGitHubMockNotFound)
+      .onAny()
+      .reply(500);
+
+    render(<Preferences />, initStatus);
 
     fireEvent.submit(screen.getByTestId('on-save-button'));
 
     await waitFor(() => {
-      expect(screen.queryByText('Username is required!')).toBeVisible();
-      expect(screen.queryByText('Token is required!')).toBeVisible();
-      expect(screen.queryByText('Owner is required!')).toBeVisible();
-      expect(screen.queryByText('Repositories is required!')).toBeVisible();
+      // dispatch savePreferences and addWarning
+      expect(useDispatchMock).toBeCalledTimes(2);
+      expect(getPartOfUrlRequestMock).toHaveBeenCalledWith(
+        expect.anything(),
+        5,
+      );
     });
   });
 
-  it('show error messages when save preferences without mandatory fields, isOrganization disable', async () => {
-    const onSaveMock = jest.fn(() => Promise.resolve());
+  it('failed get pull request and dispatch save preferences and warning message function, using username', async () => {
+    (useDispatchMock as jest.Mock).mockReturnValue(jest.fn());
+    (getPartOfUrlRequestMock as jest.Mock).mockReturnValue('REPOSITORY');
+    (useReviewPullRequestNotification as jest.Mock).mockReturnValue(jest.fn());
 
-    render(
-      <Preferences
-        onSave={onSaveMock}
-        initValues={{
-          user: {},
-          organization: {
-            isOrganization: false,
-          },
-          preferences: {},
-        }}
-      />,
-    );
+    axiosMock
+      .onGet('/repos/nbentoneves/hi-pr/pulls')
+      .reply(404, pullRequestGitHubMockNotFound)
+      .onAny()
+      .reply(500);
+
+    render(<Preferences />, {
+      ...initStatus,
+      initialState: {
+        ...initStatus.initialState,
+        preferences: {
+          username: 'nbentoneves',
+          repositories: ['hi-pr'],
+        },
+      },
+    });
 
     fireEvent.submit(screen.getByTestId('on-save-button'));
 
     await waitFor(() => {
-      expect(screen.queryByText('Username is required!')).toBeVisible();
-      expect(screen.queryByText('Token is required!')).toBeNull();
-      expect(screen.queryByText('Owner is required!')).toBeNull();
-      expect(screen.queryByText('Repositories is required!')).toBeVisible();
+      // dispatch savePreferences and addWarning
+      expect(useDispatchMock).toBeCalledTimes(2);
+      expect(getPartOfUrlRequestMock).toHaveBeenCalledWith(
+        expect.anything(),
+        5,
+      );
     });
   });
+
+  it('show warning message when they are available', async () => {
+    (useDispatchMock as jest.Mock).mockReturnValue(jest.fn());
+    (getPartOfUrlRequestMock as jest.Mock).mockReturnValue('REPOSITORY');
+    (useReviewPullRequestNotification as jest.Mock).mockReturnValue(jest.fn());
+
+    axiosMock
+      .onGet('/repos/nbentoneves/hi-pr/pulls')
+      .reply(404, pullRequestGitHubMockNotFound)
+      .onGet('/repos/nbentoneves/hi-pr2/pulls')
+      .reply(404, pullRequestGitHubMockNotFound)
+      .onAny()
+      .reply(500);
+
+    render(<Preferences />, {
+      ...initStatus,
+      initialState: {
+        ...initStatus.initialState,
+        warnings: ['hi-pr', 'hi-pr2'],
+        preferences: {
+          username: 'nbentoneves',
+          repositories: ['hi-pr', 'hi-pr2'],
+        },
+      },
+    });
+
+    await waitFor(() => {
+      expect(screen.queryByTestId('alert-hi-pr')?.textContent).toStrictEqual(
+        'Did you type the hi-pr repository name right?',
+      );
+      expect(screen.queryByTestId('alert-hi-pr2')?.textContent).toStrictEqual(
+        'Did you type the hi-pr2 repository name right?',
+      );
+    });
+  });
+
+  // TODO: Write test with providers returning status 200
 });
