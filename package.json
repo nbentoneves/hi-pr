@@ -17,7 +17,7 @@
     "electron:postinstall": "electron-builder install-app-deps",
     "electron:dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://127.0.0.1:3000 && tsc -p electron -w\" \"wait-on http://127.0.0.1:3000 && tsc -p electron && electron .\"",
     "electron:build": "yarn build && tsc -p electron && electron-builder --config electron-builder.config.json",
-    "electron:build-e2e": "REACT_APP_MOCK_SERVER_ENABLED=true yarn build && tsc -p electron && electron-builder --config electron-builder.e2e.config.json",
+    "electron:build-e2e": "REACT_APP_MOCK_SERVER_ENABLED=TRUE yarn build && tsc -p electron && electron-builder --config electron-builder.e2e.config.json",
     "run:chromedriver": "chromedriver",
     "run:mock-server": "mocks-server",
     "publish": "yarn build && tsc -p electron && electron-builder --config electron-builder.config.json --publish always",
