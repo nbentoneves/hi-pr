@@ -9,7 +9,7 @@ on:
 
 jobs:
   publish_on_mac:
-    f: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     name: 'Publish on Mac'
     runs-on: macos-latest
