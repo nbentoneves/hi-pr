@@ -60,5 +60,5 @@ jobs:
       - name: Install dependencies 📦
         run: yarn install
 
-      - name: Unit tests 🧪
+      - name: Cypress tests 🧪
         run: yarn run cypress:component-test
