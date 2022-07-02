@@ -1,7 +1,7 @@
 name: Release
 
 on:
-  worflow_dispatch:
+  workflow_dispatch:
   workflow_run:
     workflows: [Build]
     branches: [release]
