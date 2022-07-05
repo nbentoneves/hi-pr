@@ -3,8 +3,8 @@ import { QueryClient } from 'react-query';
 import { combineReducers } from 'redux';
 import storage from 'redux-persist/lib/storage';
 import persistReducer from 'redux-persist/lib/persistReducer';
-import { GLOBAL } from 'src/store/constants';
-import { globalReducer } from '../store/feature/globalSlice';
+import { ORGANIZATION_PREFERENCES } from '../store/constants';
+import { organizationPreferencesReducer } from '../store/feature/organizationPreferencesSlice';
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -26,7 +26,7 @@ export const buildStoreWithPersist = (storeSlice?: StoreSlice) => {
   };
 
   const makeRootReducer = combineReducers({
-    [GLOBAL]: globalReducer,
+    [ORGANIZATION_PREFERENCES]: organizationPreferencesReducer,
   });
 
   const persistedReducer = persistReducer(persistConfig, makeRootReducer);
@@ -41,7 +41,7 @@ export const buildStoreWithPersist = (storeSlice?: StoreSlice) => {
 
 export const buildStore = (storeSlice?: StoreSlice) => {
   const makeRootReducer = combineReducers({
-    [GLOBAL]: globalReducer,
+    [ORGANIZATION_PREFERENCES]: organizationPreferencesReducer,
   });
 
   return configureStore({

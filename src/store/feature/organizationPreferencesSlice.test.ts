@@ -3,18 +3,22 @@ import {
   addPullRequestAlreadyNotified,
   addWarning,
   cleanWarnings,
-  globalReducer,
+  organizationPreferencesReducer,
   removeWarning,
   savePreferences,
   State,
-} from './globalSlice';
+} from './organizationPreferencesSlice';
 
-describe('store global slice tests', () => {
-  it('initially the global slice with the right state', async () => {
-    const globalState = globalReducer(undefined, {} as AnyAction);
+describe('store organization preferences slice tests', () => {
+  it('initially the slice with the right state', async () => {
+    const globalState = organizationPreferencesReducer(
+      undefined,
+      {} as AnyAction,
+    );
 
     expect(globalState.preferences).toBeUndefined();
     expect(globalState.warnings).toStrictEqual([]);
+    expect(globalState.enabled).toStrictEqual(false);
     expect(globalState.pullRequestsAlreadyNotified).toStrictEqual([]);
   });
 
@@ -22,9 +26,13 @@ describe('store global slice tests', () => {
     const previousState: State = {
       pullRequestsAlreadyNotified: [],
       warnings: ['hi-pr-other'],
+      enabled: true,
       preferences: undefined,
     };
-    const globalState = globalReducer(previousState, addWarning('hi-pr'));
+    const globalState = organizationPreferencesReducer(
+      previousState,
+      addWarning('hi-pr'),
+    );
 
     expect(globalState.preferences).toBeUndefined();
     expect(globalState.warnings).toStrictEqual(['hi-pr-other', 'hi-pr']);
@@ -35,9 +43,13 @@ describe('store global slice tests', () => {
     const previousState: State = {
       pullRequestsAlreadyNotified: [],
       warnings: ['hi-pr'],
+      enabled: true,
       preferences: undefined,
     };
-    const globalState = globalReducer(previousState, addWarning('hi-pr'));
+    const globalState = organizationPreferencesReducer(
+      previousState,
+      addWarning('hi-pr'),
+    );
 
     expect(globalState.preferences).toBeUndefined();
     expect(globalState.warnings).toStrictEqual(['hi-pr']);
@@ -48,9 +60,10 @@ describe('store global slice tests', () => {
     const previousState: State = {
       pullRequestsAlreadyNotified: [],
       warnings: ['hi-pr', 'hi-pr-other'],
+      enabled: true,
       preferences: undefined,
     };
-    const globalState = globalReducer(
+    const globalState = organizationPreferencesReducer(
       previousState,
       removeWarning('hi-pr-other'),
     );
@@ -64,9 +77,13 @@ describe('store global slice tests', () => {
     const previousState: State = {
       pullRequestsAlreadyNotified: [],
       warnings: ['hi-pr', 'hi-pr-other'],
+      enabled: true,
       preferences: undefined,
     };
-    const globalState = globalReducer(previousState, removeWarning('diff'));
+    const globalState = organizationPreferencesReducer(
+      previousState,
+      removeWarning('diff'),
+    );
 
     expect(globalState.preferences).toBeUndefined();
     expect(globalState.warnings).toStrictEqual(['hi-pr', 'hi-pr-other']);
@@ -77,18 +94,22 @@ describe('store global slice tests', () => {
     const previousState: State = {
       pullRequestsAlreadyNotified: [],
       warnings: ['hi-pr', 'hi-pr-other'],
+      enabled: true,
       preferences: {
         username: 'nbentoneves',
+        teamname: 'my-team',
         organization: {
-          owner: 'hi-pr-org',
+          name: 'hi-pr-org',
           token: 'token',
-          teamname: 'my-team',
         },
         repositories: ['hi-pr'],
       },
     };
 
-    const globalState = globalReducer(previousState, cleanWarnings());
+    const globalState = organizationPreferencesReducer(
+      previousState,
+      cleanWarnings(),
+    );
 
     expect(globalState.warnings).toStrictEqual(['hi-pr']);
     expect(globalState.pullRequestsAlreadyNotified).toStrictEqual([]);
@@ -98,9 +119,10 @@ describe('store global slice tests', () => {
     const previousState: State = {
       pullRequestsAlreadyNotified: ['100'],
       warnings: [],
+      enabled: true,
       preferences: undefined,
     };
-    const globalState = globalReducer(
+    const globalState = organizationPreferencesReducer(
       previousState,
       addPullRequestAlreadyNotified('200'),
     );
@@ -113,24 +135,25 @@ describe('store global slice tests', () => {
     ]);
   });
 
-  it('save a preferences', () => {
+  it('save preferences', () => {
     const previousState: State = {
       pullRequestsAlreadyNotified: [],
       warnings: [],
+      enabled: true,
       preferences: undefined,
     };
 
     const preferences = {
       username: 'nbentoneves',
+      teamname: 'my-team',
       organization: {
-        owner: 'hi-pr-org',
+        name: 'hi-pr-org',
         token: 'token',
-        teamname: 'my-team',
       },
       repositories: ['hi-pr', 'hi-pr-other'],
     };
 
-    const globalState = globalReducer(
+    const globalState = organizationPreferencesReducer(
       previousState,
       savePreferences(preferences),
     );

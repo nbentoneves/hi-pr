@@ -12,7 +12,7 @@ jest.mock('./components/Preferences', () => {
 jest.mock('./assets/images/logo.png');
 
 describe('App render component', () => {
-  it('check content section', async () => {
+  it('check content section', () => {
     render(<App />);
 
     expect(
@@ -20,7 +20,7 @@ describe('App render component', () => {
     ).toBeVisible();
   });
 
-  it('check footer section', async () => {
+  it('check footer section', () => {
     render(<App />);
 
     expect(screen.queryByText('hello-content')).toBeVisible();

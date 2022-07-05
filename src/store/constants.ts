@@ -1,1 +1,1 @@
-export const GLOBAL = 'store:global';
+export const ORGANIZATION_PREFERENCES = 'store:organizationPreferences';

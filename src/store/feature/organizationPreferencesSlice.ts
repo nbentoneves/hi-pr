@@ -1,15 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import _ from 'lodash';
-import { GLOBAL } from '../constants';
+import { ORGANIZATION_PREFERENCES } from '../constants';
 
 // Define a type for the slice state
 export type Preferences = {
   username?: string;
+  teamname?: string;
   organization?: {
-    owner: string;
+    name: string;
     // TODO: Encrypt token
     token: string;
-    teamname?: string;
   };
   repositories: string[];
 };
@@ -17,6 +17,7 @@ export type Preferences = {
 export type State = {
   pullRequestsAlreadyNotified: string[];
   warnings: string[];
+  enabled: boolean;
   preferences?: Preferences;
 };
 
@@ -24,13 +25,17 @@ export type State = {
 const initialState: State = {
   pullRequestsAlreadyNotified: [],
   warnings: [],
+  enabled: false,
   preferences: undefined,
 };
 
 const slice = createSlice({
-  name: GLOBAL,
+  name: ORGANIZATION_PREFERENCES,
   initialState,
   reducers: {
+    setEnabled: (state, action: PayloadAction<boolean>) => {
+      state.enabled = action.payload;
+    },
     addWarning: (state, action: PayloadAction<string>) => {
       if (!state.warnings.find((warn) => warn === action.payload)) {
         state.warnings = [...state.warnings, action.payload];
@@ -65,6 +70,7 @@ const slice = createSlice({
 });
 
 export const {
+  setEnabled,
   addWarning,
   removeWarning,
   cleanWarnings,
@@ -72,4 +78,4 @@ export const {
   savePreferences,
 } = slice.actions;
 
-export const { reducer: globalReducer } = slice;
+export const { reducer: organizationPreferencesReducer } = slice;

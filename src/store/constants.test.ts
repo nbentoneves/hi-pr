@@ -1,7 +1,7 @@
-import { GLOBAL } from './constants';
+import { ORGANIZATION_PREFERENCES } from './constants';
 
 describe('store constants tests', () => {
   it('check the constants value', () => {
-    expect(GLOBAL).toBe('store:global');
+    expect(ORGANIZATION_PREFERENCES).toBe('store:organizationPreferences');
   });
 });

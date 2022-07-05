@@ -1,9 +1,9 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import { GLOBAL } from './constants';
+import { ORGANIZATION_PREFERENCES } from './constants';
 
-import { globalReducer } from './feature/globalSlice';
+import { organizationPreferencesReducer } from './feature/organizationPreferencesSlice';
 
 const persistConfig = {
   key: 'root',
@@ -11,7 +11,7 @@ const persistConfig = {
 };
 
 const makeRootReducer = combineReducers({
-  [GLOBAL]: globalReducer,
+  [ORGANIZATION_PREFERENCES]: organizationPreferencesReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, makeRootReducer);

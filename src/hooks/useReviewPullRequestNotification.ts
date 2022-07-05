@@ -1,5 +1,5 @@
-import { GLOBAL } from '../store/constants';
-import { addPullRequestAlreadyNotified } from '../store/feature/globalSlice';
+import { ORGANIZATION_PREFERENCES } from '../store/constants';
+import { addPullRequestAlreadyNotified } from '../store/feature/organizationPreferencesSlice';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 
 const NOTIFICATION_USERNAME_REQUESTED_REVIEW =
@@ -10,7 +10,7 @@ const NOTIFICATION_TEAM_REQUESTED_REVIEW =
 const useReviewPullRequestNotification = () => {
   const dispatch = useAppDispatch();
   const pullRequestsAlreadyNotified = useAppSelector(
-    (state) => state[GLOBAL].pullRequestsAlreadyNotified,
+    (state) => state[ORGANIZATION_PREFERENCES].pullRequestsAlreadyNotified,
   );
 
   const triggerNotificationUsername = (id: number, url: string) => {
