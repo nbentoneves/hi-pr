@@ -9,7 +9,9 @@ import {
 describe('Hi-PR! - Notification test', () => {
   const capabilities = {
     'goog:chromeOptions': {
-      binary: path.resolve('./dist-e2e/mac/Hi-PR!.app/Contents/MacOS/Hi-PR!'),
+      binary: path.resolve(
+        './dist-e2e/mac-arm64/Hi-PR!.app/Contents/MacOS/Hi-PR!',
+      ),
       prefs: {
         profile: {
           content_settings: {
@@ -30,131 +32,149 @@ describe('Hi-PR! - Notification test', () => {
     },
   };
 
-  afterEach(() => {
-    resetMockCustomRoutesVariants();
-  });
+  describe('using organization tab', () => {
+    afterEach(() => {
+      resetMockCustomRoutesVariants();
+    });
 
-  it('get a notification for an username review a pull request', async () => {
-    const driver = await new webdriver.Builder()
-      .usingServer('http://localhost:9515')
-      .withCapabilities(capabilities)
-      .forBrowser('chrome')
-      .build();
+    it('get a notification for an username review a pull request', async () => {
+      const driver = await new webdriver.Builder()
+        .usingServer('http://localhost:9515')
+        .withCapabilities(capabilities)
+        .forBrowser('chrome')
+        .build();
 
-    try {
-      setMockCustomRoutesVariants(
-        'github-pull-requests:success-with-pull-requests-to-review-user',
-      );
+      try {
+        setMockCustomRoutesVariants(
+          'github-pull-requests:success-with-pull-requests-to-user-review',
+        );
 
-      await driver
-        .findElement(webdriver.By.id('preferences_user_username'))
-        .sendKeys('nbentoneves');
+        await driver.findElement(webdriver.By.id('rc-tabs-0-tab-2')).click();
 
-      // TODO: Check why .sendKeys('hi-pr', Key.ENTER, Key.ESCAPE) is not working
-      await driver
-        .findElement(webdriver.By.id('preferences_preferences_repositories'))
-        .sendKeys('hi-pr');
+        await driver
+          .findElement(webdriver.By.id('preferences_isEnabled'))
+          .click();
 
-      await driver
-        .findElement(webdriver.By.id('preferences_preferences_repositories'))
-        .sendKeys(Key.ENTER);
+        await driver
+          .findElement(webdriver.By.id('preferences_username'))
+          .sendKeys('nbentoneves');
 
-      await driver
-        .findElement(webdriver.By.id('preferences_preferences_repositories'))
-        .sendKeys(Key.ESCAPE);
+        await driver
+          .findElement(webdriver.By.id('preferences_token'))
+          .sendKeys('gh_token');
 
-      await driver
-        .findElement(
-          webdriver.By.xpath('//button[@data-testid="on-save-button"]'),
-        )
-        .click();
+        await driver
+          .findElement(webdriver.By.id('preferences_organization'))
+          .sendKeys('hi-pr-org');
 
-      await inquirer
-        .prompt({
-          type: 'confirm',
-          message:
-            'Did you see one notification with the following message: "You have an user pull request to review: <url>"?',
-          name: 'result',
-        })
-        .then((answers) => {
-          if (!answers.result) {
-            throw new Error(
-              'Expected an user notification with the following message: "You have an user pull request to review: <url>"!',
-            );
-          }
-        });
-    } finally {
-      driver.quit();
-    }
-  });
+        // TODO: Check why .sendKeys('hi-pr', Key.ENTER, Key.ESCAPE) is not working
+        await driver
+          .findElement(webdriver.By.id('preferences_repositories'))
+          .sendKeys('hi-pr');
 
-  it('get a notification for a team review a pull request', async () => {
-    const driver = await new webdriver.Builder()
-      .usingServer('http://localhost:9515')
-      .withCapabilities(capabilities)
-      .forBrowser('chrome')
-      .build();
+        await driver
+          .findElement(webdriver.By.id('preferences_repositories'))
+          .sendKeys(Key.ENTER);
 
-    try {
-      setMockCustomRoutesVariants(
-        'github-pull-requests:success-with-pull-requests-to-review-team',
-      );
+        await driver
+          .findElement(webdriver.By.id('preferences_repositories'))
+          .sendKeys(Key.ESCAPE);
 
-      await driver
-        .findElement(webdriver.By.id('preferences_user_username'))
-        .sendKeys('nbentoneves');
+        await driver
+          .findElement(
+            webdriver.By.xpath('//button[@data-testid="on-save-button"]'),
+          )
+          .click();
 
-      // TODO: Check why .sendKeys('hi-pr', Key.ENTER, Key.ESCAPE) is not working
-      await driver
-        .findElement(webdriver.By.id('preferences_preferences_repositories'))
-        .sendKeys('hi-pr');
+        await inquirer
+          .prompt({
+            type: 'confirm',
+            message:
+              'Did you see one notification with the following message: "You have an user pull request to review: <url>"?',
+            name: 'result',
+          })
+          .then((answers) => {
+            if (!answers.result) {
+              throw new Error(
+                'Expected an user notification with the following message: "You have an user pull request to review: <url>"!',
+              );
+            }
+          });
+      } finally {
+        driver.quit();
+      }
+    });
 
-      await driver
-        .findElement(webdriver.By.id('preferences_preferences_repositories'))
-        .sendKeys(Key.ENTER);
+    it('get a notification for a team review a pull request', async () => {
+      const driver = await new webdriver.Builder()
+        .usingServer('http://localhost:9515')
+        .withCapabilities(capabilities)
+        .forBrowser('chrome')
+        .build();
 
-      await driver
-        .findElement(webdriver.By.id('preferences_preferences_repositories'))
-        .sendKeys(Key.ESCAPE);
+      try {
+        setMockCustomRoutesVariants(
+          'github-pull-requests:success-with-pull-requests-to-team-review',
+        );
 
-      await driver
-        .findElement(webdriver.By.id('preferences_organization_isOrganization'))
-        .click();
+        await driver.findElement(webdriver.By.id('rc-tabs-0-tab-2')).click();
 
-      await driver
-        .findElement(webdriver.By.id('preferences_organization_token'))
-        .sendKeys('github_token');
+        await driver
+          .findElement(webdriver.By.id('preferences_isEnabled'))
+          .click();
 
-      await driver
-        .findElement(webdriver.By.id('preferences_organization_owner'))
-        .sendKeys('my_organization');
+        await driver
+          .findElement(webdriver.By.id('preferences_username'))
+          .sendKeys('nbentoneves');
 
-      await driver
-        .findElement(webdriver.By.id('preferences_organization_teamname'))
-        .sendKeys('Justice League');
+        await driver
+          .findElement(webdriver.By.id('preferences_token'))
+          .sendKeys('gh_token');
 
-      await driver
-        .findElement(
-          webdriver.By.xpath('//button[@data-testid="on-save-button"]'),
-        )
-        .click();
+        await driver
+          .findElement(webdriver.By.id('preferences_teamname'))
+          .sendKeys('Justice League');
 
-      await inquirer
-        .prompt({
-          type: 'confirm',
-          message:
-            'Did you see one notification with the following message: \n"You have a team pull request to review: <url>"?',
-          name: 'result',
-        })
-        .then((answers) => {
-          if (!answers.result) {
-            throw new Error(
-              'Expected a team notification with the following message: \n"You have a team pull request to review: <url>"!',
-            );
-          }
-        });
-    } finally {
-      driver.quit();
-    }
+        await driver
+          .findElement(webdriver.By.id('preferences_organization'))
+          .sendKeys('hi-pr-org');
+
+        // TODO: Check why .sendKeys('hi-pr', Key.ENTER, Key.ESCAPE) is not working
+        await driver
+          .findElement(webdriver.By.id('preferences_repositories'))
+          .sendKeys('hi-pr');
+
+        await driver
+          .findElement(webdriver.By.id('preferences_repositories'))
+          .sendKeys(Key.ENTER);
+
+        await driver
+          .findElement(webdriver.By.id('preferences_repositories'))
+          .sendKeys(Key.ESCAPE);
+
+        await driver
+          .findElement(
+            webdriver.By.xpath('//button[@data-testid="on-save-button"]'),
+          )
+          .click();
+
+        await inquirer
+          .prompt({
+            type: 'confirm',
+            message:
+              'Did you see one notification with the following message: \n"You have a team pull request to review: <url>"?',
+            name: 'result',
+          })
+          .then((answers) => {
+            if (!answers.result) {
+              throw new Error(
+                'Expected a team notification with the following message: \n"You have a team pull request to review: <url>"!',
+              );
+            }
+          });
+      } finally {
+        driver.quit();
+      }
+    });
   });
 });

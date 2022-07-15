@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 export type FormValues = {
   isEnabled: boolean;
-  username?: string;
+  username: string;
   teamname?: string;
   token: string;
   organization: string;
@@ -16,6 +16,7 @@ export type Props = {
 };
 
 const defaultFormValues: FormValues = {
+  username: '',
   isEnabled: false,
   token: '',
   organization: '',
@@ -80,8 +81,8 @@ const FormOrganizationPreferences = ({
         name="username"
         label="Username"
         initialValue={initValues.username}
-        // rules={[{ required: isEnable }]}
-        // required
+        required={isEnabled}
+        rules={[{ required: isEnabled }]}
       >
         <Input data-testid="username-input" disabled={!isEnabled} />
       </FormAntd.Item>

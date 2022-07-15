@@ -18,16 +18,6 @@ module.exports = {
             emoji: '🎡',
             value: 'ci',
         },
-        mix: {
-            description: 'Bunch of changes',
-            emoji: '🌈',
-            value: 'mix',
-        },
-        config: {
-            description: 'Project configuration',
-            emoji: '🔨',
-            value: 'config',
-        },
         docs: {
             description: 'Documentation only changes',
             emoji: '✏️',

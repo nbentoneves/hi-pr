@@ -1,6 +1,8 @@
 {
   "extends": null,
-  "files": ["build/**/*"],
+  "files": [
+    "build/**/*"
+  ],
   "directories": {
     "buildResources": "assets"
   },
@@ -8,7 +10,9 @@
     {
       "from": "src/assets",
       "to": "assets",
-      "filter": ["**/*"]
+      "filter": [
+        "**/*"
+      ]
     }
   ],
   "publish": [
@@ -20,6 +24,17 @@
   ],
   "mac": {
     "icon": "build/icon.png",
-    "publish": ["github"]
+    "target": [
+      {
+        "target": "zip",
+        "arch": [
+          "x64",
+          "arm64"
+        ]
+      }
+    ],
+    "publish": [
+      "github"
+    ]
   }
 }

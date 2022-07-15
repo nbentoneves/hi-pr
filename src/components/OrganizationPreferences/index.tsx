@@ -64,12 +64,12 @@ const OrganizationPreferences = () => {
       return {
         queryKey: [
           LIST_PULL_REQUESTS,
-          preferences?.username,
-          preferences?.organization,
           repository,
+          preferences?.username,
+          preferences?.teamname,
         ],
         queryFn: () => getGithubPullRequests(getOwner(), repository, getAuth()),
-        enabled: !!preferences && isEnabled,
+        enabled: isEnabled,
         retry: false,
         refetchInterval: 0.5 * 60000,
         onError: (error: AxiosError) => {
@@ -129,7 +129,7 @@ const OrganizationPreferences = () => {
       <FormOrganizationPreferences
         initValues={{
           isEnabled,
-          username: preferences?.username,
+          username: preferences?.username || '',
           token:
             (isValidOrganization && preferences?.organization?.token) || '',
           organization:
@@ -139,7 +139,6 @@ const OrganizationPreferences = () => {
             preferences !== undefined ? preferences.repositories : [],
         }}
         onSave={(values: FormValues) => {
-          console.log('save values', values);
           dispatch(setEnabled(values.isEnabled));
           dispatch(
             savePreferences({

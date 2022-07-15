@@ -4,7 +4,7 @@ import { ORGANIZATION_PREFERENCES } from '../constants';
 
 // Define a type for the slice state
 export type Preferences = {
-  username?: string;
+  username: string;
   teamname?: string;
   organization?: {
     name: string;

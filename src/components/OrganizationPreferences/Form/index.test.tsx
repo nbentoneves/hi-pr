@@ -68,6 +68,7 @@ describe('Form->OrganizationPreferences render component', () => {
         onSave={onSaveMock}
         initValues={{
           isEnabled: true,
+          username: '',
           token: '',
           organization: '',
           repositories: [],
@@ -79,6 +80,7 @@ describe('Form->OrganizationPreferences render component', () => {
 
     await waitFor(() => {
       expect(screen.queryByText('Token is required!')).toBeVisible();
+      expect(screen.queryByText('Username is required!')).toBeVisible();
       expect(screen.queryByText('Organization is required!')).toBeVisible();
       expect(screen.queryByText('Repositories is required!')).toBeVisible();
     });

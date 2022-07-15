@@ -1,3 +1,4 @@
+/* eslint-disable testing-library/await-async-query */
 import { State } from 'src/store/feature/organizationPreferencesSlice';
 import { StoreSlice } from '../../testing/test-utils';
 import { ORGANIZATION_PREFERENCES } from '../../store/constants';
