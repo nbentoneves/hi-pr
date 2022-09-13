@@ -4,6 +4,7 @@ import { useState } from 'react';
 export type FormValues = {
   isEnabled: boolean;
   username: string;
+  name: string;
   teamname?: string;
   token: string;
   organization: string;
@@ -17,17 +18,18 @@ export type Props = {
 
 const defaultFormValues: FormValues = {
   username: '',
-  isEnabled: false,
+  name: '',
+  isEnabled: true,
   token: '',
   organization: '',
   repositories: [],
 };
 
-const FormOrganizationPreferences = ({
+const ConfigurationForm = ({
   initValues = defaultFormValues,
   onSave,
 }: Props) => {
-  // TODO: Do not init useState using initValues, change another way
+  // TODO: Do not init useState using initValues, find another way
   const [isEnabled, setIsEnabled] = useState(initValues.isEnabled);
 
   const [form] = Form.useForm();
@@ -76,6 +78,15 @@ const FormOrganizationPreferences = ({
             }
           }}
         />
+      </FormAntd.Item>
+      <FormAntd.Item
+        name="name"
+        label="Name"
+        initialValue={initValues.name}
+        required={isEnabled}
+        rules={[{ required: isEnabled }]}
+      >
+        <Input data-testid="name-input" disabled={!isEnabled} />
       </FormAntd.Item>
       <FormAntd.Item
         name="username"
@@ -140,4 +151,4 @@ const FormOrganizationPreferences = ({
   );
 };
 
-export default FormOrganizationPreferences;
+export default ConfigurationForm;

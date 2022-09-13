@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { QueryClient } from 'react-query';
 import { combineReducers } from 'redux';
-import storage from 'redux-persist/lib/storage';
 import persistReducer from 'redux-persist/lib/persistReducer';
-import { ORGANIZATION_PREFERENCES } from '../store/constants';
-import { organizationPreferencesReducer } from '../store/feature/organizationPreferencesSlice';
+import storage from 'redux-persist/lib/storage';
+import { githubReducer } from '../store/feature/githubSlice';
+import { GITHUB_CONFIGURATIONS } from '../store/constants';
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -26,7 +26,7 @@ export const buildStoreWithPersist = (storeSlice?: StoreSlice) => {
   };
 
   const makeRootReducer = combineReducers({
-    [ORGANIZATION_PREFERENCES]: organizationPreferencesReducer,
+    [GITHUB_CONFIGURATIONS]: githubReducer,
   });
 
   const persistedReducer = persistReducer(persistConfig, makeRootReducer);
@@ -41,7 +41,7 @@ export const buildStoreWithPersist = (storeSlice?: StoreSlice) => {
 
 export const buildStore = (storeSlice?: StoreSlice) => {
   const makeRootReducer = combineReducers({
-    [ORGANIZATION_PREFERENCES]: organizationPreferencesReducer,
+    [GITHUB_CONFIGURATIONS]: githubReducer,
   });
 
   return configureStore({

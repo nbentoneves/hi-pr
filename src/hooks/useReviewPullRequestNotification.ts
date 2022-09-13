@@ -1,5 +1,5 @@
-import { ORGANIZATION_PREFERENCES } from '../store/constants';
-import { addPullRequestAlreadyNotified } from '../store/feature/organizationPreferencesSlice';
+import { GITHUB_CONFIGURATIONS } from '../store/constants';
+import { addPullRequestAlreadyNotified } from '../store/feature/githubSlice';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 
 const NOTIFICATION_USERNAME_REQUESTED_REVIEW =
@@ -10,7 +10,7 @@ const NOTIFICATION_TEAM_REQUESTED_REVIEW =
 const useReviewPullRequestNotification = () => {
   const dispatch = useAppDispatch();
   const pullRequestsAlreadyNotified = useAppSelector(
-    (state) => state[ORGANIZATION_PREFERENCES].pullRequestsAlreadyNotified,
+    (state) => state[GITHUB_CONFIGURATIONS].pullRequestsAlreadyNotified,
   );
 
   const triggerNotificationUsername = (id: number, url: string) => {
