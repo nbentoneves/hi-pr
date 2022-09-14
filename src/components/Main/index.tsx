@@ -127,7 +127,8 @@ const Main = () => {
   };
 
   const getOwner = (config: Configuration) => {
-    return config.organization?.name || '';
+    // FIXME: Enable configuration for non-organizations
+    return config.organization?.name || config.username;
   };
 
   const getAuth = (config: Configuration): Auth | undefined => {
@@ -148,12 +149,13 @@ const Main = () => {
         queryFn: () =>
           getGithubPullRequests(
             getOwner(config),
+            // FIXME: Enable configuration for multiple repositories
             config.repositories[0],
             getAuth(config),
           ),
         enabled: config.enabled,
         retry: false,
-        refetchInterval: 0.5 * 60000,
+        refetchInterval: 10 * 1000,
         onError: (error: AxiosError) => {
           /**
            * TODO: Change error message when error is:

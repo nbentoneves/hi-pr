@@ -104,21 +104,13 @@ const ConfigurationForm = ({
       >
         <Input data-testid="teamname-input" disabled={!isEnabled} />
       </FormAntd.Item>
-      <FormAntd.Item
-        name="token"
-        label="Token"
-        initialValue={initValues.token}
-        required={isEnabled}
-        rules={[{ required: isEnabled }]}
-      >
+      <FormAntd.Item name="token" label="Token" initialValue={initValues.token}>
         <Input.Password data-testid="token-input" disabled={!isEnabled} />
       </FormAntd.Item>
       <FormAntd.Item
         name="organization"
         label="Organization"
         initialValue={initValues.organization}
-        required={isEnabled}
-        rules={[{ required: isEnabled }]}
       >
         <Input data-testid="organization-input" disabled={!isEnabled} />
       </FormAntd.Item>
