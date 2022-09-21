@@ -94,7 +94,7 @@ describe('Hi-PR! - Notification Github Test', () => {
       }
     });
 
-    it.only('get a notification for a team to review a pull request', async () => {
+    it('get a notification for a team to review a pull request', async () => {
       const driver = await new webdriver.Builder()
         .usingServer('http://localhost:9515')
         .withCapabilities(capabilities)

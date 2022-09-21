@@ -3,22 +3,11 @@
 import { WarningOutlined } from '@ant-design/icons';
 import { Button, Col, Popover, Row, Space, Switch, Table } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
-import { AxiosError } from 'axios';
-import { useQueries } from 'react-query';
 import { Link, useNavigate } from 'react-router-dom';
-import { getGithubPullRequests } from '../../api';
-import { Auth, PullRequest } from '../../api/type';
-import { LIST_PULL_REQUESTS } from '../../hooks/constants';
-import useReviewPullRequestNotification from '../../hooks/useReviewPullRequestNotification';
+import useFetchGithubQueries from 'src/hooks/useFetchGithub';
 import { GITHUB_CONFIGURATIONS } from '../../store/constants';
-import {
-  addWarning,
-  Configuration,
-  removeWarning,
-  switchEnabled,
-} from '../../store/feature/githubSlice';
+import { switchEnabled } from '../../store/feature/githubSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { getPartOfUrlRequest } from '../../utils/httpUtils';
 
 interface DataType {
   key: string;
@@ -27,8 +16,6 @@ interface DataType {
 }
 
 const Main = () => {
-  const notification = useReviewPullRequestNotification();
-
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -126,91 +113,7 @@ const Main = () => {
     return dataSouce;
   };
 
-  const getOwner = (config: Configuration) => {
-    // FIXME: Enable configuration for non-organizations with multiple repositories
-    return config.owner;
-  };
-
-  const getAuth = (config: Configuration): Auth | undefined => {
-    if (config.organization) {
-      return {
-        usename: config.username,
-        token: config.organization.token,
-      };
-    }
-
-    return undefined;
-  };
-
-  useQueries(
-    configurations.map((config) => {
-      return {
-        queryKey: [LIST_PULL_REQUESTS, config.identifier],
-        queryFn: () =>
-          getGithubPullRequests(
-            getOwner(config),
-            // FIXME: Enable configuration for multiple repositories
-            config.repositories[0],
-            getAuth(config),
-          ),
-        enabled: config.enabled,
-        retry: false,
-        refetchInterval: 10 * 1000,
-        onError: (error: AxiosError) => {
-          /**
-           * TODO: Change error message when error is:
-           * Resource protected by organization SAML enforcement.
-           * You must grant your Personal Access token access
-           * to this organization.
-           */
-          if (error.response?.status === 404) {
-            dispatch(
-              addWarning({
-                identifier: config.identifier,
-                repository: getPartOfUrlRequest(error, 5),
-              }),
-            );
-          } else {
-            throw new Error('Unexpected response from provider');
-          }
-        },
-        onSuccess: (data: PullRequest[]) => {
-          data.forEach((pullRequest) => {
-            const requestedRevieres = pullRequest.requestedReviewers.filter(
-              (reviewer) => reviewer.login === config.username,
-            );
-
-            const requestedTeams = pullRequest.requestedTeams.filter(
-              (reviewer) => reviewer.name === config.organization?.teamname,
-            );
-
-            // Logic to trigger notification for pull request username review
-            requestedRevieres.forEach((requested) => {
-              notification.triggerNotificationUsername(
-                requested.id,
-                pullRequest.htmlUrl,
-              );
-            });
-
-            // Logic to trigger notification for pull request team review
-            requestedTeams.forEach((requested) => {
-              notification.triggerNotificationTeam(
-                requested.id,
-                pullRequest.htmlUrl,
-              );
-            });
-          });
-
-          dispatch(
-            removeWarning({
-              identifier: config.identifier,
-              repository: config.name,
-            }),
-          );
-        },
-      };
-    }),
-  );
+  useFetchGithubQueries(configurations);
 
   return (
     <div css={{ marginBottom: '50px' }}>
