@@ -88,9 +88,11 @@ const createTray = (): void => {
 app
   .whenReady()
   .then(() => {
-    installExtension(REDUX_DEVTOOLS)
-      .then((name) => console.log(`Added Extension:  ${name}`))
-      .catch((err) => console.log('An error occurred: ', err));
+    if (!app.isPackaged) {
+      installExtension(REDUX_DEVTOOLS)
+        .then((name) => console.log(`Added Extension:  ${name}`))
+        .catch((err) => console.log('An error occurred: ', err));
+    }
   })
   .then(() => {
     ipcMain.on(NOTIFICATION_REVIEW_PULL_REQUEST, (_, message, link) => {

@@ -12,7 +12,7 @@
             {
               "url": "https://api.github.com/repos/hi-pr-org/hi-pr/pulls/1",
               "id": 965515090,
-              "html_url": "https://github.com/hi-pr-org/hi-pr/pull/1",
+              "html_url": "https://github.com/nbentoneves/hi-pr/pull/1",
               "requested_reviewers": [],
               "requested_teams": []
             }
@@ -25,7 +25,7 @@
           "status": 201,
           "body": [
             {
-              "url": "https://api.github.com/repos/nbentoneves/hi-pr/pulls/1",
+              "url": "https://api.github.com/repos/hi-pr-org/hi-pr/pulls/1",
               "id": 965515090,
               "html_url": "https://github.com/nbentoneves/hi-pr/pull/1",
               "requested_reviewers": [
@@ -45,7 +45,7 @@
           "status": 201,
           "body": [
             {
-              "url": "https://api.github.com/repos/nbentoneves/hi-pr/pulls/1",
+              "url": "https://api.github.com/repos/hi-pr-org/hi-pr/pulls/1",
               "id": 965515090,
               "html_url": "https://github.com/nbentoneves/hi-pr/pull/1",
               "requested_reviewers": [],

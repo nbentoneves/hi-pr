@@ -6,8 +6,8 @@ export type FormValues = {
   username: string;
   name: string;
   teamname?: string;
-  token: string;
-  organization: string;
+  token?: string;
+  owner: string;
   repositories: string[];
 };
 
@@ -21,7 +21,7 @@ const defaultFormValues: FormValues = {
   name: '',
   isEnabled: true,
   token: '',
-  organization: '',
+  owner: '',
   repositories: [],
 };
 
@@ -52,7 +52,7 @@ const ConfigurationForm = ({
         // eslint-disable-next-line no-template-curly-in-string
         required: '${label} is required!',
       }}
-      name="preferences"
+      name="configuraton"
       onFinish={onSave}
     >
       <FormAntd.Item
@@ -70,7 +70,7 @@ const ConfigurationForm = ({
               form.resetFields();
               /**
                * Since store can have the isEnabled as true, the initial value will be true instead of false.
-               * We are forcing to set the isEnabled to false when user disable the preference.
+               * We are forcing to set the isEnabled to false when user disable the configuration.
                */
               form.setFieldsValue({
                 isEnabled: false,
@@ -98,6 +98,15 @@ const ConfigurationForm = ({
         <Input data-testid="username-input" disabled={!isEnabled} />
       </FormAntd.Item>
       <FormAntd.Item
+        name="owner"
+        label="Owner"
+        initialValue={initValues.owner}
+        required={isEnabled}
+        rules={[{ required: isEnabled }]}
+      >
+        <Input data-testid="owner-input" disabled={!isEnabled} />
+      </FormAntd.Item>
+      <FormAntd.Item
         name="teamname"
         label="Team"
         initialValue={initValues.teamname}
@@ -106,13 +115,6 @@ const ConfigurationForm = ({
       </FormAntd.Item>
       <FormAntd.Item name="token" label="Token" initialValue={initValues.token}>
         <Input.Password data-testid="token-input" disabled={!isEnabled} />
-      </FormAntd.Item>
-      <FormAntd.Item
-        name="organization"
-        label="Organization"
-        initialValue={initValues.organization}
-      >
-        <Input data-testid="organization-input" disabled={!isEnabled} />
       </FormAntd.Item>
       <FormAntd.Item
         name="repositories"

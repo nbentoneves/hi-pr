@@ -10,11 +10,11 @@ export type Configuration = {
   name: string;
   enabled: boolean;
   username: string;
-  teamname?: string;
+  owner: string;
   organization?: {
-    name: string;
     // TODO: Encrypt token
     token: string;
+    teamname: string;
   };
   repositories: string[];
 };

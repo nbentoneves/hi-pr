@@ -36,6 +36,7 @@ describe('<App>', () => {
                   name: 'My personal Github',
                   enabled: true,
                   username: 'hi-pr-username',
+                  owner: 'nbentoneves',
                   repositories: ['hi-pr'],
                 },
               ],
@@ -45,7 +46,7 @@ describe('<App>', () => {
 
         cy.clock();
 
-        interceptGithubOnePullRequest('hi-pr-username', 'hi-pr', '1');
+        interceptGithubOnePullRequest('nbentoneves', 'hi-pr', '1');
 
         mount(<App />, buildStoreWithPersist(localInitStatus));
 
@@ -70,6 +71,7 @@ describe('<App>', () => {
                   name: 'My personal Github',
                   enabled: true,
                   username: 'hi-pr-username',
+                  owner: 'nbentoneves',
                   repositories: ['hi-pr'],
                 },
               ],
@@ -79,7 +81,7 @@ describe('<App>', () => {
 
         cy.clock();
 
-        interceptGithubOnePullRequest('hi-pr-username', 'hi-pr', '1');
+        interceptGithubOnePullRequest('nbentoneves', 'hi-pr', '1');
 
         mount(<App />, buildStoreWithPersist(localInitStatus));
 
@@ -91,11 +93,12 @@ describe('<App>', () => {
     it('add a new configuration without organization', () => {
       mount(<App />);
 
-      interceptGithubOnePullRequest('hi-pr-username', 'hi-pr', '1');
+      interceptGithubOnePullRequest('nbentoneves', 'hi-pr', '1');
 
       cy.get('[data-testid="on-new-configuration"]').click();
       cy.get('[data-testid="name-input"]').type('My personal Github');
       cy.get('[data-testid="username-input"]').type('hi-pr-username');
+      cy.get('[data-testid="owner-input"]').type('nbentoneves');
       cy.get('[data-testid="repositories-select"]').type('hi-pr{enter}');
       cy.get('.ant-layout-content').click();
 
@@ -115,13 +118,13 @@ describe('<App>', () => {
     it('add a new configuration with one repository', () => {
       mount(<App />);
 
-      interceptGithubOnePullRequest('hi-pr', 'hi-pr', '1');
+      interceptGithubOnePullRequest('nbentoneves', 'hi-pr', '1');
 
       cy.get('[data-testid="on-new-configuration"]').click();
       cy.get('[data-testid="name-input"]').type('My personal Github');
       cy.get('[data-testid="username-input"]').type('hi-pr-username');
       cy.get('[data-testid="token-input"]').type('github-token');
-      cy.get('[data-testid="organization-input"]').type('hi-pr');
+      cy.get('[data-testid="owner-input"]').type('nbentoneves');
       cy.get('[data-testid="repositories-select"]').type('hi-pr{enter}');
       cy.get('.ant-layout-content').click();
 
@@ -141,14 +144,14 @@ describe('<App>', () => {
     it.skip('add a new configuration with multiple repositories', () => {
       mount(<App />);
 
-      interceptGithubOnePullRequest('hi-pr', 'hi-pr', '1');
-      interceptGithubOnePullRequest('hi-pr', 'typescript', '2');
+      interceptGithubOnePullRequest('nbentoneves', 'hi-pr', '1');
+      interceptGithubOnePullRequest('nbentoneves', 'typescript', '2');
 
       cy.get('[data-testid="on-new-configuration"]').click();
       cy.get('[data-testid="name-input"]').type('My personal Github');
       cy.get('[data-testid="username-input"]').type('hi-pr-username');
       cy.get('[data-testid="token-input"]').type('github-token');
-      cy.get('[data-testid="organization-input"]').type('hi-pr');
+      cy.get('[data-testid="owner-input"]').type('nbentoneves');
       cy.get('[data-testid="repositories-select"]').type('hi-pr{enter}');
       cy.get('[data-testid="repositories-select"]').type('typescript{enter}');
       cy.get('.ant-layout-content').click();
@@ -176,6 +179,7 @@ describe('<App>', () => {
                 name: 'My personal Github',
                 enabled: true,
                 username: 'hi-pr-username',
+                owner: 'nbentoneves',
                 repositories: ['hi-pr'],
               },
             ],
@@ -183,8 +187,8 @@ describe('<App>', () => {
         },
       });
 
-      interceptGithubOnePullRequest('hi-pr-username', 'hi-pr', '1');
-      interceptGithubOnePullRequest('hi-pr-new-username', 'hi-pr', '2');
+      interceptGithubOnePullRequest('nbentoneves', 'hi-pr', '1');
+      interceptGithubOnePullRequest('nbentoneves-new-owner', 'hi-pr', '2');
 
       mount(<App />, buildStoreWithPersist(localInitStatus));
 
@@ -202,19 +206,15 @@ describe('<App>', () => {
         'have.value',
         'My personal Github',
       );
-      cy.get('[data-testid="username-input"]').should(
-        'have.value',
-        'hi-pr-username',
-      );
-      cy.get('[data-testid="organization-input"]').should('have.value', '');
+      cy.get('[data-testid="owner-input"]').should('have.value', 'nbentoneves');
 
       cy.get('[data-testid="name-input"]')
         .clear()
         .type('My personal Github - Updated');
 
-      cy.get('[data-testid="username-input"]')
+      cy.get('[data-testid="owner-input"]')
         .clear()
-        .type('hi-pr-new-username');
+        .type('nbentoneves-new-owner');
 
       cy.get('[data-testid=on-save-button]').click();
 
@@ -233,6 +233,7 @@ describe('<App>', () => {
                 name: 'My personal Github',
                 enabled: true,
                 username: 'hi-pr-username',
+                owner: 'nbentoneves',
                 repositories: ['hi-pr'],
               },
             ],
@@ -240,7 +241,7 @@ describe('<App>', () => {
         },
       });
 
-      interceptGithubOnePullRequest('hi-pr-username', 'hi-pr', '1');
+      interceptGithubOnePullRequest('nbentoneves', 'hi-pr', '1');
 
       mount(<App />, buildStoreWithPersist(localInitStatus));
 

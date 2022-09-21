@@ -53,9 +53,9 @@ describe('Main render component', () => {
             enabled: false,
             name: 'github-1',
             username: 'new-nbentoneves',
-            teamname: 'my-team',
+            owner: 'hi-pr-org',
             organization: {
-              name: 'hi-pr-org',
+              teamname: 'my-team',
               token: 'token',
             },
           } as ConfigSlice,

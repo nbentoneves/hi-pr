@@ -23,10 +23,7 @@ describe('ConfigurationForm render component', () => {
     expect(screen.getByTestId('username-input')).toHaveAttribute('value', '');
     expect(screen.getByTestId('teamname-input')).toHaveAttribute('value', '');
     expect(screen.getByTestId('token-input')).toHaveAttribute('value', '');
-    expect(screen.getByTestId('organization-input')).toHaveAttribute(
-      'value',
-      '',
-    );
+    expect(screen.getByTestId('owner-input')).toHaveAttribute('value', '');
   });
 
   it('save from using initial values', async () => {
@@ -39,7 +36,7 @@ describe('ConfigurationForm render component', () => {
           isEnabled: true,
           name: 'config 0',
           username: 'test_username',
-          organization: 'my_company',
+          owner: 'my_company',
           token: 'github_token',
           teamname: 'test_teamname',
           repositories: ['my_repository', 'my_repository_2'],
@@ -73,7 +70,7 @@ describe('ConfigurationForm render component', () => {
           name: '',
           username: '',
           token: '',
-          organization: '',
+          owner: '',
           repositories: [],
         }}
       />,
@@ -82,9 +79,9 @@ describe('ConfigurationForm render component', () => {
     fireEvent.submit(screen.getByTestId('on-save-button'));
 
     await waitFor(() => {
-      expect(screen.queryByText('Token is required!')).toBeVisible();
+      expect(screen.queryByText('Name is required!')).toBeVisible();
+      expect(screen.queryByText('Owner is required!')).toBeVisible();
       expect(screen.queryByText('Username is required!')).toBeVisible();
-      expect(screen.queryByText('Organization is required!')).toBeVisible();
       expect(screen.queryByText('Repositories is required!')).toBeVisible();
     });
   });
@@ -116,7 +113,7 @@ describe('ConfigurationForm render component', () => {
           value: 'github_token',
         },
       });
-      fireEvent.change(screen.getByTestId('organization-input'), {
+      fireEvent.change(screen.getByTestId('owner-input'), {
         target: {
           value: 'my_company',
         },
@@ -157,7 +154,7 @@ describe('ConfigurationForm render component', () => {
             isEnabled: true,
             name: 'config 0',
             username: 'test_username',
-            organization: 'my_company',
+            owner: 'my_company',
             token: 'github_token',
             teamname: 'test_teamname',
             repositories: ['my_repository'],

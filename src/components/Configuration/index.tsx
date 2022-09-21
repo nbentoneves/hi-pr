@@ -25,17 +25,23 @@ const Configuration = () => {
     configurations && configurations.find((it) => it.identifier === identifier);
 
   const handleOnSave = (values: FormValues) => {
+    let organization;
+
+    if (values.teamname && values.token) {
+      organization = {
+        teamname: values.teamname,
+        token: values.token,
+      };
+    }
+
     dispatch(
       saveConfiguration({
         identifier: uuidv4(),
         name: values.name,
         enabled: values.isEnabled,
         username: values.username,
-        teamname: values.teamname,
-        organization: {
-          name: values.organization,
-          token: values.token,
-        },
+        owner: values.owner,
+        organization,
         repositories: values.repositories,
       }),
     );
@@ -44,17 +50,23 @@ const Configuration = () => {
 
   const handleOnEdit = (values: FormValues) => {
     if (identifier) {
+      let organization;
+
+      if (values.teamname && values.token) {
+        organization = {
+          teamname: values.teamname,
+          token: values.token,
+        };
+      }
+
       dispatch(
         editConfiguration({
           identifier,
           name: values.name,
           enabled: values.isEnabled,
           username: values.username,
-          teamname: values.teamname,
-          organization: {
-            name: values.organization,
-            token: values.token,
-          },
+          owner: values.owner,
+          organization,
           repositories: values.repositories,
         }),
       );
@@ -85,9 +97,9 @@ const Configuration = () => {
                 isEnabled: configuration.enabled,
                 name: configuration.name,
                 username: configuration.username,
-                teamname: configuration.teamname,
+                teamname: configuration.organization?.teamname || '',
                 token: configuration.organization?.token || '',
-                organization: configuration.organization?.name || '',
+                owner: configuration.owner,
                 repositories: configuration.repositories,
               }}
             />

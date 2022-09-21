@@ -127,14 +127,14 @@ const Main = () => {
   };
 
   const getOwner = (config: Configuration) => {
-    // FIXME: Enable configuration for non-organizations
-    return config.organization?.name || config.username;
+    // FIXME: Enable configuration for non-organizations with multiple repositories
+    return config.owner;
   };
 
   const getAuth = (config: Configuration): Auth | undefined => {
     if (config.organization) {
       return {
-        usename: config.organization.name,
+        usename: config.username,
         token: config.organization.token,
       };
     }
@@ -181,7 +181,7 @@ const Main = () => {
             );
 
             const requestedTeams = pullRequest.requestedTeams.filter(
-              (reviewer) => reviewer.name === config.teamname,
+              (reviewer) => reviewer.name === config.organization?.teamname,
             );
 
             // Logic to trigger notification for pull request username review
