@@ -3,16 +3,18 @@ import { render, screen } from './testing/test-unit-render';
 
 const today = new Date();
 
-jest.mock('./components/Preferences', () => {
+jest.mock('react-router-dom', () => {
+  const originalModule = jest.requireActual('react-router-dom');
   return {
     __esModule: true,
-    default: () => <div>hello-content</div>,
+    ...originalModule,
+    Routes: () => <div>routes</div>,
   };
 });
 jest.mock('./assets/images/logo.png');
 
 describe('App render component', () => {
-  it('check content section', async () => {
+  it('check content section', () => {
     render(<App />);
 
     expect(
@@ -20,9 +22,9 @@ describe('App render component', () => {
     ).toBeVisible();
   });
 
-  it('check footer section', async () => {
+  it('check footer section', () => {
     render(<App />);
 
-    expect(screen.queryByText('hello-content')).toBeVisible();
+    expect(screen.queryByText('routes')).toBeVisible();
   });
 });

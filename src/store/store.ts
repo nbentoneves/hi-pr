@@ -1,9 +1,8 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import { GLOBAL } from './constants';
-
-import { globalReducer } from './feature/globalSlice';
+import { GITHUB_CONFIGURATIONS } from './constants';
+import { githubReducer } from './feature/githubSlice';
 
 const persistConfig = {
   key: 'root',
@@ -11,7 +10,7 @@ const persistConfig = {
 };
 
 const makeRootReducer = combineReducers({
-  [GLOBAL]: globalReducer,
+  [GITHUB_CONFIGURATIONS]: githubReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, makeRootReducer);

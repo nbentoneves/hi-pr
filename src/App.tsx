@@ -1,8 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import { Layout } from 'antd';
 import { Content, Footer, Header } from 'antd/lib/layout/layout';
+import { Route, Routes } from 'react-router-dom';
 import logo from './assets/images/logo.png';
-import Preferences from './components/Preferences';
+import Configuration from './components/Configuration';
+import Main from './components/Main';
 
 const today = new Date();
 
@@ -23,7 +25,12 @@ const App = () => {
         />
       </Header>
       <Content css={{ padding: '0 50px', marginTop: 10 }}>
-        <Preferences />
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route path="/configuration" element={<Configuration />}>
+            <Route path=":identifier" element={<Configuration />} />
+          </Route>
+        </Routes>
       </Content>
       <Footer css={{ textAlign: 'center', background: '#fff' }}>
         Designed by © Hi-PR! {today.getFullYear()}

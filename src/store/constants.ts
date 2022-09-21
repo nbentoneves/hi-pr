@@ -1,1 +1,1 @@
-export const GLOBAL = 'store:global';
+export const GITHUB_CONFIGURATIONS = 'store:gitlabConfigurations';

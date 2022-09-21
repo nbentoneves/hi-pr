@@ -1,12 +1,13 @@
-import { GLOBAL } from './constants';
+import { GITHUB_CONFIGURATIONS } from './constants';
 import { store } from './store';
 
 describe('store tests', () => {
-  it('check initial state store', () => {
-    const myStore = store.getState()[GLOBAL];
+  it('check initial github state store', () => {
+    const myGithubStore = store.getState()[GITHUB_CONFIGURATIONS];
 
-    expect(myStore.preferences).toBeUndefined();
-    expect(myStore.pullRequestsAlreadyNotified).toStrictEqual([]);
-    expect(myStore.warnings).toStrictEqual([]);
+    expect(myGithubStore.configurations).toStrictEqual([]);
+    expect(myGithubStore.pullRequestsAlreadyNotified).toStrictEqual([]);
+    expect(myGithubStore.type).toStrictEqual('github');
+    expect(myGithubStore.warnings).toStrictEqual([]);
   });
 });

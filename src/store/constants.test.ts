@@ -1,7 +1,7 @@
-import { GLOBAL } from './constants';
+import { GITHUB_CONFIGURATIONS } from './constants';
 
 describe('store constants tests', () => {
   it('check the constants value', () => {
-    expect(GLOBAL).toBe('store:global');
+    expect(GITHUB_CONFIGURATIONS).toBe('store:gitlabConfigurations');
   });
 });

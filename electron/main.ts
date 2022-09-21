@@ -1,5 +1,6 @@
 import { app, BrowserWindow, ipcMain, Menu, nativeImage, Tray } from 'electron';
 import path from 'path';
+import installExtension, { REDUX_DEVTOOLS } from 'electron-devtools-installer';
 import {
   basicNotificationWithActionLink,
   NOTIFICATION_REVIEW_PULL_REQUEST,
@@ -23,8 +24,8 @@ let tray: Tray;
 const createWindow = (): void => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    height: 600,
-    width: 800,
+    height: 800,
+    width: 600,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
@@ -86,6 +87,13 @@ const createTray = (): void => {
 // Some APIs can only be used after this event occurs.
 app
   .whenReady()
+  .then(() => {
+    if (!app.isPackaged) {
+      installExtension(REDUX_DEVTOOLS)
+        .then((name) => console.log(`Added Extension:  ${name}`))
+        .catch((err) => console.log('An error occurred: ', err));
+    }
+  })
   .then(() => {
     ipcMain.on(NOTIFICATION_REVIEW_PULL_REQUEST, (_, message, link) => {
       basicNotificationWithActionLink(

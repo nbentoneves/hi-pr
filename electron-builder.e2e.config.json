@@ -12,15 +12,18 @@
       "filter": ["**/*"]
     }
   ],
-  "publish": [
-    {
-      "provider": "github",
-      "owner": "nbentoneves",
-      "repo": "hi-pr"
-    }
-  ],
   "mac": {
     "icon": "build/icon.png",
-    "publish": ["github"]
+    "target": [
+      {
+        "target": "dir",
+        "arch": [
+          "arm64"
+        ]
+      }
+    ],
+    "publish": [
+      "github"
+    ]
   }
 }
