@@ -18,7 +18,7 @@
     "cypress:open": "cypress open --component",
     "cypress:component-test": "cypress run --component",
     "electron:postinstall": "electron-builder install-app-deps",
-    "electron:dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://127.0.0.1:3000 && tsc -p electron -w\" \"wait-on http://127.0.0.1:3000 && tsc -p electron && electron .\"",
+    "electron:dev": "concurrently \"cross-env BROWSER=none REACT_APP_MOCK_SERVER_ENABLED=TRUE yarn start\" \"wait-on http://127.0.0.1:3000 && tsc -p electron -w\" \"wait-on http://127.0.0.1:3000 && tsc -p electron && electron .\"",
     "electron:build": "yarn build && tsc -p electron && electron-builder --config electron-builder.config.json",
     "electron:build-e2e": "REACT_APP_MOCK_SERVER_ENABLED=TRUE yarn build && tsc -p electron && electron-builder --config electron-builder.e2e.config.json",
     "run:chromedriver": "chromedriver",

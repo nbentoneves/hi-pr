@@ -28,7 +28,7 @@ const getAuth = (config: Configuration): Auth | undefined => {
   return undefined;
 };
 
-const useFetchGithubQueries = (configurations: Configuration[]) => {
+export const useFetchGithubQueries = (configurations: Configuration[]) => {
   const notification = useReviewPullRequestNotification();
   const dispatch = useAppDispatch();
 
@@ -102,5 +102,3 @@ const useFetchGithubQueries = (configurations: Configuration[]) => {
     }),
   );
 };
-
-export default useFetchGithubQueries;

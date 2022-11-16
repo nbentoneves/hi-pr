@@ -34,14 +34,15 @@ this way, you only need to run the following command to install all the necessar
 e.g: ./yarn run install && yarn run electron:postinstall
 ```
 
-> You can use the `mock-server` to help when you are developing, you only need to set the env property `REACT_APP_MOCK_SERVER_ENABLED=true`
+> You can use the `mock-server` to help when you are developing, you only need to set the env property `REACT_APP_MOCK_SERVER_ENABLED=TRUE`
 
 ## Run ▶️
 
-To run the application, locally, you will need to run the following command:
+To run the application, locally, you will need to run the `electron:dev` and `run:mock-server`:
 
 ```
-yarn run electron:dev
+yarn electron:dev
+yarn run:mock-server
 ```
 
 > This command will run concurrently the necessary commands to run `reactjs` and `electronjs`.

@@ -4,7 +4,7 @@ import { WarningOutlined } from '@ant-design/icons';
 import { Button, Col, Popover, Row, Space, Switch, Table } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
 import { Link, useNavigate } from 'react-router-dom';
-import useFetchGithubQueries from 'src/hooks/useFetchGithub';
+import { useFetchGithubQueries } from 'src/hooks/useFetchGithub';
 import { GITHUB_CONFIGURATIONS } from '../../store/constants';
 import { switchEnabled } from '../../store/feature/githubSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
