@@ -3,10 +3,13 @@
 import { WarningOutlined } from '@ant-design/icons';
 import { Button, Col, Popover, Row, Space, Switch, Table } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useFetchGithubQueries } from 'src/hooks/useFetchGithub';
 import { GITHUB_CONFIGURATIONS } from '../../store/constants';
-import { switchEnabled } from '../../store/feature/githubSlice';
+import {
+  deleteConfiguration,
+  switchEnabled,
+} from '../../store/feature/githubSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 
 interface DataType {
@@ -51,18 +54,18 @@ const Main = () => {
       key: 'action',
       render: (_, record) => (
         <Space size="middle">
-          <Link
+          <Button
             data-testid={`update-config-${record.key}`}
-            to={`/configuration/${record.key}`}
+            onClick={() => navigate(`/configuration/${record.key}`)}
           >
             Update
-          </Link>
-          <Link
+          </Button>
+          <Button
             data-testid={`delete-config-${record.key}`}
-            to={`/configuration/${record.key}/delete`}
+            onClick={() => dispatch(deleteConfiguration(record.key))}
           >
             Delete
-          </Link>
+          </Button>
         </Space>
       ),
     },

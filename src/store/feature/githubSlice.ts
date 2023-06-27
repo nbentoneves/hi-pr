@@ -117,6 +117,15 @@ const slice = createSlice({
         state.configurations[configurationIndex] = action.payload;
       }
     },
+    deleteConfiguration: (state, action: PayloadAction<string>) => {
+      const configurationIndex = state.configurations.findIndex(
+        (it) => it.identifier === action.payload,
+      );
+
+      if (configurationIndex !== -1) {
+        state.configurations.splice(configurationIndex, 1);
+      }
+    },
   },
 });
 
@@ -128,6 +137,7 @@ export const {
   addPullRequestAlreadyNotified,
   saveConfiguration,
   editConfiguration,
+  deleteConfiguration,
 } = slice.actions;
 
 export const { reducer: githubReducer } = slice;

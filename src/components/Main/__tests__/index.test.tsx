@@ -1,5 +1,4 @@
 import update from 'immutability-helper';
-import { useNavigate, useParams } from 'react-router-dom';
 import Main from '..';
 import { GITHUB_CONFIGURATIONS } from '../../../store/constants';
 import {
@@ -13,7 +12,9 @@ import {
   screen,
   waitFor,
 } from '../../../testing/test-unit-render';
-import { buildStore, StoreSlice } from '../../../testing/test-utils';
+import { StoreSlice, buildStore } from '../../../testing/test-utils';
+
+const mockUseNavigate = jest.fn();
 
 jest.mock('../../../hooks/useReviewPullRequestNotification', () => {
   return jest.fn(() => ({
@@ -22,16 +23,13 @@ jest.mock('../../../hooks/useReviewPullRequestNotification', () => {
   }));
 });
 
-jest.mock('react-router-dom', () => {
-  const originalModule = jest.requireActual('react-router-dom');
-  return {
-    __esModule: true,
-    ...originalModule,
-    useParams: jest.fn(),
-    useNavigate: jest.fn(),
-    useHref: jest.fn(),
-  };
-});
+jest.mock('react-router-dom', () => ({
+  __esModule: true,
+  ...jest.requireActual('react-router-dom'),
+  useParams: jest.fn(),
+  useNavigate: () => mockUseNavigate,
+  useHref: jest.fn(),
+}));
 
 describe('Main render component', () => {
   const useDispatchMock = jest.spyOn(reduxHooks, 'useAppDispatch');
@@ -39,8 +37,6 @@ describe('Main render component', () => {
   let initStatus: StoreSlice;
 
   beforeEach(() => {
-    useDispatchMock.mockClear();
-
     initStatus = {
       name: GITHUB_CONFIGURATIONS,
       initialState: {
@@ -64,30 +60,26 @@ describe('Main render component', () => {
     };
   });
 
-  it('new configuration button is working', async () => {
-    (useParams as jest.Mock).mockReturnValue({
-      identifier: 'b205e4ba-1d8e-4e25-89ad-00dbc35959f7',
-    });
-    (useNavigate as jest.Mock).mockReturnThis();
+  afterEach(() => {
+    useDispatchMock.mockClear();
+  });
 
+  it('new configuration button is working', async () => {
     render(<Main />, buildStore(initStatus));
 
-    fireEvent.submit(screen.getByTestId('on-new-configuration'));
+    fireEvent.click(screen.getByTestId('on-new-configuration'));
 
     expect(screen.queryByText('New configuration')).toBeVisible();
 
     await waitFor(() => {
-      expect(useNavigate).toBeCalledTimes(1);
+      expect(mockUseNavigate).toBeCalledTimes(1);
+      expect(mockUseNavigate).toBeCalledWith('/configuration');
     });
   });
 
   it('enable/disable switcher button is working', async () => {
     const switchEnable = jest.fn();
-    (useParams as jest.Mock).mockReturnValue({
-      identifier: 'b205e4ba-1d8e-4e25-89ad-00dbc35959f7',
-    });
-    (useNavigate as jest.Mock).mockReturnThis();
-    (useDispatchMock as jest.Mock).mockReturnValue(switchEnable);
+    useDispatchMock.mockReturnValue(switchEnable);
 
     const store = buildStore(initStatus);
 
@@ -109,8 +101,6 @@ describe('Main render component', () => {
   });
 
   it('update button is working', async () => {
-    (useNavigate as jest.Mock).mockReturnThis();
-
     render(<Main />, buildStore(initStatus));
 
     fireEvent.click(
@@ -120,12 +110,13 @@ describe('Main render component', () => {
     expect(screen.queryByText('Update')).toBeVisible();
 
     await waitFor(() => {
-      expect(useNavigate).toBeCalledTimes(1);
+      expect(mockUseNavigate).toBeCalledTimes(1);
     });
   });
 
   it('delete button is working', async () => {
-    (useNavigate as jest.Mock).mockReturnThis();
+    const deleteConfig = jest.fn();
+    useDispatchMock.mockReturnValue(deleteConfig);
 
     render(<Main />, buildStore(initStatus));
 
@@ -136,7 +127,13 @@ describe('Main render component', () => {
     expect(screen.queryByText('Delete')).toBeVisible();
 
     await waitFor(() => {
-      expect(useNavigate).toBeCalledTimes(1);
+      expect(deleteConfig).toBeCalledTimes(1);
+      expect(deleteConfig.mock.calls[0][0].type).toEqual(
+        'store:gitlabConfigurations/deleteConfiguration',
+      );
+      expect(deleteConfig.mock.calls[0][0].payload).toEqual(
+        'b205e4ba-1d8e-4e25-89ad-00dbc35959f7',
+      );
     });
   });
 
