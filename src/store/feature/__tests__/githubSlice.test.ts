@@ -10,7 +10,7 @@ import {
   saveConfiguration,
   State,
   switchEnabled,
-} from './githubSlice';
+} from '../githubSlice';
 
 describe('store github configuration slice tests', () => {
   it('initially the slice with the right state', async () => {

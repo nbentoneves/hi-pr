@@ -1,5 +1,5 @@
-import { GITHUB_CONFIGURATIONS } from './constants';
-import { store } from './store';
+import { GITHUB_CONFIGURATIONS } from '../constants';
+import { store } from '../store';
 
 describe('store tests', () => {
   it('check initial github state store', () => {

@@ -25,7 +25,8 @@
     "run:mock-server": "mocks-server",
     "publish": "yarn build && tsc -p electron && electron-builder --config electron-builder.config.json --publish always",
     "typecheck": "tsc",
-    "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'"
+    "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
+    "ci": "yarn lint && yarn typecheck && yarn test:unit && yarn cypress:component-test"
   },
   "repository": {
     "type": "git",

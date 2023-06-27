@@ -1,5 +1,5 @@
-import App from './App';
-import { render, screen } from './testing/test-unit-render';
+import App from '../App';
+import { render, screen } from '../testing/test-unit-render';
 
 const today = new Date();
 
@@ -11,7 +11,7 @@ jest.mock('react-router-dom', () => {
     Routes: () => <div>routes</div>,
   };
 });
-jest.mock('./assets/images/logo.png');
+jest.mock('src/assets/images/logo.png');
 
 describe('App render component', () => {
   it('check content section', () => {

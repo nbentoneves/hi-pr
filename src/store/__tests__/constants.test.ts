@@ -1,4 +1,4 @@
-import { GITHUB_CONFIGURATIONS } from './constants';
+import { GITHUB_CONFIGURATIONS } from '../constants';
 
 describe('store constants tests', () => {
   it('check the constants value', () => {

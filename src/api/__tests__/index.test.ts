@@ -1,7 +1,7 @@
-import { getGithubPullRequests } from '.';
-import { mockAxios } from '../testing/test-axios-mock';
-import { axiosInstance } from './axios-request';
-import { pullRequestGitHubMock } from './mock';
+import { getGithubPullRequests } from '..';
+import { mockAxios } from '../../testing/test-axios-mock';
+import { axiosInstance } from '../axios-request';
+import { pullRequestGitHubMock } from '../mock';
 
 // Store the spy so that we can reset it
 let axiosSpyStored: any;

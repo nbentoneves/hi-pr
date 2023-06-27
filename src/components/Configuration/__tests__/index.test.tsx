@@ -1,18 +1,18 @@
 import { useParams } from 'react-router-dom';
-import Configuration from '.';
-import { GITHUB_CONFIGURATIONS } from '../../store/constants';
+import Configuration from '..';
+import { GITHUB_CONFIGURATIONS } from '../../../store/constants';
 import {
   Configuration as ConfigSlice,
   State,
-} from '../../store/feature/githubSlice';
-import * as reduxHooks from '../../store/hooks';
+} from '../../../store/feature/githubSlice';
+import * as reduxHooks from '../../../store/hooks';
 import {
   fireEvent,
   render,
   screen,
   waitFor,
-} from '../../testing/test-unit-render';
-import { buildStore, StoreSlice } from '../../testing/test-utils';
+} from '../../../testing/test-unit-render';
+import { buildStore, StoreSlice } from '../../../testing/test-utils';
 
 jest.mock('react-router-dom', () => {
   const originalModule = jest.requireActual('react-router-dom');

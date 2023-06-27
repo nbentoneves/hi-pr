@@ -1,11 +1,11 @@
 /* eslint-disable testing-library/await-async-query */
 import update from 'immutability-helper';
-import { interceptGithubOnePullRequest } from '../cypress/support/utils';
-import App from './App';
-import { GITHUB_CONFIGURATIONS } from './store/constants';
-import { State as GithubState } from './store/feature/githubSlice';
-import { mount } from './testing/test-component-mount';
-import { buildStoreWithPersist, StoreSlice } from './testing/test-utils';
+import { interceptGithubOnePullRequest } from '../../cypress/support/utils';
+import App from '../App';
+import { GITHUB_CONFIGURATIONS } from '../store/constants';
+import { State as GithubState } from '../store/feature/githubSlice';
+import { mount } from '../testing/test-component-mount';
+import { buildStoreWithPersist, StoreSlice } from '../testing/test-utils';
 
 describe('<App>', () => {
   describe('Github provider', () => {

@@ -1,5 +1,5 @@
 import { Button, Form, Form as FormAntd, Input, Select, Switch } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export type FormValues = {
   isEnabled: boolean;
@@ -31,6 +31,9 @@ const ConfigurationForm = ({
 }: Props) => {
   // TODO: Do not init useState using initValues, find another way
   const [isEnabled, setIsEnabled] = useState(initValues.isEnabled);
+
+  const [isTeamRequired, setIsTeamRequired] = useState(false);
+  const [isTokenRequired, setIsTokenRequired] = useState(false);
 
   const [form] = Form.useForm();
 
@@ -110,10 +113,16 @@ const ConfigurationForm = ({
         name="teamname"
         label="Team"
         initialValue={initValues.teamname}
+        required={isTeamRequired}
       >
         <Input data-testid="teamname-input" disabled={!isEnabled} />
       </FormAntd.Item>
-      <FormAntd.Item name="token" label="Token" initialValue={initValues.token}>
+      <FormAntd.Item
+        name="token"
+        label="Token"
+        initialValue={initValues.token}
+        required={isTokenRequired}
+      >
         <Input.Password data-testid="token-input" disabled={!isEnabled} />
       </FormAntd.Item>
       <FormAntd.Item

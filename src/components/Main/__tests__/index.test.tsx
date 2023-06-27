@@ -1,21 +1,21 @@
 import update from 'immutability-helper';
 import { useNavigate, useParams } from 'react-router-dom';
-import Main from '.';
-import { GITHUB_CONFIGURATIONS } from '../../store/constants';
+import Main from '..';
+import { GITHUB_CONFIGURATIONS } from '../../../store/constants';
 import {
   Configuration as ConfigSlice,
   State,
-} from '../../store/feature/githubSlice';
-import * as reduxHooks from '../../store/hooks';
+} from '../../../store/feature/githubSlice';
+import * as reduxHooks from '../../../store/hooks';
 import {
   fireEvent,
   render,
   screen,
   waitFor,
-} from '../../testing/test-unit-render';
-import { buildStore, StoreSlice } from '../../testing/test-utils';
+} from '../../../testing/test-unit-render';
+import { buildStore, StoreSlice } from '../../../testing/test-utils';
 
-jest.mock('../../hooks/useReviewPullRequestNotification', () => {
+jest.mock('../../../hooks/useReviewPullRequestNotification', () => {
   return jest.fn(() => ({
     triggerNotificationUsername: jest.fn(),
     triggerNotificationTeam: jest.fn(),

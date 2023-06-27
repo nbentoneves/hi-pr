@@ -1,10 +1,10 @@
-import ConfigurationForm from '.';
+import ConfigurationForm from '..';
 import {
   fireEvent,
   render,
   screen,
   waitFor,
-} from '../../../testing/test-unit-render';
+} from '../../../../testing/test-unit-render';
 
 describe('ConfigurationForm render component', () => {
   /**

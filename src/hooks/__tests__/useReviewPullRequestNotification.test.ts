@@ -1,7 +1,7 @@
-import useReviewPullRequestNotification from './useReviewPullRequestNotification';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
+import useReviewPullRequestNotification from '../useReviewPullRequestNotification';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 
-jest.mock('../store/hooks', () => {
+jest.mock('../../store/hooks', () => {
   return {
     __esModule: true,
     useAppDispatch: jest.fn(),
