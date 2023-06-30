@@ -3,9 +3,9 @@ import { useQueries } from 'react-query';
 import { getGithubPullRequests } from 'src/api';
 import { Auth, PullRequest } from 'src/api/type';
 import {
-  addWarning,
   Configuration,
-  removeWarning,
+  addWarning,
+  cleanWarning,
 } from 'src/store/feature/githubSlice';
 import { useAppDispatch } from 'src/store/hooks';
 import { getPartOfUrlRequest } from 'src/utils/httpUtils';
@@ -32,6 +32,56 @@ export const useFetchGithubQueries = (configurations: Configuration[]) => {
   const notification = useReviewPullRequestNotification();
   const dispatch = useAppDispatch();
 
+  const onSuccess = (data: PullRequest[], config: Configuration) => {
+    data.forEach((pullRequest) => {
+      const requestedRevieres = pullRequest.requestedReviewers.filter(
+        (reviewer) => reviewer.login === config.username,
+      );
+
+      const requestedTeams = pullRequest.requestedTeams.filter(
+        (reviewer) => reviewer.name === config.organization?.teamname,
+      );
+
+      // Logic to trigger notification for pull request username review
+      requestedRevieres.forEach((requested) => {
+        notification.triggerNotificationUsername(
+          requested.id,
+          pullRequest.htmlUrl,
+        );
+      });
+
+      // Logic to trigger notification for pull request team review
+      requestedTeams.forEach((requested) => {
+        notification.triggerNotificationTeam(requested.id, pullRequest.htmlUrl);
+      });
+    });
+
+    dispatch(
+      cleanWarning({
+        identifier: config.identifier,
+      }),
+    );
+  };
+
+  const onError = (error: AxiosError, config: Configuration) => {
+    /**
+     * TODO: Change error message when error is:
+     * Resource protected by organization SAML enforcement.
+     * You must grant your Personal Access token access
+     * to this organization.
+     */
+    if (error.response?.status === 404) {
+      dispatch(
+        addWarning({
+          identifier: config.identifier,
+          repository: getPartOfUrlRequest(error, 5),
+        }),
+      );
+    } else {
+      throw new Error('Unexpected response from provider');
+    }
+  };
+
   return useQueries(
     configurations.map((config) => {
       return {
@@ -46,58 +96,8 @@ export const useFetchGithubQueries = (configurations: Configuration[]) => {
         enabled: config.enabled,
         retry: false,
         refetchInterval: 10 * 1000,
-        onError: (error: AxiosError) => {
-          /**
-           * TODO: Change error message when error is:
-           * Resource protected by organization SAML enforcement.
-           * You must grant your Personal Access token access
-           * to this organization.
-           */
-          if (error.response?.status === 404) {
-            dispatch(
-              addWarning({
-                identifier: config.identifier,
-                repository: getPartOfUrlRequest(error, 5),
-              }),
-            );
-          } else {
-            throw new Error('Unexpected response from provider');
-          }
-        },
-        onSuccess: (data: PullRequest[]) => {
-          data.forEach((pullRequest) => {
-            const requestedRevieres = pullRequest.requestedReviewers.filter(
-              (reviewer) => reviewer.login === config.username,
-            );
-
-            const requestedTeams = pullRequest.requestedTeams.filter(
-              (reviewer) => reviewer.name === config.organization?.teamname,
-            );
-
-            // Logic to trigger notification for pull request username review
-            requestedRevieres.forEach((requested) => {
-              notification.triggerNotificationUsername(
-                requested.id,
-                pullRequest.htmlUrl,
-              );
-            });
-
-            // Logic to trigger notification for pull request team review
-            requestedTeams.forEach((requested) => {
-              notification.triggerNotificationTeam(
-                requested.id,
-                pullRequest.htmlUrl,
-              );
-            });
-          });
-
-          dispatch(
-            removeWarning({
-              identifier: config.identifier,
-              repository: config.name,
-            }),
-          );
-        },
+        onError: (error: AxiosError) => onError(error, config),
+        onSuccess: (data: PullRequest[]) => onSuccess(data, config),
       };
     }),
   );

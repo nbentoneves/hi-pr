@@ -1,5 +1,5 @@
 import { Button, Form, Form as FormAntd, Input, Select, Switch } from 'antd';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export type FormValues = {
   isEnabled: boolean;
@@ -32,8 +32,8 @@ const ConfigurationForm = ({
   // TODO: Do not init useState using initValues, find another way
   const [isEnabled, setIsEnabled] = useState(initValues.isEnabled);
 
-  const [isTeamRequired, setIsTeamRequired] = useState(false);
-  const [isTokenRequired, setIsTokenRequired] = useState(false);
+  const [isTeamRequired] = useState(false);
+  const [isTokenRequired] = useState(false);
 
   const [form] = Form.useForm();
 

@@ -1,7 +1,7 @@
 {
   "name": "hi-pr",
   "productName": "Hi-PR!",
-  "version": "3.0.1",
+  "version": "3.3.6",
   "description": "Friendly robot to notify you about pull requests",
   "homepage": ".",
   "main": "build/electron/main.js",
@@ -23,7 +23,7 @@
     "electron:build-e2e": "REACT_APP_MOCK_SERVER_ENABLED=TRUE yarn build && tsc -p electron && electron-builder --config electron-builder.e2e.config.json",
     "run:chromedriver": "chromedriver",
     "run:mock-server": "mocks-server",
-    "publish": "yarn build && tsc -p electron && electron-builder --config electron-builder.config.json --publish always",
+    "publish": "yarn run tsc -p electron && yarn run electron-builder --config electron-builder.config.json --publish always",
     "typecheck": "tsc",
     "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
     "ci": "yarn lint && yarn typecheck && yarn test:unit && yarn cypress:component-test"
