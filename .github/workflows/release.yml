@@ -19,22 +19,18 @@ jobs:
 
       - name: Set up Node.js 🔨
         uses: actions/setup-node@v3.7.0
-
-      - name: Run install
-        uses: borales/actions-yarn@v4.2.0
         with:
-          cmd: install
+          cache: 'yarn'
 
-      - name: Build production bundle
-        uses: borales/actions-yarn@v4.2.0
-        with:
-          cmd: build
+      - name: Install dependencies ⚙️
+        run: yarn run install
+
+      - name: Build 🍞 
+        run: yarn run build
 
       - name: Publish 📦
-        uses: borales/actions-yarn@v4
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          cmd: run publish
+        run: yarn run publish
 
         

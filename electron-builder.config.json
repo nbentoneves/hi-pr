@@ -19,7 +19,8 @@
     {
       "provider": "github",
       "owner": "nbentoneves",
-      "repo": "hi-pr"
+      "repo": "hi-pr",
+      "releaseType": "release"
     }
   ],
   "mac": {

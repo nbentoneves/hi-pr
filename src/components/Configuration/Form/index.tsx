@@ -32,7 +32,7 @@ const ConfigurationForm = ({
   // TODO: Do not init useState using initValues, find another way
   const [isEnabled, setIsEnabled] = useState(initValues.isEnabled);
 
-  const [isTeamRequired] = useState(false);
+  const [isTeamRequired, setIsTeamRequired] = useState(false);
   const [isTokenRequired] = useState(false);
 
   const [form] = Form.useForm();

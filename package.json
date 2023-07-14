@@ -10,7 +10,7 @@
     "release-minor": "apv update minor",
     "release-patch": "apv update patch",
     "start": "craco start",
-    "build": "craco build",
+    "build": "CI=false craco build",
     "test:unit": "DEBUG_PRINT_LIMIT=10000 craco test --coverage --silent --selectProjects Unit --watchAll=false",
     "test:unit-watch": "DEBUG_PRINT_LIMIT=10000 craco test --coverage --selectProjects Unit --watchAll=true",
     "test:pre-e2e": "concurrently -n chromedriver,mock-server \"yarn run:chromedriver\" \"yarn run:mock-server &> /dev/null 2>&1\"",
