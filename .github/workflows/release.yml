@@ -23,7 +23,7 @@ jobs:
           cache: 'yarn'
 
       - name: Install dependencies ⚙️
-        run: yarn run install
+        run: yarn install
 
       - name: Build 🍞 
         run: yarn run build
