@@ -116,22 +116,26 @@ yarn run test:e2e
    2. yarn run test:pre-e2e
    3. yarn run test:e2e
 
-2. Update the application version. Using one of the following commands:
+2. Go to github release page and click at `Draft a new release`
+
+   1. Choose a tag - create a new version tag following this pattern: `v.{major_release}.{minor_release}.{patch_release}`
+   2. Target: set the target to `master` branch
+   3. Click at Generate release notes, make the necessary ajustements
+   4. Click at `Save draft`
+
+3. Update the application version. Using one of the following commands:
 
    1. yarn run release-major
    2. yarn run release-minor
    3. yarn run release-patch
 
-3. Commit and push the version upgrade using release git-cz type
+4. Commit the version upgrade using release git-cz type
 
-4. Go to github release page and click at `Draft a new release`
+5. Create a new tag using the following git cli `git tag -a vX.X.X -m "vX.X.X"`
 
-   1. Choose a tag - create a new version tag following this pattern: `v.{major_release}.{minor_release}.{patch_release}`
-   2. Target: set the target to `release` branch
-   3. Click at Generate release notes, make the necessary ajustements
-   4. Click at `Save draft`
+6. Push everything with `git push --follow-tags`
 
-5. Check the github action `Release` and wait to have the assets available
+7. Check the github action `Release` and wait to have the assets available
 
 ## Contributing 🙌
 
