@@ -90,7 +90,7 @@ export const useFetchGithubQueries = (configurations: Configuration[]) => {
           getGithubPullRequests(
             getOwner(config),
             // FIXME: Enable configuration for multiple repositories
-            config.repositories[0],
+            config.repository,
             getAuth(config),
           ),
         enabled: config.enabled,

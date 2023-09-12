@@ -39,7 +39,7 @@ describe('ConfigurationForm render component', () => {
           owner: 'my_company',
           token: 'github_token',
           teamname: 'test_teamname',
-          repositories: ['my_repository', 'my_repository_2'],
+          repository: 'my_repository',
         }}
       />,
     );
@@ -54,8 +54,7 @@ describe('ConfigurationForm render component', () => {
       expect(screen.queryByDisplayValue('my_company')).toBeVisible();
       expect(screen.queryByDisplayValue('github_token')).toBeVisible();
       expect(screen.queryByDisplayValue('test_teamname')).toBeVisible();
-      expect(screen.queryByText('my_repository')).toBeVisible();
-      expect(screen.queryByText('my_repository_2')).toBeVisible();
+      expect(screen.queryByDisplayValue('my_repository')).toBeVisible();
     });
   });
 
@@ -71,7 +70,7 @@ describe('ConfigurationForm render component', () => {
           username: '',
           token: '',
           owner: '',
-          repositories: [],
+          repository: '',
         }}
       />,
     );
@@ -79,10 +78,12 @@ describe('ConfigurationForm render component', () => {
     fireEvent.submit(screen.getByTestId('on-save-button'));
 
     await waitFor(() => {
-      expect(screen.queryByText('Name is required!')).toBeVisible();
+      expect(
+        screen.queryByText('Configutation Name is required!'),
+      ).toBeVisible();
       expect(screen.queryByText('Owner is required!')).toBeVisible();
       expect(screen.queryByText('Username is required!')).toBeVisible();
-      expect(screen.queryByText('Repositories is required!')).toBeVisible();
+      expect(screen.queryByText('Repository is required!')).toBeVisible();
     });
   });
 
@@ -157,7 +158,7 @@ describe('ConfigurationForm render component', () => {
             owner: 'my_company',
             token: 'github_token',
             teamname: 'test_teamname',
-            repositories: ['my_repository'],
+            repository: 'my_repository',
           }}
         />,
       );
@@ -170,7 +171,7 @@ describe('ConfigurationForm render component', () => {
         expect(screen.queryByDisplayValue('my_company')).toBeVisible();
         expect(screen.queryByDisplayValue('github_token')).toBeVisible();
         expect(screen.queryByDisplayValue('test_teamname')).toBeVisible();
-        expect(screen.queryByText('my_repository')).toBeVisible();
+        expect(screen.queryByDisplayValue('my_repository')).toBeVisible();
       });
     });
   });

@@ -42,7 +42,7 @@ const Configuration = () => {
         username: values.username,
         owner: values.owner,
         organization,
-        repositories: values.repositories,
+        repository: values.repository,
       }),
     );
     navigate(`/`);
@@ -67,7 +67,7 @@ const Configuration = () => {
           username: values.username,
           owner: values.owner,
           organization,
-          repositories: values.repositories,
+          repository: values.repository,
         }),
       );
       dispatch(cleanWarning({ identifier }));
@@ -100,7 +100,7 @@ const Configuration = () => {
                 teamname: configuration.organization?.teamname || '',
                 token: configuration.organization?.token || '',
                 owner: configuration.owner,
-                repositories: configuration.repositories,
+                repository: configuration.repository,
               }}
             />
           ) : (

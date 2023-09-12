@@ -8,7 +8,7 @@ export type FormValues = {
   teamname?: string;
   token?: string;
   owner: string;
-  repositories: string[];
+  repository: string;
 };
 
 export type Props = {
@@ -22,7 +22,7 @@ const defaultFormValues: FormValues = {
   isEnabled: true,
   token: '',
   owner: '',
-  repositories: [],
+  repository: '',
 };
 
 const ConfigurationForm = ({
@@ -84,7 +84,7 @@ const ConfigurationForm = ({
       </FormAntd.Item>
       <FormAntd.Item
         name="name"
-        label="Name"
+        label="Configutation Name"
         initialValue={initValues.name}
         required={isEnabled}
         rules={[{ required: isEnabled }]}
@@ -126,18 +126,13 @@ const ConfigurationForm = ({
         <Input.Password data-testid="token-input" disabled={!isEnabled} />
       </FormAntd.Item>
       <FormAntd.Item
-        name="repositories"
-        label="Repositories"
-        initialValue={initValues.repositories}
+        name="repository"
+        label="Repository"
+        initialValue={initValues.repository}
         required={isEnabled}
         rules={[{ required: isEnabled }]}
       >
-        <Select
-          data-testid="repositories-select"
-          mode="tags"
-          tokenSeparators={[',']}
-          disabled={!isEnabled}
-        />
+        <Input data-testid="repository-input" disabled={!isEnabled} />
       </FormAntd.Item>
       <FormAntd.Item
         wrapperCol={{

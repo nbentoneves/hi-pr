@@ -36,7 +36,7 @@ describe('store github configuration slice tests', () => {
       teamname: 'my-team',
       token: 'token',
     },
-    repositories: ['hi-pr', 'hi-pr-other'],
+    repository: 'hi-pr',
   };
 
   const defaultConfiguration1: Configuration = {
@@ -50,7 +50,7 @@ describe('store github configuration slice tests', () => {
       teamname: 'my-team',
       token: 'token',
     },
-    repositories: ['hi-pr', 'hi-pr-other'],
+    repository: 'hi-pr-other',
   };
 
   it('initially the slice with the right state', async () => {
@@ -293,7 +293,7 @@ describe('store github configuration slice tests', () => {
         teamname: 'my-team',
         token: 'token',
       },
-      repositories: ['hi-pr', 'hi-pr-other'],
+      repository: 'hi-pr',
     };
 
     const globalState = githubReducer(

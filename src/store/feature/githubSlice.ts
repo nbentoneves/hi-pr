@@ -16,7 +16,7 @@ export type Configuration = {
     token: string;
     teamname: string;
   };
-  repositories: string[];
+  repository: string;
 };
 
 export type Warning = {
