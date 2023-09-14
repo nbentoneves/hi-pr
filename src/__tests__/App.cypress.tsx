@@ -3,7 +3,10 @@ import update from 'immutability-helper';
 import { interceptGithubOnePullRequest } from '../../cypress/support/utils';
 import App from '../App';
 import { GITHUB_CONFIGURATIONS } from '../store/constants';
-import { State as GithubState } from '../store/feature/githubSlice';
+import {
+  Configuration,
+  State as GithubState,
+} from '../store/feature/githubSlice';
 import { mount } from '../testing/test-component-mount';
 import { buildStoreWithPersist, StoreSlice } from '../testing/test-utils';
 
@@ -37,8 +40,8 @@ describe('<App>', () => {
                   enabled: true,
                   username: 'hi-pr-username',
                   owner: 'nbentoneves',
-                  repositories: ['hi-pr'],
-                },
+                  repository: 'hi-pr',
+                } as Configuration,
               ],
             },
           },
@@ -72,8 +75,8 @@ describe('<App>', () => {
                   enabled: true,
                   username: 'hi-pr-username',
                   owner: 'nbentoneves',
-                  repositories: ['hi-pr'],
-                },
+                  repository: 'hi-pr',
+                } as Configuration,
               ],
             },
           },
@@ -99,7 +102,7 @@ describe('<App>', () => {
       cy.get('[data-testid="name-input"]').type('My personal Github');
       cy.get('[data-testid="username-input"]').type('hi-pr-username');
       cy.get('[data-testid="owner-input"]').type('nbentoneves');
-      cy.get('[data-testid="repositories-select"]').type('hi-pr{enter}');
+      cy.get('[data-testid="repository-input"]').type('hi-pr');
       cy.get('.ant-layout-content').click();
 
       cy.get('[data-testid=on-save-button]').click();
@@ -125,7 +128,7 @@ describe('<App>', () => {
       cy.get('[data-testid="username-input"]').type('hi-pr-username');
       cy.get('[data-testid="token-input"]').type('github-token');
       cy.get('[data-testid="owner-input"]').type('nbentoneves');
-      cy.get('[data-testid="repositories-select"]').type('hi-pr{enter}');
+      cy.get('[data-testid="repository-input"]').type('hi-pr');
       cy.get('.ant-layout-content').click();
 
       cy.get('[data-testid=on-save-button]').click();
@@ -134,34 +137,6 @@ describe('<App>', () => {
 
       cy.findByText('My personal Github');
 
-      cy.get('.ant-table-row > :nth-child(1)').within(($firstRow) => {
-        cy.wrap($firstRow)
-          .get('button')
-          .should('have.attr', 'aria-checked', 'true');
-      });
-    });
-
-    it.skip('add a new configuration with multiple repositories', () => {
-      mount(<App />);
-
-      interceptGithubOnePullRequest('nbentoneves', 'hi-pr', '1');
-      interceptGithubOnePullRequest('nbentoneves', 'typescript', '2');
-
-      cy.get('[data-testid="on-new-configuration"]').click();
-      cy.get('[data-testid="name-input"]').type('My personal Github');
-      cy.get('[data-testid="username-input"]').type('hi-pr-username');
-      cy.get('[data-testid="token-input"]').type('github-token');
-      cy.get('[data-testid="owner-input"]').type('nbentoneves');
-      cy.get('[data-testid="repositories-select"]').type('hi-pr{enter}');
-      cy.get('[data-testid="repositories-select"]').type('typescript{enter}');
-      cy.get('.ant-layout-content').click();
-
-      cy.get('[data-testid=on-save-button]').click();
-
-      cy.wait('@1-github-one-pull-request-no-requested-reviewers');
-      cy.wait('@2-github-one-pull-request-no-requested-reviewers');
-
-      cy.findByText('My personal Github');
       cy.get('.ant-table-row > :nth-child(1)').within(($firstRow) => {
         cy.wrap($firstRow)
           .get('button')
@@ -180,8 +155,8 @@ describe('<App>', () => {
                 enabled: true,
                 username: 'hi-pr-username',
                 owner: 'nbentoneves',
-                repositories: ['hi-pr'],
-              },
+                repository: 'hi-pr',
+              } as Configuration,
             ],
           },
         },
@@ -234,8 +209,8 @@ describe('<App>', () => {
                 enabled: true,
                 username: 'hi-pr-username',
                 owner: 'nbentoneves',
-                repositories: ['hi-pr'],
-              },
+                repository: 'hi-pr',
+              } as Configuration,
             ],
           },
         },
