@@ -45,7 +45,7 @@ describe('Hi-PR! - Notification Github Test', () => {
     const inputUsername = webdriver.By.id('configuraton_username');
     const inputTeam = webdriver.By.id('configuraton_teamname');
     const inputToken = webdriver.By.id('configuraton_token');
-    const inputRepositories = webdriver.By.id('configuraton_repositories');
+    const inputRepository = webdriver.By.id('configuraton_repository');
 
     afterEach(() => {
       resetMockCustomRoutesVariants();
@@ -67,11 +67,11 @@ describe('Hi-PR! - Notification Github Test', () => {
 
         await driver.findElement(inputName).sendKeys('Hi-PR Configuration');
         await driver.findElement(inputUsername).sendKeys('nbentoneves');
-        await driver.findElement(inputOwner).sendKeys('hi-pr-org');
-        await driver.findElement(inputRepositories).sendKeys('hi-pr');
+        await driver.findElement(inputOwner).sendKeys('nbentoneves');
+        await driver.findElement(inputRepository).sendKeys('hi-pr');
 
         // TODO: Check why .sendKeys('hi-pr', Key.ENTER, Key.ESCAPE) is not working
-        await driver.findElement(inputRepositories).sendKeys(Key.ENTER);
+        // await driver.findElement(inputRepositories).sendKeys(Key.ENTER);
 
         await driver.findElement(btnSave).click();
 
@@ -110,13 +110,13 @@ describe('Hi-PR! - Notification Github Test', () => {
 
         await driver.findElement(inputName).sendKeys('Hi-PR Configuration');
         await driver.findElement(inputUsername).sendKeys('nbentoneves');
-        await driver.findElement(inputOwner).sendKeys('hi-pr-org');
+        await driver.findElement(inputOwner).sendKeys('nbentoneves');
         await driver.findElement(inputTeam).sendKeys('Justice League');
         await driver.findElement(inputToken).sendKeys('gh_token');
-        await driver.findElement(inputRepositories).sendKeys('hi-pr');
+        await driver.findElement(inputRepository).sendKeys('hi-pr');
 
         // TODO: Check why .sendKeys('hi-pr', Key.ENTER, Key.ESCAPE) is not working
-        await driver.findElement(inputRepositories).sendKeys(Key.ENTER);
+        // await driver.findElement(inputRepositories).sendKeys(Key.ENTER);
 
         await driver.findElement(btnSave).click();
 
