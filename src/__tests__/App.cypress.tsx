@@ -7,7 +7,7 @@ import {
   Configuration,
   State as GithubState,
 } from '../store/feature/githubSlice';
-import { mount } from '../testing/test-component-mount';
+import { ComponentTest } from '../testing/test-component-mount';
 import { buildStoreWithPersist, StoreSlice } from '../testing/test-utils';
 
 describe('<App>', () => {
@@ -51,7 +51,7 @@ describe('<App>', () => {
 
         interceptGithubOnePullRequest('nbentoneves', 'hi-pr', '1');
 
-        mount(<App />, buildStoreWithPersist(localInitStatus));
+        ComponentTest.mount(<App />, buildStoreWithPersist(localInitStatus));
 
         cy.get('.ant-table-row > :nth-child(1)').within(($firstRow) => {
           cy.wrap($firstRow)
@@ -86,7 +86,7 @@ describe('<App>', () => {
 
         interceptGithubOnePullRequest('nbentoneves', 'hi-pr', '1');
 
-        mount(<App />, buildStoreWithPersist(localInitStatus));
+        ComponentTest.mount(<App />, buildStoreWithPersist(localInitStatus));
 
         cy.tick(11 * 1000);
         cy.wait('@1-github-one-pull-request-no-requested-reviewers');
@@ -94,7 +94,7 @@ describe('<App>', () => {
     });
 
     it('add a new configuration without organization', () => {
-      mount(<App />);
+      ComponentTest.mount(<App />);
 
       interceptGithubOnePullRequest('nbentoneves', 'hi-pr', '1');
 
@@ -119,7 +119,7 @@ describe('<App>', () => {
     });
 
     it('add a new configuration with one repository', () => {
-      mount(<App />);
+      ComponentTest.mount(<App />);
 
       interceptGithubOnePullRequest('nbentoneves', 'hi-pr', '1');
 
@@ -165,7 +165,7 @@ describe('<App>', () => {
       interceptGithubOnePullRequest('nbentoneves', 'hi-pr', '1');
       interceptGithubOnePullRequest('nbentoneves-new-owner', 'hi-pr', '2');
 
-      mount(<App />, buildStoreWithPersist(localInitStatus));
+      ComponentTest.mount(<App />, buildStoreWithPersist(localInitStatus));
 
       cy.wait('@1-github-one-pull-request-no-requested-reviewers');
 
@@ -198,7 +198,7 @@ describe('<App>', () => {
       cy.wait('@2-github-one-pull-request-no-requested-reviewers');
     });
 
-    it.skip('delete a configuration', () => {
+    it('delete a configuration', () => {
       const localInitStatus = update(initStatus, {
         initialState: {
           configurations: {
@@ -211,6 +211,14 @@ describe('<App>', () => {
                 owner: 'nbentoneves',
                 repository: 'hi-pr',
               } as Configuration,
+              {
+                identifier: 'b205e4ba-1d8e-4e25-89ad-00dbc35959f9',
+                name: 'Delete Configuration',
+                enabled: false,
+                username: 'hi-pr-username',
+                owner: 'nbentoneves',
+                repository: 'hi-pr-delete',
+              } as Configuration,
             ],
           },
         },
@@ -218,19 +226,21 @@ describe('<App>', () => {
 
       interceptGithubOnePullRequest('nbentoneves', 'hi-pr', '1');
 
-      mount(<App />, buildStoreWithPersist(localInitStatus));
+      ComponentTest.mount(<App />, buildStoreWithPersist(localInitStatus));
 
-      cy.wait('@1-github-one-pull-request-no-requested-reviewers');
+      cy.findByTestId('b205e4ba-1d8e-4e25-89ad-00dbc35959f9')
+        .should('exist')
+        .within(() => {
+          cy.get('td').eq(1).should('contain', 'Delete Configuration');
+        });
 
-      cy.get('.ant-table-row > :nth-child(3)').within(($firstRow) => {
-        cy.wrap($firstRow)
-          .get(
-            '[data-testid="delete-config-b205e4ba-1d8e-4e25-89ad-00dbc35959f7"]',
-          )
-          .click();
-      });
+      cy.findByTestId(
+        'delete-config-b205e4ba-1d8e-4e25-89ad-00dbc35959f9',
+      ).click();
 
-      cy.findAllByText('My personal Github').should('not.exist');
+      cy.findByTestId('b205e4ba-1d8e-4e25-89ad-00dbc35959f9').should(
+        'not.exist',
+      );
     });
   });
 });

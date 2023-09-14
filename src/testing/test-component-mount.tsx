@@ -8,7 +8,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import '../assets/css/index.css';
 import { buildStoreWithPersist, queryClient } from './test-utils';
 
-export const mount = (
+const mount = (
   children: ReactNode,
   builtStore: Store = buildStoreWithPersist(),
 ) => {
@@ -23,4 +23,8 @@ export const mount = (
       </PersistGate>
     </Provider>,
   );
+};
+
+export const ComponentTest = {
+  mount,
 };

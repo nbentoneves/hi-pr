@@ -137,6 +137,10 @@ const Main = () => {
             columns={columns}
             dataSource={buildDataType()}
             pagination={false}
+            onRow={(record) => ({
+              'data-testid': record.key,
+              id: record.key,
+            })}
           />
         </Col>
       </Row>
