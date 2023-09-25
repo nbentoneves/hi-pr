@@ -1,7 +1,7 @@
 {
   "name": "hi-pr",
   "productName": "Hi-PR!",
-  "version": "3.4.3",
+  "version": "3.5.0",
   "description": "Friendly robot to notify you about pull requests",
   "homepage": ".",
   "main": "build/electron/main.js",
