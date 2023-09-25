@@ -11,11 +11,10 @@ export type Configuration = {
   enabled: boolean;
   username: string;
   owner: string;
-  organization?: {
-    // TODO: Encrypt token
-    token: string;
-    teamname: string;
-  };
+  isOrganizationOwner: boolean;
+  type: 'NONE' | 'TEAM' | 'USER';
+  followBy?: string;
+  token?: string;
   repository: string;
 };
 

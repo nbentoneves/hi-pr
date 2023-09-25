@@ -124,6 +124,7 @@ describe('<App>', () => {
       interceptGithubOnePullRequest('nbentoneves', 'hi-pr', '1');
 
       cy.get('[data-testid="on-new-configuration"]').click();
+      cy.get('[data-testid="isOrganizationOwner-switch"]').click();
       cy.get('[data-testid="name-input"]').type('My personal Github');
       cy.get('[data-testid="username-input"]').type('hi-pr-username');
       cy.get('[data-testid="token-input"]').type('github-token');
@@ -156,6 +157,7 @@ describe('<App>', () => {
                 username: 'hi-pr-username',
                 owner: 'nbentoneves',
                 repository: 'hi-pr',
+                type: 'NONE',
               } as Configuration,
             ],
           },
@@ -210,6 +212,7 @@ describe('<App>', () => {
                 username: 'hi-pr-username',
                 owner: 'nbentoneves',
                 repository: 'hi-pr',
+                type: 'NONE',
               } as Configuration,
               {
                 identifier: 'b205e4ba-1d8e-4e25-89ad-00dbc35959f9',
@@ -218,6 +221,7 @@ describe('<App>', () => {
                 username: 'hi-pr-username',
                 owner: 'nbentoneves',
                 repository: 'hi-pr-delete',
+                type: 'NONE',
               } as Configuration,
             ],
           },

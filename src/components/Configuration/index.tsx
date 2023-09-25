@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { Button, Col, Row } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid';
 import { GITHUB_CONFIGURATIONS } from '../../store/constants';
 import {
   cleanWarning,
@@ -10,6 +9,7 @@ import {
 } from '../../store/feature/githubSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import ConfigurationForm, { FormValues } from './Form';
+import { MappingConfigurationForm } from './Form/utils/mappingForm';
 
 const Configuration = () => {
   const dispatch = useAppDispatch();
@@ -25,51 +25,22 @@ const Configuration = () => {
     configurations && configurations.find((it) => it.identifier === identifier);
 
   const handleOnSave = (values: FormValues) => {
-    let organization;
+    const apiObject =
+      MappingConfigurationForm.mappingFromValuesNewConfiguration(values);
 
-    if (values.teamname && values.token) {
-      organization = {
-        teamname: values.teamname,
-        token: values.token,
-      };
-    }
-
-    dispatch(
-      saveConfiguration({
-        identifier: uuidv4(),
-        name: values.name,
-        enabled: values.isEnabled,
-        username: values.username,
-        owner: values.owner,
-        organization,
-        repository: values.repository,
-      }),
-    );
+    dispatch(saveConfiguration(apiObject));
     navigate(`/`);
   };
 
   const handleOnEdit = (values: FormValues) => {
     if (identifier) {
-      let organization;
-
-      if (values.teamname && values.token) {
-        organization = {
-          teamname: values.teamname,
-          token: values.token,
-        };
-      }
-
-      dispatch(
-        editConfiguration({
+      const apiObject =
+        MappingConfigurationForm.mappingFromValuesEditConfiguration(
           identifier,
-          name: values.name,
-          enabled: values.isEnabled,
-          username: values.username,
-          owner: values.owner,
-          organization,
-          repository: values.repository,
-        }),
-      );
+          values,
+        );
+
+      dispatch(editConfiguration(apiObject));
       dispatch(cleanWarning({ identifier }));
       navigate(`/`);
     }
@@ -93,15 +64,7 @@ const Configuration = () => {
           {identifier && configuration ? (
             <ConfigurationForm
               onSave={handleOnEdit}
-              initValues={{
-                isEnabled: configuration.enabled,
-                name: configuration.name,
-                username: configuration.username,
-                teamname: configuration.organization?.teamname || '',
-                token: configuration.organization?.token || '',
-                owner: configuration.owner,
-                repository: configuration.repository,
-              }}
+              initValues={MappingConfigurationForm.domainToForm(configuration)}
             />
           ) : (
             <ConfigurationForm onSave={handleOnSave} />

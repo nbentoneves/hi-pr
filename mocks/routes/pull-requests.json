@@ -1,7 +1,7 @@
 [
   {
     "id": "github-pull-requests",
-    "url": "/repos/hi-pr-org/:repo/pulls",
+    "url": "/repos/nbentoneves/:repo/pulls",
     "method": "GET",
     "variants": [
       {
@@ -10,11 +10,16 @@
           "status": 201,
           "body": [
             {
-              "url": "https://api.github.com/repos/hi-pr-org/hi-pr/pulls/1",
+              "url": "https://api.github.com/repos/nbentoneves/hi-pr/pulls/1",
               "id": 965515090,
               "html_url": "https://github.com/nbentoneves/hi-pr/pull/1",
               "requested_reviewers": [],
-              "requested_teams": []
+              "requested_teams": [],
+              "user": {
+                "login": "user1",
+                "id": 22205894,
+                "type": "User"
+              }
             }
           ]
         }
@@ -25,7 +30,7 @@
           "status": 201,
           "body": [
             {
-              "url": "https://api.github.com/repos/hi-pr-org/hi-pr/pulls/1",
+              "url": "https://api.github.com/repos/nbentoneves/hi-pr/pulls/1",
               "id": 965515090,
               "html_url": "https://github.com/nbentoneves/hi-pr/pull/1",
               "requested_reviewers": [
@@ -34,7 +39,12 @@
                   "id": 3682693
                 }
               ],
-              "requested_teams": []
+              "requested_teams": [],
+              "user": {
+                "login": "user1",
+                "id": 22205894,
+                "type": "User"
+              }
             }
           ]
         }
@@ -45,7 +55,7 @@
           "status": 201,
           "body": [
             {
-              "url": "https://api.github.com/repos/hi-pr-org/hi-pr/pulls/1",
+              "url": "https://api.github.com/repos/nbentoneves/hi-pr/pulls/1",
               "id": 965515090,
               "html_url": "https://github.com/nbentoneves/hi-pr/pull/1",
               "requested_reviewers": [],
@@ -54,7 +64,12 @@
                   "id": 1,
                   "name": "Justice League"
                 }
-              ]
+              ],
+              "user": {
+                "login": "user1",
+                "id": 22205894,
+                "type": "User"
+              }
             }
           ]
         }

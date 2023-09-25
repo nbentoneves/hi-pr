@@ -9,6 +9,7 @@ export type PullRequest = {
   htmlUrl: string;
   requestedReviewers: RequestedReviewers[];
   requestedTeams: RequestedTeams[];
+  user: User;
 };
 
 export type RequestedReviewers = {
@@ -19,4 +20,10 @@ export type RequestedReviewers = {
 export type RequestedTeams = {
   name: string;
   id: number;
+};
+
+export type User = {
+  login: string;
+  id: number;
+  type: string;
 };

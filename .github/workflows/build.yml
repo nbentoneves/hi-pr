@@ -33,7 +33,7 @@ jobs:
         run: yarn eslint
 
       - name: Unit tests 🧪
-        run: yarn run test:unit
+        run: yarn run test:unit-silent
 
   component-tests:
     name: 'Component tests'

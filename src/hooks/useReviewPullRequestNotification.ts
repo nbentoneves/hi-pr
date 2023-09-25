@@ -6,6 +6,8 @@ const NOTIFICATION_USERNAME_REQUESTED_REVIEW =
   'You have an user pull request to review';
 const NOTIFICATION_TEAM_REQUESTED_REVIEW =
   'You have a team pull request to review';
+const NOTIFICATION_USER_FOLLOW_REVIEWS =
+  'You have a team pull request to review';
 
 const useReviewPullRequestNotification = () => {
   const dispatch = useAppDispatch();
@@ -13,29 +15,28 @@ const useReviewPullRequestNotification = () => {
     (state) => state[GITHUB_CONFIGURATIONS].pullRequestsAlreadyNotified,
   );
 
-  const triggerNotificationUsername = (id: number, url: string) => {
-    // TODO: Customize notification when is an user pull request
+  const triggerNotification = (id: number, url: string, message: string) => {
+    // TODO: Customize notification
     if (!pullRequestsAlreadyNotified.includes(`${id}`)) {
-      window.api.notificationReviewPullRequest(
-        `${NOTIFICATION_USERNAME_REQUESTED_REVIEW}: ${url}`,
-        url,
-      );
+      window.api.notificationReviewPullRequest(`${message}: ${url}`, url);
       dispatch(addPullRequestAlreadyNotified(`${id}`));
     }
   };
 
-  const triggerNotificationTeam = (id: number, url: string) => {
-    // TODO: Customize notification when is a team pull request
-    if (!pullRequestsAlreadyNotified.includes(`${id}`)) {
-      window.api.notificationReviewPullRequest(
-        `${NOTIFICATION_TEAM_REQUESTED_REVIEW}: ${url}`,
-        url,
-      );
-      dispatch(addPullRequestAlreadyNotified(`${id}`));
-    }
-  };
+  const triggerNotificationUsername = (id: number, url: string) =>
+    triggerNotification(id, url, NOTIFICATION_USERNAME_REQUESTED_REVIEW);
 
-  return { triggerNotificationUsername, triggerNotificationTeam };
+  const triggerNotificationTeam = (id: number, url: string) =>
+    triggerNotification(id, url, NOTIFICATION_TEAM_REQUESTED_REVIEW);
+
+  const triggerNotificationFollowByUser = (id: number, url: string) =>
+    triggerNotification(id, url, NOTIFICATION_USER_FOLLOW_REVIEWS);
+
+  return {
+    triggerNotificationUsername,
+    triggerNotificationTeam,
+    triggerNotificationFollowByUser,
+  };
 };
 
 export default useReviewPullRequestNotification;

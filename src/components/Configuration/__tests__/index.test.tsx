@@ -41,21 +41,19 @@ describe('Configuration render component', () => {
         configurations: [
           {
             identifier: 'b205e4ba-1d8e-4e25-89ad-00dbc35959f7',
+            isOrganizationOwner: false,
             enabled: false,
             name: 'github-1',
+            type: 'NONE',
             username: 'new-nbentoneves',
             owner: 'hi-pr-org',
-            organization: {
-              teamname: 'my-team',
-              token: 'token',
-            },
           } as ConfigSlice,
         ],
       } as State,
     };
   });
 
-  it('mount component and dependency components', () => {
+  it('render component', () => {
     (useParams as jest.Mock).mockReturnValue({
       identifier: 'b205e4ba-1d8e-4e25-89ad-00dbc35959f7',
     });

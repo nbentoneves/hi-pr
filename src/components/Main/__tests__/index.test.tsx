@@ -47,13 +47,12 @@ describe('Main render component', () => {
           {
             identifier: 'b205e4ba-1d8e-4e25-89ad-00dbc35959f7',
             enabled: false,
+            isOrganizationOwner: true,
             name: 'github-1',
             username: 'new-nbentoneves',
             owner: 'hi-pr-org',
-            organization: {
-              teamname: 'my-team',
-              token: 'token',
-            },
+            type: 'TEAM',
+            token: 'token',
           } as ConfigSlice,
         ],
       } as State,

@@ -18,10 +18,10 @@ const getOwner = (config: Configuration) => {
 };
 
 const getAuth = (config: Configuration): Auth | undefined => {
-  if (config.organization) {
+  if (config.isOrganizationOwner && config.token) {
     return {
       usename: config.username,
-      token: config.organization.token,
+      token: config.token,
     };
   }
 
@@ -38,10 +38,6 @@ export const useFetchGithubQueries = (configurations: Configuration[]) => {
         (reviewer) => reviewer.login === config.username,
       );
 
-      const requestedTeams = pullRequest.requestedTeams.filter(
-        (reviewer) => reviewer.name === config.organization?.teamname,
-      );
-
       // Logic to trigger notification for pull request username review
       requestedRevieres.forEach((requested) => {
         notification.triggerNotificationUsername(
@@ -50,10 +46,32 @@ export const useFetchGithubQueries = (configurations: Configuration[]) => {
         );
       });
 
-      // Logic to trigger notification for pull request team review
-      requestedTeams.forEach((requested) => {
-        notification.triggerNotificationTeam(requested.id, pullRequest.htmlUrl);
-      });
+      switch (config.type) {
+        case 'TEAM': {
+          pullRequest.requestedTeams
+            .filter((reviewer) => reviewer.name === config.followBy)
+            .forEach((requested) => {
+              notification.triggerNotificationTeam(
+                requested.id,
+                pullRequest.htmlUrl,
+              );
+            });
+          break;
+        }
+        case 'USER': {
+          if (pullRequest.user.login === config.followBy) {
+            notification.triggerNotificationFollowByUser(
+              pullRequest.id,
+              pullRequest.htmlUrl,
+            );
+          }
+          break;
+        }
+        default: {
+          console.log(`FollowBy 'NONE' selected for: ${pullRequest.id}`);
+          break;
+        }
+      }
     });
 
     dispatch(

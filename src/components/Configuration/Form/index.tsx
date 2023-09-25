@@ -1,11 +1,13 @@
 import { Button, Form, Form as FormAntd, Input, Select, Switch } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export type FormValues = {
   isEnabled: boolean;
+  isOrganizationOwner: boolean;
   username: string;
   name: string;
-  teamname?: string;
+  type: 'NONE' | 'TEAM' | 'USER';
+  followBy?: string;
   token?: string;
   owner: string;
   repository: string;
@@ -17,25 +19,53 @@ export type Props = {
 };
 
 const defaultFormValues: FormValues = {
+  isEnabled: true,
+  isOrganizationOwner: false,
   username: '',
   name: '',
-  isEnabled: true,
-  token: '',
   owner: '',
+  type: 'NONE',
   repository: '',
 };
+
+function capitalizeFirstLetter(str: string): string {
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}
 
 const ConfigurationForm = ({
   initValues = defaultFormValues,
   onSave,
 }: Props) => {
-  // TODO: Do not init useState using initValues, find another way
-  const [isEnabled, setIsEnabled] = useState(initValues.isEnabled);
+  const [isEnabled, setIsEnabled] = useState(false);
 
-  const [isTeamRequired, setIsTeamRequired] = useState(false);
-  const [isTokenRequired] = useState(false);
+  const [isOrganizationOwner, setIsOrganizationOwner] = useState(false);
+  const [followBy, setFollowBy] = useState<string | undefined>();
+
+  const [isFollowByRequred, setIsFollowByRequired] = useState(false);
 
   const [form] = Form.useForm();
+
+  useEffect(() => {
+    if (initValues) {
+      setIsEnabled(initValues.isEnabled);
+      setIsOrganizationOwner(initValues.isOrganizationOwner);
+      setFollowBy(capitalizeFirstLetter(initValues.type));
+
+      if (initValues.type !== 'NONE') setIsFollowByRequired(true);
+    }
+  }, [initValues]);
+
+  const onChangeType = (type: string) => {
+    if (type !== 'NONE') {
+      setIsFollowByRequired(true);
+    } else {
+      setIsFollowByRequired(false);
+      form.setFieldsValue({
+        followBy: undefined,
+      });
+    }
+    setFollowBy(capitalizeFirstLetter(type));
+  };
 
   // TODO: Fix the labelCol and wrapperCol from property
   return (
@@ -67,19 +97,31 @@ const ConfigurationForm = ({
         <Switch
           data-testid="isEnable-switch"
           checked={isEnabled}
-          onChange={(checked: boolean) => {
-            setIsEnabled(checked);
-            if (checked === false) {
-              form.resetFields();
-              /**
-               * Since store can have the isEnabled as true, the initial value will be true instead of false.
-               * We are forcing to set the isEnabled to false when user disable the configuration.
-               */
-              form.setFieldsValue({
-                isEnabled: false,
-              });
-            }
-          }}
+          onChange={(checked: boolean) => setIsEnabled(checked)}
+        />
+      </FormAntd.Item>
+      <FormAntd.Item
+        name="isOrganizationOwner"
+        label="Organization"
+        initialValue={initValues.isOrganizationOwner}
+        rules={[{ type: 'boolean' }]}
+      >
+        <Switch
+          data-testid="isOrganizationOwner-switch"
+          checked={isOrganizationOwner}
+          onChange={(checked: boolean) => setIsOrganizationOwner(checked)}
+        />
+      </FormAntd.Item>
+      <FormAntd.Item
+        name="token"
+        label="Token"
+        initialValue={initValues.token}
+        required={isOrganizationOwner}
+        rules={[{ required: isOrganizationOwner }]}
+      >
+        <Input.Password
+          data-testid="token-input"
+          disabled={!isEnabled || !isOrganizationOwner}
         />
       </FormAntd.Item>
       <FormAntd.Item
@@ -110,20 +152,39 @@ const ConfigurationForm = ({
         <Input data-testid="owner-input" disabled={!isEnabled} />
       </FormAntd.Item>
       <FormAntd.Item
-        name="teamname"
-        label="Team"
-        initialValue={initValues.teamname}
-        required={isTeamRequired}
+        name="type"
+        label="Follow by"
+        initialValue={initValues.type}
       >
-        <Input data-testid="teamname-input" disabled={!isEnabled} />
+        <Select
+          data-testid="type-select"
+          disabled={!isEnabled}
+          onChange={onChangeType}
+          options={[
+            {
+              value: 'NONE',
+              label: 'None',
+            },
+            {
+              value: 'TEAM',
+              label: 'Team',
+            },
+            {
+              value: 'USER',
+              label: 'User',
+            },
+          ]}
+        />
       </FormAntd.Item>
       <FormAntd.Item
-        name="token"
-        label="Token"
-        initialValue={initValues.token}
-        required={isTokenRequired}
+        name="followBy"
+        label={followBy}
+        initialValue={initValues.followBy}
+        required={isEnabled && isFollowByRequred}
+        rules={[{ required: isEnabled && isFollowByRequred }]}
+        style={{ visibility: isFollowByRequred ? 'visible' : 'hidden' }}
       >
-        <Input.Password data-testid="token-input" disabled={!isEnabled} />
+        <Input data-testid="followBy-input" disabled={!isEnabled} />
       </FormAntd.Item>
       <FormAntd.Item
         name="repository"

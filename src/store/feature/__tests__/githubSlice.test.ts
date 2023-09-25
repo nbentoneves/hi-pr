@@ -29,27 +29,24 @@ describe('store github configuration slice tests', () => {
   const defaultConfiguration0: Configuration = {
     identifier: '9edfd955-da4b-444f-8897-40a19d5bd13d',
     enabled: true,
+    isOrganizationOwner: true,
     name: 'github-1',
     username: 'nbentoneves',
     owner: 'hi-pr-org',
-    organization: {
-      teamname: 'my-team',
-      token: 'token',
-    },
+    type: 'TEAM',
+    token: 'token',
     repository: 'hi-pr',
   };
 
   const defaultConfiguration1: Configuration = {
     identifier: 'b205e4ba-1d8e-4e25-89ad-00dbc35959f7',
     enabled: true,
+    isOrganizationOwner: true,
     name: 'github-1',
     username: 'nbentoneves',
-
     owner: 'hi-pr-org',
-    organization: {
-      teamname: 'my-team',
-      token: 'token',
-    },
+    type: 'TEAM',
+    token: 'token',
     repository: 'hi-pr-other',
   };
 
@@ -286,13 +283,12 @@ describe('store github configuration slice tests', () => {
     const newConfiguration: Configuration = {
       identifier: 'b205e4ba-1d8e-4e25-89ad-00dbc35959f7',
       enabled: false,
+      isOrganizationOwner: true,
       name: 'github-1',
       username: 'new-nbentoneves',
       owner: 'hi-pr-org',
-      organization: {
-        teamname: 'my-team',
-        token: 'token',
-      },
+      type: 'TEAM',
+      token: 'token',
       repository: 'hi-pr',
     };
 
